@@ -1,4 +1,4 @@
-import pygame
+import pygame, json
 from src.pygame_manager.Element import Element
 
 class Menu (Element): 
@@ -16,6 +16,10 @@ class Menu (Element):
         # Error message
         self.error_length = False
         self.error_no_name = False
+
+        # Info player
+        self.add_info_json = False
+        self.layer_name = ""
 
         self.image_paths = {
             "background": "assets/image/Menu/menu_background.jpg",
@@ -63,7 +67,20 @@ class Menu (Element):
             self.text_not_center(self.font, 12, "15 characters max", self.red, 850, 283)
         if self.error_no_name: 
             self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
+    
+    def save_player_info(self):
+            try:
+                with open('player_info.json', 'r') as file:
+                    data = json.load(file)
+            except (FileNotFoundError, json.decoder.JSONDecodeError):
+                data = []
+            data.append((self.input_name))
 
+            if self.input_name not in data: 
+                data.append(self.input_name)
+
+            with open('player_info.json', 'w') as file:
+                json.dump(data, file)
 
     def menu_run (self): 
         self.menu_running = True
@@ -72,7 +89,7 @@ class Menu (Element):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.menu_running = False
-                
+
                 elif event.type == pygame.KEYDOWN:
 
                     # Chose option menu
@@ -85,33 +102,34 @@ class Menu (Element):
 
                     # Write player name
                     if self.selected_option == 0: 
+                        if self.input_name == "ENTER YOUR NAME" and event.unicode :
+                            self.input_name = ""
 
                         if event.key == pygame.K_BACKSPACE :
                             self.input_name = self.input_name[:-1]
                             self.error_length = False
                             self.error_no_name = False
                         else: 
-                            if self.input_name == "ENTER YOUR NAME" and event.unicode :
-                                    self.input_name = ""
                             if len(self.input_name) < 15:
                                 self.input_name += event.unicode
                                 self.error_length = False 
+                             
                             else:
                                 if self.input_name != "ENTER YOUR NAME":
                                     self.error_length = True      
 
-                    if (self.selected_option == 1 or self.selected_option == 2) and event.key == pygame.K_RETURN:
-                        if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
-                            self.error_no_name = True
-                        else:  
-                            pass  
+                    if event.key == pygame.K_RETURN:
+                        if (self.selected_option == 1 or self.selected_option == 2):
+                            if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
+
+                                self.error_no_name = True
+                            else:  
+                                self.save_player_info()
+                        elif self.selected_option == 3:
+                            self.menu_running = False
 
                     if self.selected_option == 0: 
                         self.error_no_name = False  
-
-
-                    
-                           
 
 
             self.design()
