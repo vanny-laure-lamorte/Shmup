@@ -8,6 +8,9 @@ class Element(Screen):
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
 
+        self.green = (106, 153, 78)
+        self.red = (193 , 18, 31)
+
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
         self.font1 = "assets/font/Ring of Kerry.otf"
@@ -72,7 +75,7 @@ class Element(Screen):
         self.text_center(font, txt_size, txt, color, x_t, y_t)
         return name_rect
     
-    def img_mir(self, name, x, y, width, height, image):
+    def img_mirror(self, name, x, y, width, height, image):
         name = pygame.transform.smoothscale(image, (width, height))
         name = pygame.transform.flip(image, True, False)
         self.Window.blit(name, (x - name.get_width()//2, y - name.get_height()//2))
@@ -90,6 +93,10 @@ class Element(Screen):
 
     def rect_border(self, color, x, y, width, height, thickness, radius):
         button = pygame.draw.rect(self.Window, color, pygame.Rect(x - width //2, y - height //2, width, height),  thickness, radius)
+        return button
+    
+    def rect_border_not_centered(self, color, x, y, width, height, thickness, radius):
+        button = pygame.draw.rect(self.Window, color, pygame.Rect(x - width, y - height, width, height),  thickness, radius)
         return button
     
     # Rect border only on top  
