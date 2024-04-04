@@ -35,20 +35,17 @@ class Game(Element, Dragon):
             self.img_center("Balloon", 1100,152,40,64, self.balloon[1])
             self.img_center("Balloon", 900,302,40,64, self.balloon[2])
 
-    def fireball_visual(self, position_ball):
-        if not self.ball_moving:
-            self.ball_x = position_ball[0] + 50
-            self.ball_y = position_ball[1] + 10
-            self.start_ball = self.ball_x
-        else:
-            self.img_center("Dragon_red", self.ball_x, self.ball_y, 70, 70,self.fireball[self.fireball_frame])
-            self.fireball_frame += 1 
-            self.fireball_frame %= len(self.fireball)
+    def fireball_visual(self):
+        for i, (ball_x, ball_y, start_ball, ball_moving) in enumerate(self.fireballs):
+            if ball_moving:
+                self.img_center("Dragon_red", ball_x, ball_y, 70, 70, self.fireball[self.fireball_frame])
+                self.fireball_frame += 1 
+                self.fireball_frame %= len(self.fireball)
 
-            if self.ball_x < self.start_ball + 500:
-                self.ball_x += 20
-            else:
-                self.ball_moving = False
+                self.fireballs[i] = (ball_x + 20, ball_y, start_ball, ball_moving)
+
+                if ball_x > start_ball + 500:
+                    self.fireballs[i] = (ball_x, ball_y, start_ball, False)
 
     def run(self):
         while self.running:
@@ -65,7 +62,7 @@ class Game(Element, Dragon):
                     elif event.key == pygame.K_LEFT:
                         self.moving_left = True
                     if event.key == pygame.K_SPACE:
-                        self.ball_moving = True
+                        self.fireballs.append((self.dragon_x, self.dragon_y, self.dragon_x, True))
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_DOWN:
                         self.moving_down = False
@@ -80,5 +77,5 @@ class Game(Element, Dragon):
             self.dragon_movement()
             self.dragon_visual()
             self.balloon_visual()
-            self.fireball_visual((self.dragon_x, self.dragon_y))
+            self.fireball_visual()
             self.update()

@@ -27,13 +27,13 @@ class Dragon:
         self.fb10 = pygame.image.load(f"assets/image/game/fireball/fireball10.png").convert_alpha()
         self.fireball = [self.fb1, self.fb2, self.fb3, self.fb4, self.fb5, self.fb6, self.fb7, self.fb8, self.fb9, self.fb10]
         self.fireball_frame = 0
-        
+
+        self.fireballs = []
+
         self.move_x, self.move_y = 0, 0
         self.moving_down, self.moving_left, self.moving_right, self.moving_up = False, False, False, False
 
-        self.ball_moving = False
         self.ball_x, self.ball_y = 0, 0
-        self.start_ball = 0
 
     def dragon_movement(self):
         self.dragon_x = self.move_x + 300
@@ -51,4 +51,4 @@ class Dragon:
         elif self.moving_down:
             if self.dragon_y < 600:
                 self.move_y += 30
-        
+    
