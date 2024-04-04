@@ -15,6 +15,7 @@ class Menu (Element):
 
         # Error message
         self.error_length = False
+        self.error_no_name = False
 
         self.image_paths = {
             "background": "assets/image/Menu/menu_background.jpg",
@@ -58,9 +59,11 @@ class Menu (Element):
 
         # Error message: 
             # Lenght
-
         if self.error_length: 
             self.text_not_center(self.font, 12, "15 characters max", self.red, 850, 283)
+        if self.error_no_name: 
+            self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
+
 
     def menu_run (self): 
         self.menu_running = True
@@ -81,19 +84,34 @@ class Menu (Element):
                             self.selected_option += 1
 
                     # Write player name
-                    if self.selected_option == 0:                        
+                    if self.selected_option == 0: 
+
                         if event.key == pygame.K_BACKSPACE :
                             self.input_name = self.input_name[:-1]
                             self.error_length = False
+                            self.error_no_name = False
                         else: 
                             if self.input_name == "ENTER YOUR NAME" and event.unicode :
                                     self.input_name = ""
                             if len(self.input_name) < 15:
-                                self.input_name += event.unicode 
+                                self.input_name += event.unicode
+                                self.error_length = False 
                             else:
-                                self.error_length = True
+                                if self.input_name != "ENTER YOUR NAME":
+                                    self.error_length = True      
 
-                                
+                    if (self.selected_option == 1 or self.selected_option == 2) and event.key == pygame.K_RETURN:
+                        if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
+                            self.error_no_name = True
+                        else:  
+                            pass  
+
+                    if self.selected_option == 0: 
+                        self.error_no_name = False  
+
+
+                    
+                           
 
 
             self.design()
