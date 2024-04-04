@@ -5,8 +5,8 @@ from src.gui.Scenario import Scenario
 # m = Menu()
 # m.menu_run()
 
-# h = HomePage()
-# h.run()
+g = Game()
+g.run()
 
-s = Scenario()
-s.run()
+# s = Scenario()
+# s.run()

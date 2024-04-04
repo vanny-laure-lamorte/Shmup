@@ -70,10 +70,14 @@ class Element(Screen):
         else:
             self.img_center(txt, x, y, width, height, image_name)
         self.text_center(font, txt_size, txt, color, x_t, y_t)
-
-
         return name_rect
     
+    def img_mir(self, name, x, y, width, height, image):
+        name = pygame.transform.smoothscale(image, (width, height))
+        name = pygame.transform.flip(image, True, False)
+        self.Window.blit(name, (x - name.get_width()//2, y - name.get_height()//2))
+        button = pygame.Rect((x - width//2), (y - height//2), width, height)
+        return button
 
 # Def rectangle  
     def rect_full(self, color, x, y, width, height, radius):
