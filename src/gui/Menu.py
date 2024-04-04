@@ -1,10 +1,25 @@
-import pygame
+import pygame, json
 from src.pygame_manager.Element import Element
 
 class Menu (Element): 
     def __init__(self):
         Element.__init__(self)
         pygame.init()
+
+        # Option menu
+        self.selected_option = 0
+        self.selected_nb = 0
+
+        # Player Name
+        self.input_name = "ENTER YOUR NAME"
+
+        # Error message
+        self.error_length = False
+        self.error_no_name = False
+
+        # Info player
+        self.add_info_json = False
+        self.layer_name = ""
 
         self.image_paths = {
             "background": "assets/image/Menu/menu_background.jpg",
@@ -31,21 +46,41 @@ class Menu (Element):
         self.text_not_center(self.font5, 45,"Mage & Wyrm", self.white, 780, 85)
 
         # Name        
-        self.img_txt_hover("name", "ENTER YOUR NAME", self.W//2+270, 270, 280, 84, self.images["rect_name"], self.images["rect_name"], self.font2,20, self.white, self.W//2+270,270)    
+        self.name_rect = self.img_txt_hover_k("name", self.input_name, self.W//2+270, 270, 280, 84, self.images["rect_name"], self.images["rect_name"], self.font2,20, self.white, self.W//2+270,270,0)    
 
         # Play
-        self.img_txt_hover("play", "PLAY",self.W//2+270, 365, 280, 94, self.images["rect_menu"], self.images["rect_menu"], self.font2,20, self.white, self.W//2+270, 365)
+        self.play_rect = self.img_txt_hover_k("play", "PLAY",self.W//2+270, 365, 280, 94, self.images["rect_menu"], self.images["rect_menu"], self.font2,20, self.white, self.W//2+270, 365, 1)
     
         # Options
-        self.img_txt_hover("options", "OPTIONS",self.W//2+270, 445, 280, 94, self.images["rect_menu"], self.images["rect_menu"], self.font2,20, self.white, self.W//2+270, 445)
+        self.option_rect = self.img_txt_hover_k("options", "OPTIONS",self.W//2+270, 445, 280, 94, self.images["rect_menu"], self.images["rect_menu"], self.font2,20, self.white, self.W//2+270, 445, 2)
 
         # Exit
-        self.img_txt_hover("exit", "EXIT",self.W//2+270, 525, 280, 94, self.images["rect_menu"], self.images["rect_menu"], self.font2,20, self.white, self.W//2+270, 525)
-
+        self.exit_rect = self.img_txt_hover_k("exit", "EXIT",self.W//2+270, 525, 280, 94, self.images["rect_menu"], self.images["rect_menu"], self.font2,20, self.white, self.W//2+270, 525, 3)
        
         # Copyright
-        self.text_not_center(self.font, 15,"©", self.white, 15, 677)
-        self.text_not_center(self.font, 10,"Copyright 2024 | All Rights Reserved ", self.white, 30, 680)
+        self.text_not_center(self.font, 15,"©", self.white, 815, 677)
+        self.text_not_center(self.font, 10,"Copyright 2024 | All Rights Reserved ", self.white, 830, 680)
+
+        # Error message: 
+            # Lenght
+        if self.error_length: 
+            self.text_not_center(self.font, 12, "15 characters max", self.red, 850, 283)
+        if self.error_no_name: 
+            self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
+    
+    def save_player_info(self):
+            try:
+                with open('player_info.json', 'r') as file:
+                    data = json.load(file)
+            except (FileNotFoundError, json.decoder.JSONDecodeError):
+                data = []
+            data.append((self.input_name))
+
+            if self.input_name not in data: 
+                data.append(self.input_name)
+
+            with open('player_info.json', 'w') as file:
+                json.dump(data, file)
 
     def menu_run (self): 
         self.menu_running = True
@@ -54,6 +89,48 @@ class Menu (Element):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.menu_running = False
+
+                elif event.type == pygame.KEYDOWN:
+
+                    # Chose option menu
+                    if event.key == pygame.K_UP:
+                        if self.selected_option > 0:
+                            self.selected_option -= 1
+                    elif event.key == pygame.K_DOWN:
+                        if self.selected_option < 3 :
+                            self.selected_option += 1
+
+                    # Write player name
+                    if self.selected_option == 0: 
+                        if self.input_name == "ENTER YOUR NAME" and event.unicode :
+                            self.input_name = ""
+
+                        if event.key == pygame.K_BACKSPACE :
+                            self.input_name = self.input_name[:-1]
+                            self.error_length = False
+                            self.error_no_name = False
+                        else: 
+                            if len(self.input_name) < 15:
+                                self.input_name += event.unicode
+                                self.error_length = False 
+                             
+                            else:
+                                if self.input_name != "ENTER YOUR NAME":
+                                    self.error_length = True      
+
+                    if event.key == pygame.K_RETURN:
+                        if (self.selected_option == 1 or self.selected_option == 2):
+                            if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
+
+                                self.error_no_name = True
+                            else:  
+                                self.save_player_info()
+                        elif self.selected_option == 3:
+                            self.menu_running = False
+
+                    if self.selected_option == 0: 
+                        self.error_no_name = False  
+
 
             self.design()
             self.update()

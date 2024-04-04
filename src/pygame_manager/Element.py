@@ -4,9 +4,14 @@ class Element(Screen):
     def __init__(self):
         Screen.__init__(self)
 
+        self.big_pic = False
+        self.directional_keys_pressed = False
+       
+
         # Color
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
+        self.red = (240, 64,30)
 
         self.green = (106, 153, 78)
         self.red = (193 , 18, 31)
@@ -73,6 +78,21 @@ class Element(Screen):
         else:
             self.img_center(txt, x, y, width, height, image_name)
         self.text_center(font, txt_size, txt, color, x_t, y_t)
+
+
+        return name_rect
+    
+    def img_txt_hover_k(self, name_rect, txt, x, y, width, height, image_name, image_name_hover, font, txt_size, color, x_t, y_t, selected_nb): 
+        name_rect = pygame.Rect(x - width//2, y - height//2, width + len(txt)*txt_size, height)
+        
+        # Vérifiez si cette option est sélectionnée
+        if self.selected_option == selected_nb:
+            self.img_center(txt, x, y, width+5, height+5, image_name_hover)
+        else:
+            self.img_center(txt, x, y, width, height, image_name)
+            
+        self.text_center(font, txt_size, txt, color, x_t, y_t)
+
         return name_rect
     
     def img_mirror(self, name, x, y, width, height, image):
@@ -123,6 +143,8 @@ class Element(Screen):
 #             self.circle(color, x, y, radius)
 
 # Def Hover
+    
+    # Mouse
     def is_mouse_over_button(self, button_rect):
         mouse_pos = pygame.mouse.get_pos()
         return button_rect.collidepoint(mouse_pos)
@@ -140,6 +162,22 @@ class Element(Screen):
         self.text_center(font, text_size, text, text_color,  x, y)
 
         return name   
+    
+
+    
+    # Directional arrow
+    def button_hover_k(self, name, x, y, width, height, color_full, color_border, color_hover, color_border_hover, rect_size_hover, text, font, text_color, text_size, thickness, radius):
+        name = pygame.Rect((x - width//2), (y - height//2), width, height)
+
+        if self.big_pic:  # Si l'image est agrandie
+            self.rect_full(color_hover, x, y, width + rect_size_hover, height + rect_size_hover, radius)
+            self.rect_border(color_border_hover, x, y, width +  rect_size_hover, height +  rect_size_hover, thickness, radius)
+        else:
+            self.rect_full(color_full, x, y, width, height, radius)
+            self.rect_border(color_border, x, y, width, height, thickness, radius)
+        self.text_center(font, text_size, text, text_color,  x, y)
+
+        return name
 
 
     
