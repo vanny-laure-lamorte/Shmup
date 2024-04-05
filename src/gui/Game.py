@@ -14,9 +14,9 @@ class Game(Element, Dragon, Balloon):
 
     def dragon_visual(self):
         if self.moving_left:
-            self.img_mirror("Dragon_red", self.dragon_x,  self.dragon_y, 150,150,self.red_frames[self.dragon_frame])
+            self.img_mirror("Dragon_red", self.dragon_x,  self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
         else:
-            self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 150,150,self.red_frames[self.dragon_frame])
+            self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
         # self.img_center("Dragon_blue", 700,350,200,200,self.blue_frames[self.dragon_frame]) 
         self.dragon_frame += 1
         self.dragon_frame %= len(self.red_frames)

@@ -1,9 +1,9 @@
 import os, pygame
 class Dragon:
     def __init__(self):
-        # self.red_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon2/dragon{i}.png")).convert_alpha() for i in range(1, 12)]
+        self.red_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon3/tile0{i}.png")).convert_alpha() for i in range(12, 24)]
         # self.blue_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon{i}.png")).convert_alpha() for i in range(1, 4)]
-        self.red_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon/dragon{i}.png")).convert_alpha() for i in range(4, 7)]
+        # self.red_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon/dragon{i}.png")).convert_alpha() for i in range(4, 7)]
         self.fireball = [pygame.image.load(os.path.join(f"assets/image/game/fireball/fireball{i}.png")).convert_alpha() for i in range(1, 11)]
 
         # self.blue_frames = [frame for frame in self.blue_frames for _ in range(4)]
