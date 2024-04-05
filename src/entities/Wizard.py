@@ -2,15 +2,11 @@ import os, pygame
 class Wizard:
     def __init__(self):
         self.wizard_frames = [pygame.image.load(os.path.join(f"assets/image/game/wizard/wizard{i}.png")).convert_alpha() for i in range(1, 11)]
-        # self.thunderbolt = [pygame.image.load(os.path.join(f"assets/image/game/thunderbolt/thunderbolt{i}.png")).convert_alpha() for i in range(1, 4)]
         self.thunderbolt = pygame.image.load(os.path.join(f"assets/image/game/thunderbolt.png")).convert_alpha()
             
-        self.wizard_frames = [frame for frame in self.wizard_frames for _ in range(2)]
-        # self.thunderbolt = [frame for frame in self.thunderbolt for _ in range(3)]
-
         self.wiz_frame = 0
-        # self.thunder_frame = 0
-
+        
+        self.wizard_attack_speed = 0.5
         self.wizard_attack = False
         self.dragon_damage = 10
 
@@ -41,8 +37,10 @@ class Wizard:
 
         self.wizard_frames = [pygame.image.load(os.path.join(f"assets/image/game/wizard/wizard{i}.png")).convert_alpha() for i in range(1, 11)]
         if bonus == 1:
-            self.wizard_frames = [frame for frame in self.wizard_frames for _ in range(2)]
+            self.wizard_attack_speed = 0.5
         elif bonus == 2:
-            self.wizard_frames = [frame for frame in self.wizard_frames for _ in range(1)]
+            self.wizard_attack_speed = 1
+        elif bonus == 3:
+            self.wizard_attack_speed = 1.5
         elif bonus == 4:
-            self.wizard_frames = self.wizard_frames[::2]
+            self.wizard_attack_speed = 2

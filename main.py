@@ -7,3 +7,6 @@ from src.gui.Scenario import Scenario
 
 g = Game()
 g.run()
+
+# s = Scenario()
+# s.run()
