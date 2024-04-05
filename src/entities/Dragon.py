@@ -36,5 +36,5 @@ class Dragon:
             if self.dragon_y > 75:
                 self.move_y -= 15
         elif self.moving_down:
-            if self.dragon_y < 350:
+            if self.dragon_y < 330:
                 self.move_y += 15

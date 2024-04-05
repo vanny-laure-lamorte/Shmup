@@ -16,14 +16,14 @@ class Wizard:
 
         self.bolt_list = []
         self.move_wiz_x, self.move_wiz_y = 0, 0
-        self.wizard_x, self.wizard_y = 140, 635
+        self.wizard_x, self.wizard_y = 285, 575
         self.moving_down, self.moving_left, self.moving_right, self.moving_up = False, False, False, False
 
         self.bolt_x, self.bolt_y = 0, 0
 
     def wizard_movement(self):
-        self.wizard_x = self.move_wiz_x + 140
-        self.wizard_y = self.move_wiz_y + 635
+        self.wizard_x = self.move_wiz_x + 285
+        self.wizard_y = self.move_wiz_y + 575
         if self.moving_left:
             if self.wizard_x > 75:
                 self.move_wiz_x -= 15
@@ -34,7 +34,7 @@ class Wizard:
             if self.wizard_y > 450:
                 self.move_wiz_y -= 15
         elif self.moving_down:
-            if self.wizard_y < 650:
+            if self.wizard_y < 590:
                 self.move_wiz_y += 15
 
     def wizard_upgrade(self, bonus):

@@ -14,6 +14,8 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.running = True
         self.explosion_list = []
 
+        self.score = 0
+
         self.entity_moving = True # True for Dragon / False for Wizard
         self.dragon_left, self.wizard_left = False, False
 
@@ -34,7 +36,7 @@ class Game(Element, Dragon, Wizard, Balloon):
         # Score
         self.img_not_center("High Score", 1050, 10, 180, 99, self.rect_high_score)
         self.text_not_center(self.font2, 15, "High Score : 24121993", self.white, 1070, 40)
-        self.text_not_center(self.font2, 15, "Your Score : 1909", self.white, 1070, 65)
+        self.text_not_center(self.font2, 15, f"Your Score : {self.score}", self.white, 1070, 65)
        
         # Missile #160
         self.img_txt_hover("Missile","MISSILE", self.W//2-80, 650, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 650) 
@@ -144,6 +146,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                         del self.fireballs_list[j]
                     else:
                         self.explosion_list.append((balloon_x, balloon_y))
+                        self.score += (10 + self.balloon_health[balloon_type] // 10)
                         del self.balloon_list[i]
                         del self.fireballs_list[j]
 
@@ -153,6 +156,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.KEYDOWN:
+                    print(self.dragon_y, self.wizard_y)
                     if event.key == pygame.K_DOWN:
                         self.moving_down = True
                     elif event.key == pygame.K_UP:
