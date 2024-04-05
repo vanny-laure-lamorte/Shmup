@@ -28,8 +28,8 @@ class Wizard:
             if self.wizard_x < 1175:
                 self.move_wiz_x += 15
         elif self.moving_up:
-            if self.wizard_y > 400:
+            if self.wizard_y > 450:
                 self.move_wiz_y -= 15
         elif self.moving_down:
-            if self.wizard_y < 625:
+            if self.wizard_y < 650:
                 self.move_wiz_y += 15

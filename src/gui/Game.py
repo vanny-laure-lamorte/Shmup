@@ -142,6 +142,7 @@ class Game(Element, Dragon, Wizard, Balloon):
             else:
                 self.wizard_movement()
             self.dragon_visual()
+            self.explosion_visual()
             self.wizard_visual()
             self.balloon_visual()
             self.fireball_visual()
