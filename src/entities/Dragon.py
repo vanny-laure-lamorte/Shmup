@@ -14,19 +14,18 @@ class Dragon:
         self.dragon_frame = 0
         self.fireball_frame = 0
 
+        self.dragon_x, self.dragon_y = 300, 360
         self.dragon_damage = 20
 
         self.fireballs_list = []
 
         self.move_x, self.move_y = 0, 0
         self.moving_down, self.moving_left, self.moving_right, self.moving_up = False, False, False, False
-
         self.ball_x, self.ball_y = 0, 0
 
     def dragon_movement(self):
-        self.dragon_x = self.move_x + 300
-        self.dragon_y = self.move_y + 360
-
+        self.dragon_x = self.move_x +300
+        self.dragon_y = self.move_y +360
         if self.moving_left:
             if self.dragon_x > 75:
                 self.move_x -= 15

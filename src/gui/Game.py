@@ -1,25 +1,40 @@
 import pygame
 from src.pygame_manager.Element import Element
 from src.entities.Dragon import Dragon
+from src.entities.Wizard import Wizard
 from src.entities.Balloon import Balloon
 
-class Game(Element, Dragon, Balloon):
+
+class Game(Element, Dragon, Wizard, Balloon):
     def __init__(self): 
         Element.__init__(self)
         Dragon.__init__(self)
+        Wizard.__init__(self)
         Balloon.__init__(self)
         self.running = True
         self.explosion_list = []
         self.background = pygame.image.load(f"assets/image/game/background1.png").convert_alpha()
+        self.entity_moving = False
 
     def dragon_visual(self):
-        if self.moving_left:
+
+        if self.moving_left and self.entity_moving:
             self.img_mirror("Dragon_red", self.dragon_x,  self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
         else:
             self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
         # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[self.dragon_frame]) 
         self.dragon_frame += 1
         self.dragon_frame %= len(self.red_frames)
+
+    def wizard_visual(self):
+
+        if self.moving_left and not self.entity_moving:
+            self.img_mirror("Wizard", self.wizard_x,  self.wizard_y, 140,130,self.wizard_frames[self.wiz_frame])
+        else:
+            self.img_center("Wizard", self.wizard_x,  self.wizard_y, 140,130,self.wizard_frames[self.wiz_frame])
+
+        self.wiz_frame += 1
+        self.wiz_frame %= len(self.wizard_frames)
 
     def balloon_visual(self):
         for i, (x, y, health, balloon_type, _) in enumerate(self.balloon_list):
@@ -47,6 +62,21 @@ class Game(Element, Dragon, Balloon):
                 if ball_x > ball_x_orig + 500: 
                     self.fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
                     del self.fireballs_list[i]
+
+    def bolt_visual(self):
+        for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.bolt_list):
+            if ball_moving:
+                self.img_center("Dragon_red", ball_x, ball_y, 70, 70, self.bolt[self.bolt_frame])
+                self.bolt_frame += 1
+                self.bolt_frame %= len(self.fireball)
+
+                ball_x += 15 
+
+                self.bolt_list[i] = (ball_x, ball_y, ball_x_orig, ball_moving)
+
+                if ball_x > ball_x_orig + 500: 
+                    self.bolt_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
+                    del self.bolt_list[i]
 
     def explosion_visual(self):
         for i, (explo_x, explo_y) in enumerate(self.explosion_list):
@@ -86,7 +116,16 @@ class Game(Element, Dragon, Balloon):
                     elif event.key == pygame.K_LEFT:
                         self.moving_left = True
                     if event.key == pygame.K_SPACE:
-                        self.fireballs_list.append((self.dragon_x, self.dragon_y, self.dragon_x, True))
+                        if self.entity_moving:
+                            self.fireballs_list.append((self.dragon_x, self.dragon_y, self.dragon_x, True))
+                        else:
+                            self.bolt_list.append((self.wizard_x, self.wizard_y, self.wizard_x, True))
+                    if event.key == pygame.K_b:
+                        if self.entity_moving:
+                            self.entity_moving = False
+                        else:
+                            self.entity_moving = True
+                
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_DOWN:
                         self.moving_down = False
@@ -98,8 +137,12 @@ class Game(Element, Dragon, Balloon):
                         self.moving_left = False
 
             self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.background)
-            self.dragon_movement()
+            if self.entity_moving:
+                self.dragon_movement()
+            else:
+                self.wizard_movement()
             self.dragon_visual()
+            self.wizard_visual()
             self.balloon_visual()
             self.fireball_visual()
             self.check_target()
