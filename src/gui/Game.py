@@ -22,15 +22,16 @@ class Game(Element, Dragon, Balloon):
         self.dragon_frame %= len(self.red_frames)
 
     def balloon_visual(self):
-        for i, (x, y, health) in enumerate(self.balloon_list):
-            color = self.green if health * 100 // self.balloon_health > 30 else self.red
-            self.img_center("Balloon", x , y, 40, 64, self.balloon[0])
+        for i, (x, y, health, balloon_type, _) in enumerate(self.balloon_list):
+            color = self.green if health * 100 // self.balloon_health[balloon_type] > 30 else self.red
+            balloon_color = self.balloon[balloon_type]
+            self.img_center("Balloon", x , y, 40, 64, balloon_color)
             # Vie des ballons
-            if health < self.balloon_health:
-                self.rect_full_not_centered(color, x +30 , y - 32, health * 60 // self.balloon_health, 6, 0)
+            if health < self.balloon_health[balloon_type]:
+                self.rect_full_not_centered(color, x +30 , y - 32, health * 60 // self.balloon_health[balloon_type], 6, 0)
                 self.rect_border(self.black, x, y - 35, 60, 6, 1, 0)
             if x > 750:
-                self.balloon_list[i] = (x - 1, y, health)
+                self.balloon_list[i] = (x - 1, y, health, balloon_type, _)
 
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):
@@ -59,11 +60,11 @@ class Game(Element, Dragon, Balloon):
                     del self.explosion_frames[(explo_x, explo_y)]
 
     def check_target(self):
-        for i, (balloon_x, balloon_y, health) in enumerate(self.balloon_list):
+        for i, (balloon_x, balloon_y, health, balloon_type, _) in enumerate(self.balloon_list):
             for j, (ball_x, ball_y, ball_x_orig, status) in enumerate(self.fireballs_list):
                 if (balloon_x - 15 <= ball_x <= balloon_x + 15) and (balloon_y - 35 <= ball_y <= balloon_y + 35):
                     if health > self.dragon_damage:
-                        self.balloon_list[i] = (balloon_x, balloon_y, health - self.dragon_damage)
+                        self.balloon_list[i] = (balloon_x, balloon_y, health - self.dragon_damage, balloon_type, _)
                         del self.fireballs_list[j]
                     else:
                         self.explosion_list.append((balloon_x, balloon_y))
@@ -102,5 +103,4 @@ class Game(Element, Dragon, Balloon):
             self.balloon_visual()
             self.fireball_visual()
             self.check_target()
-            self.explosion_visual()
             self.update()
