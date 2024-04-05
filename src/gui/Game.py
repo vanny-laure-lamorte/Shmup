@@ -14,7 +14,7 @@ class Game(Element, Dragon):
         self.b4 = pygame.image.load(f"assets/image/game/balloon4.png").convert_alpha()
         self.balloon = [self.b1, self.b2, self.b3, self.b4]
 
-        self.background = pygame.image.load(f"assets/image/game/background.png").convert_alpha()
+        self.background = pygame.image.load(f"assets/image/game/background1.png").convert_alpha()
 
     def dragon_visual(self):
         if self.moving_left:
