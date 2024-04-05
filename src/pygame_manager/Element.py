@@ -94,11 +94,18 @@ class Element(Screen):
         self.text_center(font, txt_size, txt, color, x_t, y_t)
 
         return name_rect
+        
+    def img_mirror(self, x, y, width, height, image):
+        mirrored_image = pygame.transform.flip(image, True, False)
+        mirrored_image = pygame.transform.smoothscale(mirrored_image, (width, height))
+        self.Window.blit(mirrored_image, (x - mirrored_image.get_width()//2, y - mirrored_image.get_height()//2))
+        button = pygame.Rect((x - width//2), (y - height//2), width, height)
+        return button
     
-    def img_mirror(self, name, x, y, width, height, image):
-        name = pygame.transform.smoothscale(image, (width, height))
-        name = pygame.transform.flip(image, True, False)
-        self.Window.blit(name, (x - name.get_width()//2, y - name.get_height()//2))
+    def img_mirror_wiz(self, x, y, width, height, image):
+        mirrored_image = pygame.transform.flip(image, True, False)
+        mirrored_image = pygame.transform.smoothscale(mirrored_image, (width, height))
+        self.Window.blit(mirrored_image, (x - mirrored_image.get_width(), y - mirrored_image.get_height()//2))
         button = pygame.Rect((x - width//2), (y - height//2), width, height)
         return button
 

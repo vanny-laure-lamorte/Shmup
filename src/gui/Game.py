@@ -14,12 +14,13 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.running = True
         self.explosion_list = []
         self.background = pygame.image.load(f"assets/image/game/background1.png").convert_alpha()
-        self.entity_moving = False
+        self.entity_moving = True # True for Dragon / False for Wizard
+        self.dragon_left, self.wizard_left = False, False
 
     def dragon_visual(self):
 
-        if self.moving_left and self.entity_moving:
-            self.img_mirror("Dragon_red", self.dragon_x,  self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
+        if self.dragon_left and self.entity_moving:
+            self.img_mirror(self.dragon_x,  self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
         else:
             self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
         # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[self.dragon_frame]) 
@@ -27,14 +28,19 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.dragon_frame %= len(self.red_frames)
 
     def wizard_visual(self):
-
-        if self.moving_left and not self.entity_moving:
-            self.img_mirror("Wizard", self.wizard_x,  self.wizard_y, 140,130,self.wizard_frames[self.wiz_frame])
+        if self.wizard_attack:
+            if self.wiz_frame < len(self.wizard_frames):
+                self.img_center("Wizard", self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[self.wiz_frame])
+                self.wiz_frame += 1
+            else:
+                self.wizard_attack = False
+                self.wiz_frame %= len(self.wizard_frames)
+                self.bolt_list.append((self.wizard_x +45, self.wizard_y -10, self.wizard_x +45, True))
         else:
-            self.img_center("Wizard", self.wizard_x,  self.wizard_y, 140,130,self.wizard_frames[self.wiz_frame])
-
-        self.wiz_frame += 1
-        self.wiz_frame %= len(self.wizard_frames)
+            if self.wizard_left and not self.entity_moving:
+                self.img_mirror_wiz(self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[0])
+            else:
+                self.img_center("Wizard", self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[0])
 
     def balloon_visual(self):
         for i, (x, y, health, balloon_type, _) in enumerate(self.balloon_list):
@@ -51,7 +57,7 @@ class Game(Element, Dragon, Wizard, Balloon):
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):
             if ball_moving:
-                self.img_center("Dragon_red", ball_x, ball_y, 70, 70, self.fireball[self.fireball_frame])
+                self.img_center("Dragon_red", ball_x, ball_y, 60, 60, self.fireball[self.fireball_frame])
                 self.fireball_frame += 1
                 self.fireball_frame %= len(self.fireball)
 
@@ -64,15 +70,16 @@ class Game(Element, Dragon, Wizard, Balloon):
                     del self.fireballs_list[i]
 
     def bolt_visual(self):
-        for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.bolt_list):
-            if ball_moving:
-                self.img_center("Dragon_red", ball_x, ball_y, 70, 70, self.bolt[self.bolt_frame])
-                self.bolt_frame += 1
-                self.bolt_frame %= len(self.fireball)
+        for i, (ball_x, ball_y, ball_x_orig, bolt_moving) in enumerate(self.bolt_list):
+            if bolt_moving:
+                self.img_center("Thunderbolt", ball_x, ball_y, 70, 55, self.thunderbolt)
+                # self.img_center("Thunderbolt", ball_x, ball_y, 70, 55, self.thunderbolt[self.thunder_frame])
+                # self.thunder_frame += 1
+                # self.thunder_frame %= len(self.thunderbolt)
 
                 ball_x += 15 
 
-                self.bolt_list[i] = (ball_x, ball_y, ball_x_orig, ball_moving)
+                self.bolt_list[i] = (ball_x, ball_y, ball_x_orig, bolt_moving)
 
                 if ball_x > ball_x_orig + 500: 
                     self.bolt_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
@@ -115,16 +122,26 @@ class Game(Element, Dragon, Wizard, Balloon):
                         self.moving_right = True
                     elif event.key == pygame.K_LEFT:
                         self.moving_left = True
+                        if self.entity_moving:
+                            self.dragon_left = True
+                        elif not self.entity_moving:
+                            self.wizard_left = True
                     if event.key == pygame.K_SPACE:
                         if self.entity_moving:
-                            self.fireballs_list.append((self.dragon_x, self.dragon_y, self.dragon_x, True))
+                            self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 5, self.dragon_x +70, True))
                         else:
-                            self.bolt_list.append((self.wizard_x, self.wizard_y, self.wizard_x, True))
+                            self.wizard_attack = True
                     if event.key == pygame.K_b:
                         if self.entity_moving:
                             self.entity_moving = False
                         else:
                             self.entity_moving = True
+                    if event.key == pygame.K_y: #Test bonus vitesse attaque
+                        self.wizard_upgrade(1)
+                    elif event.key == pygame.K_r:
+                        self.wizard_upgrade(2)
+                    elif event.key == pygame.K_t:
+                        self.wizard_upgrade(4)
                 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_DOWN:
@@ -135,7 +152,10 @@ class Game(Element, Dragon, Wizard, Balloon):
                         self.moving_right = False
                     elif event.key == pygame.K_LEFT:
                         self.moving_left = False
-
+                        if self.entity_moving:
+                            self.dragon_left = False
+                        elif not self.entity_moving:
+                            self.wizard_left = False
             self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.background)
             if self.entity_moving:
                 self.dragon_movement()
@@ -146,5 +166,6 @@ class Game(Element, Dragon, Wizard, Balloon):
             self.wizard_visual()
             self.balloon_visual()
             self.fireball_visual()
+            self.bolt_visual()
             self.check_target()
             self.update()
