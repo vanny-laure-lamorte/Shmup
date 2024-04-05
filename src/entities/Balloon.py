@@ -43,7 +43,7 @@ class Balloon:
 
             pos_x_balloon = random.randint(1350, 1500)
             pos_y_balloon = random.randint(55, 300)
-            self.balloon_list.append((pos_x_balloon, pos_y_balloon, self.balloon_health[balloon_type], balloon_type, True))
+            self.balloon_list.append((pos_x_balloon, pos_y_balloon, self.balloon_health[balloon_type], balloon_type, False))
 
 
 
