@@ -17,7 +17,7 @@ class Game(Element, Dragon, Balloon):
             self.img_mirror("Dragon_red", self.dragon_x,  self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
         else:
             self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
-        # self.img_center("Dragon_blue", 700,350,200,200,self.blue_frames[self.dragon_frame]) 
+        # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[self.dragon_frame]) 
         self.dragon_frame += 1
         self.dragon_frame %= len(self.red_frames)
 
@@ -69,7 +69,6 @@ class Game(Element, Dragon, Balloon):
                         self.explosion_list.append((balloon_x, balloon_y))
                         del self.balloon_list[i]
                         del self.fireballs_list[j]
-
 
     def run(self):
         while self.running:
