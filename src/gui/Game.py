@@ -14,7 +14,23 @@ class Game(Element, Dragon):
         self.b4 = pygame.image.load(f"assets/image/game/balloon4.png").convert_alpha()
         self.balloon = [self.b1, self.b2, self.b3, self.b4]
 
-        self.background = pygame.image.load(f"assets/image/game/background1.png").convert_alpha()
+        self.img_back = pygame.image.load(f"assets/image/game/background.png").convert_alpha()
+        self.img_castle = pygame.image.load(f"assets/image/game/game_castle.png").convert_alpha()
+
+        self.rect_option = pygame.image.load(f"assets/image/game/game_rect.png").convert_alpha()
+
+    def background(self):
+
+        # Bacckground
+        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back)
+
+        # Tour
+        self.img_not_center("Castle", -90, 20, 450, 615, self.img_castle)
+
+        # Rect
+        self.img_not_center("Rect", 50, 20, 100, 50, self.rect_option)
+
+
 
     def dragon_visual(self):
         if self.moving_left:
@@ -76,7 +92,7 @@ class Game(Element, Dragon):
                     elif event.key == pygame.K_LEFT:
                         self.moving_left = False
 
-            self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.background)
+            self.background()
             self.dragon_movement()
             self.dragon_visual()
             self.balloon_visual()
