@@ -60,7 +60,7 @@ class Game(Element, Dragon, Wizard, Balloon):
     def dragon_visual(self):
 
         if self.dragon_left and self.entity_moving:
-            self.img_mirror(self.dragon_x,  self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
+            self.img_mirror(self.dragon_x,  self.dragon_y, 177,162,self.red_frames[int(self.dragon_frame)])
         else:
             self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[int(self.dragon_frame)])
         # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[int(self.dragon_frame)]) 
@@ -70,12 +70,15 @@ class Game(Element, Dragon, Wizard, Balloon):
     def wizard_visual(self):
         if self.wizard_attack:
             if self.wiz_frame < len(self.wizard_frames):
-                self.img_center("Wizard", self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[int(self.wiz_frame)])
+                self.img_center("Wizard", self.wizard_x, self.wizard_y, 123, 160, self.wizard_frames[int(self.wiz_frame)])
                 self.wiz_frame += self.wizard_attack_speed
             else:
                 self.wizard_attack = False
                 self.wiz_frame %= len(self.wizard_frames)
-                self.bolt_list.append((self.wizard_x +45, self.wizard_y -10, self.wizard_x +45, True))
+                for i in range(min(self.bonus_bolt, len(self.bonus_bolt_list))):
+                    x, y = self.bonus_bolt_list[i]
+                    self.bolt_list.append((self.wizard_x + 45 + x, self.wizard_y - 10 + y, self.wizard_x + 45 + x, True))
+                self.bonus_bolt = 1
 
                 ### Bonus multi attack
                 # self.bolt_list.append((self.wizard_x +45, self.wizard_y , self.wizard_x +45, True))

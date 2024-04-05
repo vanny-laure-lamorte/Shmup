@@ -11,6 +11,10 @@ class Wizard:
         self.dragon_damage = 10
 
         self.bolt_list = []
+        
+        self.bonus_bolt = 1
+        self.bonus_bolt_list = [(45,0), (10, 15), (10, -15), (-25, 30), (-25, -30)]
+        
         self.move_wiz_x, self.move_wiz_y = 0, 0
         self.wizard_x, self.wizard_y = 285, 575
         self.moving_down, self.moving_left, self.moving_right, self.moving_up = False, False, False, False
