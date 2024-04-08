@@ -22,6 +22,7 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.img_castle = pygame.image.load(f"assets/image/game/game_castle.png").convert_alpha()
         self.rect_option = pygame.image.load(f"assets/image/game/game_rect.png").convert_alpha()
         self.rect_high_score = pygame.image.load(f"assets/image/game/game_high_score.png").convert_alpha()
+        self.crown = pygame.image.load(f"assets/image/game/game_crown.png").convert_alpha()
         self.life = pygame.image.load(f"assets/image/game/game_life.png").convert_alpha()
         self.hp = pygame.image.load(f"assets/image/game/game_hp.png").convert_alpha()
 
@@ -35,13 +36,17 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.img_not_center("Castle", -90, 115, 375, 515, self.img_castle)
 
         # Life
-        pygame.draw.rect(self.Window, self.red, (50, 20, 187, 15))
-        self.img_not_center("life", 15, 10, 258, 31, self.hp)
-    
+        pygame.draw.rect(self.Window, self.black, (1087, 20, 125, 15))
+        self.img_not_center("Life", 1060, 15, 160, 26, self.hp)
+
         # Score
-        self.img_not_center("High Score", 1050, 10, 180, 99, self.rect_high_score)
-        self.text_not_center(self.font2, 15, "High Score : 24121993", self.white, 1070, 40)
-        self.text_not_center(self.font2, 15, f"Your Score : {self.score}", self.white, 1070, 65)
+        self.img_not_center("Crown", 75, 5, 35, 35, self.crown)
+        self.img_not_center("High Score", 15, 25, 153, 57, self.rect_option)
+        self.text_not_center(self.font2, 13, "High Score : 24121993", self.white, 30, 45)
+
+        self.img_not_center("High Score", 15, 75, 153, 57, self.rect_option)
+        self.text_not_center(self.font2, 13, f"Your Score : {self.score}", self.white, 30, 95)
+
        
         # Missile #160
         self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660) 
