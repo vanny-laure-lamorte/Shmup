@@ -122,7 +122,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.rect_full_not_centered(color, x +30 , y - 32, health * 60 // self.balloon_health[balloon_type], 6, 0)
                 self.rect_border(self.black, x, y - 35, 60, 6, 1, 0)
             if x > 750:
-                self.balloon_list[i] = (x - 1, y, health, balloon_type, _)
+                self.balloon_list[i] = (x - 0.5, y, health, balloon_type, _)
 
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):

@@ -8,12 +8,12 @@ class Dragon:
 
         self.dragon_frame = 0
         self.fireball_frame = 0
-        self.dragon_attackspeed = 0.4
+        self.dragon_attackspeed = 0.15
         self.dragon_attack_frame = 0
         self.dragon_attack = False
 
         self.dragon_x, self.dragon_y = 345, 285
-        self.dragon_damage = 20
+        self.dragon_damage = 30
         self.bonus_range_fireball = 300
 
         self.fireballs_list = []
@@ -27,13 +27,13 @@ class Dragon:
         self.dragon_y = self.move_y +285
         if self.moving_left:
             if self.dragon_x > 75:
-                self.move_x -= 15
+                self.move_x -= 7.5
         elif self.moving_right:
             if self.dragon_x < 1175:
-                self.move_x += 15
+                self.move_x += 7.5
         elif self.moving_up:
             if self.dragon_y > 75:
-                self.move_y -= 15
+                self.move_y -= 7.5
         elif self.moving_down:
             if self.dragon_y < 330:
-                self.move_y += 15
+                self.move_y += 7.5
