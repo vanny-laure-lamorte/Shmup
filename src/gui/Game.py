@@ -43,8 +43,10 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.text_not_center(self.font2, 15, f"Your Score : {self.score}", self.white, 1070, 65)
        
         # Missile #160
-        self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660) 
-        pygame.draw.rect(self.Window, self.red, (485, 685, 120, 9))
+        self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660)
+        if self.bonus_bolt < 5:
+            for missile in range(self.bonus_bolt):
+                pygame.draw.rect(self.Window, self.red, (485 +30 * missile, 685, 29, 9))
         self.img_not_center("Life", 475, 680, 143, 18, self.life)
 
         # Double
@@ -194,8 +196,8 @@ class Game(Element, Dragon, Wizard, Balloon):
                             # self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 55, self.dragon_x +70, True)) # Attaque dragon
                         else:
                             if not self.wizard_attack:
-                                if self.bonus_bolt < 6:
-                                    self.bonus_bolt +=1
+                                if self.bonus_bolt < 6: # --------------------
+                                    self.bonus_bolt +=1 # A décaler sur les kill des ennemies au sol
                                 else:
                                     self.bonus_bolt = 0
                                 self.wizard_attack = True
