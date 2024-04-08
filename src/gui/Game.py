@@ -35,8 +35,9 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.img_not_center("Castle", -90, 115, 375, 515, self.img_castle)
 
         # Life
-        self.img_not_center("life", 50, 10, 258, 31, self.hp)
-
+        pygame.draw.rect(self.Window, self.red, (50, 20, 187, 15))
+        self.img_not_center("life", 15, 10, 258, 31, self.hp)
+    
         # Score
         self.img_not_center("High Score", 1050, 10, 180, 99, self.rect_high_score)
         self.text_not_center(self.font2, 15, "High Score : 24121993", self.white, 1070, 40)
@@ -44,22 +45,22 @@ class Game(Element, Dragon, Wizard, Balloon):
        
         # Missile #160
         self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660) 
-        pygame.draw.rect(self.Window, self.red, (485, 685, 120, 9))
+        pygame.draw.rect(self.Window, self.black, (485, 685, 120, 9))
         self.img_not_center("Life", 475, 680, 143, 18, self.life)
 
         # Double
         self.img_txt_hover("Double","DOUBLE", self.W//2+80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+80, 660)
-        pygame.draw.rect(self.Window, self.red, (645, 685, 120, 9))
+        pygame.draw.rect(self.Window, self.black, (645, 685, 120, 9))
         self.img_not_center("Life", 635, 680, 143, 18, self.life)
 
         # Fireball
         self.img_txt_hover("Fire","FIREBALL", self.W//2+240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+240, 660)       
-        pygame.draw.rect(self.Window, self.red, (805, 685, 120, 9))
+        pygame.draw.rect(self.Window, self.black, (805, 685, 120, 9))
         self.img_not_center("Life", 795, 680, 143, 18, self.life)
     
         # Fire range        
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
-        pygame.draw.rect(self.Window, self.red, (325, 685, 120, 9))
+        pygame.draw.rect(self.Window, self.black, (325, 685, 120, 9))
         self.img_not_center("Life", 315, 680, 143, 18, self.life)
        
     
