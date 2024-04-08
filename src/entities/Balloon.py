@@ -24,7 +24,7 @@ class Balloon:
             (0.4, 0.3, 0.3)    # Level 10
         ]
 
-        self.balloon_creation(1) #Test de la méthode
+        # self.balloon_creation(1) #Test de la méthode
 
     def balloon_creation(self, level):
         nb_balloons = random.randint(level + 2, level + 3)

@@ -25,6 +25,11 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.crown = pygame.image.load(f"assets/image/game/game_crown.png").convert_alpha()
         self.life = pygame.image.load(f"assets/image/game/game_life.png").convert_alpha()
         self.hp = pygame.image.load(f"assets/image/game/game_hp.png").convert_alpha()
+        self.max_hp = 100
+
+        self.balloon_damage = 20 # Damage baloon
+        self.balloon_creation(3) #Test de la méthode (Level en attribut)
+
 
 
     def background(self):
@@ -36,8 +41,12 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.img_not_center("Castle", -90, 115, 375, 515, self.img_castle)
 
         # Life
+        hp_color = self.green if self.max_hp > 30 else self.red 
         pygame.draw.rect(self.Window, self.black, (1087, 20, 125, 15))
         self.img_not_center("Life", 1060, 15, 160, 26, self.hp)
+        pygame.draw.rect(self.Window, hp_color, (1087, 20, self.max_hp * 125 // 100, 15))
+
+
 
         # Score
         self.img_not_center("Crown", 75, 5, 35, 35, self.crown)
@@ -124,7 +133,10 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.rect_full_not_centered(color, x +30 , y - 32, health * 60 // self.balloon_health[balloon_type], 6, 0)
                 self.rect_border(self.black, x, y - 35, 60, 6, 1, 0)
             if x > 750:
-                self.balloon_list[i] = (x - 0.5, y, health, balloon_type, _)
+                self.balloon_list[i] = (x - 0.5, y, health, balloon_type, True)
+            else: 
+                self.balloon_list[i] = (x - 0.5, y, health, balloon_type, False)
+                
 
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):
@@ -164,8 +176,8 @@ class Game(Element, Dragon, Wizard, Balloon):
                 else:
                     del self.explosion_list[i]
                     del self.explosion_frames[(explo_x, explo_y)]
-
     def check_target(self):
+        castle_rect = pygame.Rect(0, 0, 230, 630)  # Rectangle representing the castle
         for i, (balloon_x, balloon_y, health, balloon_type, _) in enumerate(self.balloon_list):
             for j, (ball_x, ball_y, ball_x_orig, status) in enumerate(self.fireballs_list):
                 if (balloon_x - 15 <= ball_x <= balloon_x + 15) and (balloon_y - 35 <= ball_y <= balloon_y + 35):
@@ -177,6 +189,12 @@ class Game(Element, Dragon, Wizard, Balloon):
                         self.score += (10 + self.balloon_health[balloon_type] // 10)
                         del self.balloon_list[i]
                         del self.fireballs_list[j]
+
+            if balloon_x < 115:  
+                self.explosion_list.append((balloon_x, balloon_y))
+                self.max_hp -= self.balloon_damage
+                del self.balloon_list[i]
+
 
     def run(self):
         while self.running:
@@ -244,4 +262,5 @@ class Game(Element, Dragon, Wizard, Balloon):
             self.fireball_visual()
             self.bolt_visual()
             self.check_target()
+
             self.update()
