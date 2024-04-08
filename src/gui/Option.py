@@ -19,6 +19,7 @@ class Option(Element):
         self.img_key= pygame.image.load(f"assets/image/option/option_key.png").convert_alpha()
         self.img_check= pygame.image.load(f"assets/image/option/option_check1.png").convert_alpha()
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
+        self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
 
 
     def design(self):
@@ -48,6 +49,7 @@ class Option(Element):
         self.img_not_center("Volume", 640, 200, 30, 30, self.img_volume)
         self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)
 
+        # ZQSD
         self.img_not_center("Z", 650, 320, 30, 30, self.img_key)
         self.text_not_center(self.font, 20, "Z", self.white, 660, 325)
         self.img_not_center("Q", 620, 350, 30, 30, self.img_key)
@@ -57,14 +59,12 @@ class Option(Element):
         self.img_not_center("D", 680, 350, 30, 30, self.img_key)
         self.text_not_center(self.font, 20, "D", self.white, 690, 355)
 
-        self.img_not_center("", 850, 320, 30, 30, self.img_key)
-        self.text_not_center(self.font, 20, "Z", self.white, 860, 325)
+        # Directional arrow
+        self.img_not_center("Z", 850, 320, 30, 30, self.img_key)
+        self.img_not_center("D", 855, 325, 20, 20, self.img_arrow)
         self.img_not_center("Q", 820, 350, 30, 30, self.img_key)
-        self.text_not_center(self.font, 20, "Q", self.white, 830, 355)
         self.img_not_center("S", 850, 350, 30, 30, self.img_key)
-        self.text_not_center(self.font, 20, "S", self.white, 860, 355)
-        self.img_not_center("D", 880, 350, 30, 30, self.img_key)
-        self.text_not_center(self.font, 20, "D", self.white, 890, 355)
+        self.img_not_center("D", 880, 350, 30, 30, self.img_key)   
 
         self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
         self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
