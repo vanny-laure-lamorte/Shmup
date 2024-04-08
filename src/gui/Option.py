@@ -6,27 +6,32 @@ class Option(Element):
         Element.__init__(self)
         self.option_running = True
         self.img_back = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
-        self.img_rect = pygame.image.load(f"assets/image/option/option_rect.png").convert_alpha()
         self.img_map = pygame.image.load(f"assets/image/option/option_map.png").convert_alpha()
         self.img_parchment = pygame.image.load(f"assets/image/option/option_parchment.png").convert_alpha()
+        self.img_line= pygame.image.load(f"assets/image/option/option_line.png").convert_alpha()
         self.img_helmet1 = pygame.image.load(f"assets/image/option/option_helmet1.png").convert_alpha()
         self.img_helmet2 = pygame.image.load(f"assets/image/option/option_helmet2.png").convert_alpha()
         self.img_helmet3 = pygame.image.load(f"assets/image/option/option_helmet3.png").convert_alpha()
         self.img_helmet4 = pygame.image.load(f"assets/image/option/option_helmet4.png").convert_alpha()
-
-
+        self.img_seal= pygame.image.load(f"assets/image/option/option_seal.png").convert_alpha()
+        self.img_volume= pygame.image.load(f"assets/image/option/option_volume.png").convert_alpha()
+        self.img_mute= pygame.image.load(f"assets/image/option/option_mute.png").convert_alpha()
+        self.img_key= pygame.image.load(f"assets/image/option/option_key.png").convert_alpha()
+        self.img_check= pygame.image.load(f"assets/image/option/option_check.png").convert_alpha()
 
     def design(self):
 
         # Background
         self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back)    
 
+        # Maps
         self.rect_full_opacity(self.grey, 290 , 250, 540, 350, 3, 100)
         self.img_not_center("Map", 40, 90, 500, 318, self.img_map)
 
         self.rect_full_opacity(self.grey, 290 , 460, 540, 50, 3, 100)
-        self.text_not_center(self.font2, 20, "Welcome to Wyrm Empire ", self.white, 150, 445)
+        self.text_not_center(self.font2, 20, "Welcome to Wyrm Empire Lucy ", self.white, 140, 445)
 
+        # Rules
         self.rect_full_opacity(self.grey, 290 , 560, 540, 130, 3, 100)
         self.text_not_center(self.font2, 13, "Your goal is to protect the castle by strategically positioning the dragon and", self.white, 35, 510)
         self.text_not_center(self.font2, 13, "mage to fend off waves of enemies. Use the dragon's fire breath and the mage's", self.white, 35, 525)
@@ -35,28 +40,49 @@ class Option(Element):
         self.text_not_center(self.font2, 13, "castle against overwhelming odds to achieve the highest score !", self.white, 35, 570)
         self.text_not_center(self.font2, 13, "Good luck, defender !", self.white, 35, 595)
 
-
+        # Settings
         self.rect_full_opacity(self.grey, 765 , 350, 390, 550, 3, 100)
+        self.text_not_center(self.font2, 20, "Settings", self.white, 730, 90)
+        self.img_not_center("Volume", 600, 170, 30, 30, self.img_volume)
+        self.img_not_center("Mute", 600, 200, 30, 30, self.img_mute)
+
+        self.img_not_center("Z", 650, 320, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "Z", self.white, 660, 325)
+        self.img_not_center("Q", 620, 350, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "Q", self.white, 630, 355)
+        self.img_not_center("S", 650, 350, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "S", self.white, 660, 355)
+        self.img_not_center("D", 680, 350, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "D", self.white, 690, 355)
+
+        self.img_not_center("", 850, 320, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "Z", self.white, 860, 325)
+        self.img_not_center("Q", 820, 350, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "Q", self.white, 830, 355)
+        self.img_not_center("S", 850, 350, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "S", self.white, 860, 355)
+        self.img_not_center("D", 880, 350, 30, 30, self.img_key)
+        self.text_not_center(self.font, 20, "D", self.white, 890, 355)
+
+
+
+
         
         # Best player section
         self.img_not_center("parchment", 980, 90, 254, 517, self.img_parchment)
         self.text_not_center(self.font2, 20, "Best players", self.white, 1020, 140)
-
+        self.img_not_center("Seal", 1000, 95, 160, 160, self.img_line)
         self.img_not_center("parchment", 1000, 200, 60, 60, self.img_helmet4)
         self.text_not_center(self.font2, 15, "Lucy Madec", self.white, 1060, 220)
-
         self.img_not_center("parchment", 1000, 270, 60, 60, self.img_helmet3)
         self.text_not_center(self.font2, 15, "Lucas Martinie", self.white, 1060, 290)
-
         self.img_not_center("parchment", 1000, 340, 60, 60, self.img_helmet2)
         self.text_not_center(self.font2, 15, "Hamza Naya", self.white, 1060, 360)
-
         self.img_not_center("parchment", 1000, 410, 60, 60, self.img_helmet1)
         self.text_not_center(self.font2, 15, "Vanny Lamorte", self.white, 1060, 430)
 
-
-
-
+        # Seal
+        self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
 
     def run_option(self):
         while self.option_running:
