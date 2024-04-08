@@ -22,6 +22,8 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.rect_option = pygame.image.load(f"assets/image/game/game_rect.png").convert_alpha()
         self.rect_high_score = pygame.image.load(f"assets/image/game/game_high_score.png").convert_alpha()
         self.life = pygame.image.load(f"assets/image/game/game_life.png").convert_alpha()
+        self.hp = pygame.image.load(f"assets/image/game/game_hp.png").convert_alpha()
+
 
     def background(self):
 
@@ -29,32 +31,38 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back)
 
         # Tour
-        self.img_not_center("Castle", -90, 20, 450, 615, self.img_castle)
+        self.img_not_center("Castle", -90, 115, 375, 515, self.img_castle)
+
+        # Life
+        self.img_not_center("life", 50, 10, 258, 31, self.hp)
 
         # Score
         self.img_not_center("High Score", 1050, 10, 180, 99, self.rect_high_score)
         self.text_not_center(self.font2, 15, "High Score : 24121993", self.white, 1070, 40)
         self.text_not_center(self.font2, 15, "Your Score : 1909", self.white, 1070, 65)
+
+        pygame.draw.rect(self.Window, self.red, (485, 560, 150, 35))
        
         # Missile #160
-        self.img_txt_hover("Missile","MISSILE", self.W//2-80, 650, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 650) 
-        pygame.draw.rect(self.Window, self.red, (325, 680, 120, 9))
-        self.img_not_center("Life", 315, 675, 143, 18, self.life)
+        self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660) 
+        pygame.draw.rect(self.Window, self.red, (485, 685, 120, 9))
+        self.img_not_center("Life", 475, 680, 143, 18, self.life)
 
         # Double
-        self.img_txt_hover("Double","DOUBLE", self.W//2+80, 650, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+80, 650)
-        pygame.draw.rect(self.Window, self.red, (485, 680, 120, 9))
-        self.img_not_center("Life", 475, 675, 143, 18, self.life)
+        self.img_txt_hover("Double","DOUBLE", self.W//2+80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+80, 660)
+        pygame.draw.rect(self.Window, self.red, (645, 685, 120, 9))
+        self.img_not_center("Life", 635, 680, 143, 18, self.life)
 
         # Fireball
-        self.img_txt_hover("Fire","FIREBALL", self.W//2+240, 650, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+240, 650)
-        pygame.draw.rect(self.Window, self.red, (645, 680, 120, 9))
-        self.img_not_center("Life", 635, 675, 143, 18, self.life)
+        self.img_txt_hover("Fire","FIREBALL", self.W//2+240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+240, 660)       
+        pygame.draw.rect(self.Window, self.red, (805, 685, 120, 9))
+        self.img_not_center("Life", 795, 680, 143, 18, self.life)
     
         # Fire range        
-        self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 650, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 650)
-        pygame.draw.rect(self.Window, self.red, (805, 680, 120, 9))
-        self.img_not_center("Life", 795, 675, 143, 18, self.life)
+        self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
+        pygame.draw.rect(self.Window, self.red, (325, 685, 120, 9))
+        self.img_not_center("Life", 315, 680, 143, 18, self.life)
+       
     
     def dragon_visual(self):
 
