@@ -50,6 +50,7 @@ class Game(Element, Dragon, Wizard, Balloon):
        
         # Missile #160
         self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660)
+        pygame.draw.rect(self.Window, self.black, (485, 685, 120, 9))
         if self.bonus_bolt < 5:
             for missile in range(self.bonus_bolt):
                 pygame.draw.rect(self.Window, self.red, (485 +30 * missile, 685, 29, 9))
@@ -78,17 +79,17 @@ class Game(Element, Dragon, Wizard, Balloon):
         else:
             self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[int(self.dragon_frame)])
         # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[int(self.dragon_frame)]) 
-        self.dragon_frame += 0.5
+        self.dragon_frame += 0.4
         self.dragon_frame %= len(self.red_frames)
         if self.dragon_attack:
             if self.dragon_attack_frame < len(self.fireball):
-                self.img_center("Fireball", self.dragon_x +70, self.dragon_y + 5, 6 *self.dragon_attack_frame + self.dragon_attackspeed, 6 *self.dragon_attack_frame + self.dragon_attackspeed, self.fireball[int(self.dragon_attack_frame)])
+                self.img_center("Fireball", self.dragon_x +75, self.dragon_y + 5, 6 *self.dragon_attack_frame + self.dragon_attackspeed, 6 *self.dragon_attack_frame + self.dragon_attackspeed, self.fireball[int(self.dragon_attack_frame)])
                 self.dragon_attack_frame += self.dragon_attackspeed
 
             else:
                 self.dragon_attack = False
                 self.dragon_attack_frame = 0
-                self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 5, self.dragon_x +70, True))
+                self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
 
     def wizard_visual(self):
         if self.wizard_attack:
@@ -98,14 +99,15 @@ class Game(Element, Dragon, Wizard, Balloon):
             else:
                 self.wizard_attack = False
                 self.wiz_frame %= len(self.wizard_frames)
-                if self.bonus_bolt < 5:
+                if self.bonus_bolt < 4:
                     self.bolt_list.append((self.wizard_x + 45, self.wizard_y - 10, self.wizard_x + 45, True))
+                    self.bonus_bolt +=1 # A décaler sur les kill des ennemies au sol
                 else:
+                    self.bonus_bolt += 1 
                     for i in range(min(self.bonus_bolt, len(self.bonus_bolt_list))):
                         x, y = self.bonus_bolt_list[i]
                         self.bolt_list.append((self.wizard_x + 45 + x, self.wizard_y - 10 + y, self.wizard_x + 45 + x, True))
                     self.bonus_bolt = 0
-
         else:
             if self.wizard_left and not self.entity_moving:
                 self.img_mirror_wiz(self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[0])
@@ -131,7 +133,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.fireball_frame += 0.5
                 self.fireball_frame %= len(self.fireball)
 
-                ball_x += 15 
+                ball_x += 12
 
                 self.fireballs_list[i] = (ball_x, ball_y, ball_x_orig, ball_moving)
 
@@ -158,7 +160,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                     self.explosion_frames[(explo_x, explo_y)] = 0
                 if self.explosion_frames[(explo_x, explo_y)] < len(self.explosion) - 1:
                     self.img_center("explosion", explo_x, explo_y, 60, 88, self.explosion[int(self.explosion_frames[(explo_x, explo_y)])])
-                    self.explosion_frames[(explo_x, explo_y)] += 0.5
+                    self.explosion_frames[(explo_x, explo_y)] += 0.15
                 else:
                     del self.explosion_list[i]
                     del self.explosion_frames[(explo_x, explo_y)]
@@ -201,11 +203,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                                 self.dragon_attack = True
                             # self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 55, self.dragon_x +70, True)) # Attaque dragon
                         else:
-                            if not self.wizard_attack:
-                                if self.bonus_bolt < 6: # --------------------
-                                    self.bonus_bolt +=1 # A décaler sur les kill des ennemies au sol
-                                else:
-                                    self.bonus_bolt = 0
+                           if not self.wizard_attack:
                                 self.wizard_attack = True
 
                     if event.key == pygame.K_b:
