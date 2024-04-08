@@ -6,9 +6,9 @@ class Wizard:
             
         self.wiz_frame = 0
         
-        self.wizard_attack_speed = 0.5
+        self.wizard_attack_speed = 0.25
         self.wizard_attack = False
-        self.dragon_damage = 10
+        self.wizard_damage = 10
 
         self.bolt_list = []
         
@@ -26,16 +26,16 @@ class Wizard:
         self.wizard_y = self.move_wiz_y + 575
         if self.moving_left:
             if self.wizard_x > 75:
-                self.move_wiz_x -= 15
+                self.move_wiz_x -= 7.5
         elif self.moving_right:
             if self.wizard_x < 1175:
-                self.move_wiz_x += 15
+                self.move_wiz_x += 7.5
         elif self.moving_up:
             if self.wizard_y > 450:
-                self.move_wiz_y -= 15
+                self.move_wiz_y -= 7.5
         elif self.moving_down:
             if self.wizard_y < 590:
-                self.move_wiz_y += 15
+                self.move_wiz_y += 7.5
 
     def wizard_upgrade(self, bonus):
 
