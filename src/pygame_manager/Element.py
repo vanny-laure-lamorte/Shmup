@@ -15,6 +15,7 @@ class Element(Screen):
 
         self.green = (106, 153, 78)
         self.red = (193 , 18, 31)
+        self.grey = (20, 20, 20)
 
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
@@ -110,6 +111,13 @@ class Element(Screen):
         return button
 
 # Def rectangle  
+
+    def rect_full_opacity(self, color, x, y, width, height, radius, opacity=255):
+        button_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+        pygame.draw.rect(button_surface, (color[0], color[1], color[2], opacity), pygame.Rect(0, 0, width, height), 0, radius)       
+        self.Window.blit(button_surface, (x - width//2, y - height//2))
+        return pygame.Rect(x - width//2, y - height//2, width, height)
+    
     def rect_full(self, color, x, y, width, height, radius):
         button = pygame.draw.rect(self.Window, color, pygame.Rect(x - width//2, y - height//2, width, height),0, radius)
         return button    

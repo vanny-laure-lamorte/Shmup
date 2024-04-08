@@ -46,7 +46,6 @@ class Game(Element, Dragon, Wizard, Balloon):
 
         self.img_not_center("High Score", 15, 75, 153, 57, self.rect_option)
         self.text_not_center(self.font2, 13, f"Your Score : {self.score}", self.white, 30, 95)
-
        
         # Missile #160
         self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660)
@@ -68,8 +67,7 @@ class Game(Element, Dragon, Wizard, Balloon):
         # Fire range        
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
         pygame.draw.rect(self.Window, self.black, (325, 685, 120, 9))
-        self.img_not_center("Life", 315, 680, 143, 18, self.life)
-       
+        self.img_not_center("Life", 315, 680, 143, 18, self.life)       
     
     def dragon_visual(self):
 
