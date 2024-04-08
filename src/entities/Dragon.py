@@ -3,19 +3,15 @@ class Dragon:
     def __init__(self):
         self.red_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon3/dragon{i}.png")).convert_alpha() for i in range(13, 25)]
         self.black_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon3/dragon{i}.png")).convert_alpha() for i in range(1, 13)]
-        # self.blue_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon{i}.png")).convert_alpha() for i in range(1, 4)]
-        # self.red_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon/dragon{i}.png")).convert_alpha() for i in range(4, 7)]
-        self.fireball = [pygame.image.load(os.path.join(f"assets/image/game/fireball/fireball{i}.png")).convert_alpha() for i in range(1, 11)]
 
-        # self.blue_frames = [frame for frame in self.blue_frames for _ in range(4)]
-        self.red_frames = [frame for frame in self.red_frames for _ in range(2)]
-        self.black_frames = [frame for frame in self.black_frames for _ in range(3)]
+        self.fireball = [pygame.image.load(os.path.join(f"assets/image/game/fireball/fireball{i}.png")).convert_alpha() for i in range(1, 11)]
 
         self.dragon_frame = 0
         self.fireball_frame = 0
 
         self.dragon_x, self.dragon_y = 345, 285
         self.dragon_damage = 20
+        self.bonus_range_fireball = 300
 
         self.fireballs_list = []
 
@@ -36,5 +32,5 @@ class Dragon:
             if self.dragon_y > 75:
                 self.move_y -= 15
         elif self.moving_down:
-            if self.dragon_y < 350:
+            if self.dragon_y < 330:
                 self.move_y += 15

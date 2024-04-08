@@ -13,6 +13,7 @@ class Game(Element, Dragon, Wizard, Balloon):
         Balloon.__init__(self)
         self.running = True
         self.explosion_list = []
+        self.score = 0
 
         self.entity_moving = True # True for Dragon / False for Wizard
         self.dragon_left, self.wizard_left = False, False
@@ -39,9 +40,7 @@ class Game(Element, Dragon, Wizard, Balloon):
         # Score
         self.img_not_center("High Score", 1050, 10, 180, 99, self.rect_high_score)
         self.text_not_center(self.font2, 15, "High Score : 24121993", self.white, 1070, 40)
-        self.text_not_center(self.font2, 15, "Your Score : 1909", self.white, 1070, 65)
-
-        pygame.draw.rect(self.Window, self.red, (485, 560, 150, 35))
+        self.text_not_center(self.font2, 15, f"Your Score : {self.score}", self.white, 1070, 65)
        
         # Missile #160
         self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660) 
@@ -67,22 +66,33 @@ class Game(Element, Dragon, Wizard, Balloon):
     def dragon_visual(self):
 
         if self.dragon_left and self.entity_moving:
-            self.img_mirror(self.dragon_x,  self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
+            self.img_mirror(self.dragon_x,  self.dragon_y, 177,162,self.red_frames[int(self.dragon_frame)])
         else:
-            self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[self.dragon_frame])
-        # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[self.dragon_frame]) 
-        self.dragon_frame += 1
+            self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[int(self.dragon_frame)])
+        # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[int(self.dragon_frame)]) 
+        self.dragon_frame += 0.5
         self.dragon_frame %= len(self.red_frames)
 
     def wizard_visual(self):
         if self.wizard_attack:
             if self.wiz_frame < len(self.wizard_frames):
-                self.img_center("Wizard", self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[self.wiz_frame])
-                self.wiz_frame += 1
+                self.img_center("Wizard", self.wizard_x, self.wizard_y, 123, 160, self.wizard_frames[int(self.wiz_frame)])
+                self.wiz_frame += self.wizard_attack_speed
             else:
                 self.wizard_attack = False
                 self.wiz_frame %= len(self.wizard_frames)
-                self.bolt_list.append((self.wizard_x +45, self.wizard_y -10, self.wizard_x +45, True))
+                for i in range(min(self.bonus_bolt, len(self.bonus_bolt_list))):
+                    x, y = self.bonus_bolt_list[i]
+                    self.bolt_list.append((self.wizard_x + 45 + x, self.wizard_y - 10 + y, self.wizard_x + 45 + x, True))
+                self.bonus_bolt = 1
+
+                ### Bonus multi attack
+                # self.bolt_list.append((self.wizard_x +45, self.wizard_y , self.wizard_x +45, True))
+                # self.bolt_list.append((self.wizard_x -25, self.wizard_y +30, self.wizard_x -25, True))
+                # self.bolt_list.append((self.wizard_x -25, self.wizard_y -30, self.wizard_x -25, True))
+                # self.bolt_list.append((self.wizard_x +10, self.wizard_y -15, self.wizard_x +10, True))
+                # self.bolt_list.append((self.wizard_x +10, self.wizard_y +15, self.wizard_x +10, True)) ###
+
         else:
             if self.wizard_left and not self.entity_moving:
                 self.img_mirror_wiz(self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[0])
@@ -104,15 +114,15 @@ class Game(Element, Dragon, Wizard, Balloon):
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):
             if ball_moving:
-                self.img_center("Dragon_red", ball_x, ball_y, 60, 60, self.fireball[self.fireball_frame])
-                self.fireball_frame += 1
+                self.img_center("Dragon_red", ball_x, ball_y, 60, 60, self.fireball[int(self.fireball_frame)])
+                self.fireball_frame += 0.5
                 self.fireball_frame %= len(self.fireball)
 
                 ball_x += 15 
 
                 self.fireballs_list[i] = (ball_x, ball_y, ball_x_orig, ball_moving)
 
-                if ball_x > ball_x_orig + 500: 
+                if ball_x > ball_x_orig + 200 + self.bonus_range_fireball: 
                     self.fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
                     del self.fireballs_list[i]
 
@@ -120,9 +130,6 @@ class Game(Element, Dragon, Wizard, Balloon):
         for i, (ball_x, ball_y, ball_x_orig, bolt_moving) in enumerate(self.bolt_list):
             if bolt_moving:
                 self.img_center("Thunderbolt", ball_x, ball_y, 70, 55, self.thunderbolt)
-                # self.img_center("Thunderbolt", ball_x, ball_y, 70, 55, self.thunderbolt[self.thunder_frame])
-                # self.thunder_frame += 1
-                # self.thunder_frame %= len(self.thunderbolt)
 
                 ball_x += 15 
 
@@ -137,8 +144,8 @@ class Game(Element, Dragon, Wizard, Balloon):
                 if (explo_x, explo_y) not in self.explosion_frames:
                     self.explosion_frames[(explo_x, explo_y)] = 0
                 if self.explosion_frames[(explo_x, explo_y)] < len(self.explosion) - 1:
-                    self.img_center("explosion", explo_x, explo_y, 60, 88, self.explosion[self.explosion_frames[(explo_x, explo_y)]])
-                    self.explosion_frames[(explo_x, explo_y)] += 1
+                    self.img_center("explosion", explo_x, explo_y, 60, 88, self.explosion[int(self.explosion_frames[(explo_x, explo_y)])])
+                    self.explosion_frames[(explo_x, explo_y)] += 0.5
                 else:
                     del self.explosion_list[i]
                     del self.explosion_frames[(explo_x, explo_y)]
@@ -152,6 +159,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                         del self.fireballs_list[j]
                     else:
                         self.explosion_list.append((balloon_x, balloon_y))
+                        self.score += (10 + self.balloon_health[balloon_type] // 10)
                         del self.balloon_list[i]
                         del self.fireballs_list[j]
 
@@ -161,6 +169,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.KEYDOWN:
+                    (self.dragon_y, self.wizard_y)
                     if event.key == pygame.K_DOWN:
                         self.moving_down = True
                     elif event.key == pygame.K_UP:
@@ -176,6 +185,8 @@ class Game(Element, Dragon, Wizard, Balloon):
                     if event.key == pygame.K_SPACE:
                         if self.entity_moving:
                             self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 5, self.dragon_x +70, True))
+
+                            # self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 55, self.dragon_x +70, True)) # Attaque dragon
                         else:
                             self.wizard_attack = True
                     if event.key == pygame.K_b:
