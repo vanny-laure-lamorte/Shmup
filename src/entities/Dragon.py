@@ -8,6 +8,9 @@ class Dragon:
 
         self.dragon_frame = 0
         self.fireball_frame = 0
+        self.dragon_attackspeed = 0.4
+        self.dragon_attack_frame = 0
+        self.dragon_attack = False
 
         self.dragon_x, self.dragon_y = 345, 285
         self.dragon_damage = 20

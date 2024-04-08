@@ -12,7 +12,7 @@ class Wizard:
 
         self.bolt_list = []
         
-        self.bonus_bolt = 1
+        self.bonus_bolt = 0
         self.bonus_bolt_list = [(45,0), (10, 15), (10, -15), (-25, 30), (-25, -30)]
         
         self.move_wiz_x, self.move_wiz_y = 0, 0
