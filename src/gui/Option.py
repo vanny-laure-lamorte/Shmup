@@ -37,6 +37,25 @@ class Option(Element):
 
 
         self.rect_full_opacity(self.grey, 765 , 350, 390, 550, 3, 100)
+        
+        # Best player section
+        self.img_not_center("parchment", 980, 90, 254, 517, self.img_parchment)
+        self.text_not_center(self.font2, 20, "Best players", self.white, 1020, 140)
+
+        self.img_not_center("parchment", 1000, 200, 60, 60, self.img_helmet4)
+        self.text_not_center(self.font2, 15, "Lucy Madec", self.white, 1060, 220)
+
+        self.img_not_center("parchment", 1000, 270, 60, 60, self.img_helmet3)
+        self.text_not_center(self.font2, 15, "Lucas Martinie", self.white, 1060, 290)
+
+        self.img_not_center("parchment", 1000, 340, 60, 60, self.img_helmet2)
+        self.text_not_center(self.font2, 15, "Hamza Naya", self.white, 1060, 360)
+
+        self.img_not_center("parchment", 1000, 410, 60, 60, self.img_helmet1)
+        self.text_not_center(self.font2, 15, "Vanny Lamorte", self.white, 1060, 430)
+
+
+
 
 
     def run_option(self):
