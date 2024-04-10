@@ -1,5 +1,4 @@
 from src.gui.Menu import Menu
-from src.gui.Game import Game
 from src.gui.Scenario import Scenario
 from src.gui.Option import Option
 
