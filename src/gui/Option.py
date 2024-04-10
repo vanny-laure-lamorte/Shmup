@@ -19,8 +19,12 @@ class Option(Element):
         self.img_key= pygame.image.load(f"assets/image/option/option_key.png").convert_alpha()
         self.img_check= pygame.image.load(f"assets/image/option/option_check1.png").convert_alpha()
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
-        self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
 
+        self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
+        self.rotation = 0
+        self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
+        self.img_arrow_flip2 = pygame.transform.rotate(self.img_arrow, -90)
+        self.img_arrow_flip3 = pygame.transform.rotate(self.img_arrow, 180)
 
     def design(self):
 
@@ -61,10 +65,16 @@ class Option(Element):
 
         # Directional arrow
         self.img_not_center("Z", 850, 320, 30, 30, self.img_key)
-        self.img_not_center("D", 855, 325, 20, 20, self.img_arrow)
+        self.img_not_center("D", 855, 325, 20, 20, self.img_arrow_flip3)
+
         self.img_not_center("Q", 820, 350, 30, 30, self.img_key)
+        self.img_not_center("D", 825, 355, 20, 20, self.img_arrow_flip2)
+
         self.img_not_center("S", 850, 350, 30, 30, self.img_key)
-        self.img_not_center("D", 880, 350, 30, 30, self.img_key)   
+        self.img_not_center("S", 855, 355, 20, 20, self.img_arrow)
+
+        self.img_not_center("D", 880, 350, 30, 30, self.img_key) 
+        self.img_not_center("D", 885, 355, 20, 20, self.img_arrow_flip1)  
 
         self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
         self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
@@ -72,17 +82,6 @@ class Option(Element):
         self.img_txt_hover("Option son1", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
         self.img_txt_hover("Option son2", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
 
-
-
-
-
-
-
-
-
-
-
-        
         # Best player section
         self.img_not_center("parchment", 980, 90, 254, 517, self.img_parchment)
         self.text_not_center(self.font2, 20, "Best players", self.white, 1020, 140)
