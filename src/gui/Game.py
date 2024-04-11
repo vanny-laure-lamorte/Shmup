@@ -54,7 +54,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
 
         self.img_not_center("High Score", 15, 75, 153, 57, self.rect_option)
         self.text_not_center(self.font2, 13, f"Your Score : {self.score}", self.white, 30, 95)
-       
+
         # Missile #160
         self.img_txt_hover("Missile","MISSILE", self.W//2-80, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-80, 660)
         pygame.draw.rect(self.Window, self.black, (485, 685, 120, 9))
@@ -72,8 +72,8 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
         self.img_txt_hover("Fire","FIREBALL", self.W//2+240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+240, 660)       
         pygame.draw.rect(self.Window, self.black, (805, 685, 120, 9))
         self.img_not_center("Life", 795, 680, 143, 18, self.life)
-    
-        # Fire range        
+
+        # Fire range
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
         pygame.draw.rect(self.Window, self.black, (325, 685, 120, 9))
         self.img_not_center("Life", 315, 680, 143, 18, self.life)
@@ -109,7 +109,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                     self.bolt_list.append((self.wizard_x + 45, self.wizard_y - 10, self.wizard_x + 45, True))
                     self.bonus_bolt +=1 # A décaler sur les kill des ennemies au sol
                 else:
-                    self.bonus_bolt += 1 
+                    self.bonus_bolt += 1
                     for i in range(min(self.bonus_bolt, len(self.bonus_bolt_list))):
                         x, y = self.bonus_bolt_list[i]
                         self.bolt_list.append((self.wizard_x + 45 + x, self.wizard_y - 10 + y, self.wizard_x + 45 + x, True))
