@@ -22,6 +22,7 @@ class Dragon:
         self.ultimate = False
         self.ultimate_charge = 8
         self.ultimate_size = 1
+        self.ultimate_position = [(50, 0), (-25, 25) , (25, 25), (0,0), (0, -50), (0, 50) , (-25,-25), (-25, 25), (-50,0) ]
         self.ultimate_range = 0
         self.ultimate_collision = 0
         self.ultimate_visual = False

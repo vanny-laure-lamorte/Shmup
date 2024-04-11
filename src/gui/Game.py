@@ -103,11 +103,10 @@ class Game(Element, Dragon, Wizard, Balloon):
                     self.ultimate_charge +=1
                 if self.ultimate:
                     if self.fireballs_list == []:
-                        self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
+                        for i in range(9):
+                            self.fireballs_list.append((self.dragon_x +75 + self.ultimate_position[i][0], self.dragon_y + 5+ self.ultimate_position[i][1], self.dragon_x +70 + self.ultimate_position[i][0], True))
                 else:
-                    self.ultimate_size = 1
                     self.ultimate_range = 0
-                    self.ultimate_collision = 0
                     self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
 
     # def baby_dragon_visual(self):
@@ -162,7 +161,7 @@ class Game(Element, Dragon, Wizard, Balloon):
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):
             if ball_moving:
-                self.img_center("Dragon_red", ball_x, ball_y, 60 * self.ultimate_size, 60 * self.ultimate_size, self.fireball[int(self.fireball_frame)])
+                self.img_center("Dragon_red", ball_x, ball_y, 60, 60, self.fireball[int(self.fireball_frame)])
                 self.fireball_frame += 0.5
                 self.fireball_frame %= len(self.fireball)
 
@@ -172,8 +171,6 @@ class Game(Element, Dragon, Wizard, Balloon):
 
                 if ball_x > ball_x_orig + 200 + self.ultimate_range + self.bonus_range_fireball: 
                     self.fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
-                    if self.ultimate:
-                        self.ultimate = False
                     del self.fireballs_list[i]
 
 
@@ -204,17 +201,15 @@ class Game(Element, Dragon, Wizard, Balloon):
         castle_rect = pygame.Rect(0, 0, 230, 630)  # Rectangle representing the castle
         for i, (balloon_x, balloon_y, health, balloon_type, _) in enumerate(self.balloon_list):
             for j, (ball_x, ball_y, ball_x_orig, status) in enumerate(self.fireballs_list):
-                if (balloon_x - 15 - self.ultimate_collision <= ball_x <= balloon_x + 15 + self.ultimate_collision) and (balloon_y - 35 <= ball_y <= balloon_y + 35):
+                if (balloon_x - 15 <= ball_x <= balloon_x + 15) and (balloon_y - 35 <= ball_y <= balloon_y + 35):
                     if health > self.dragon_damage:
                         self.balloon_list[i] = (balloon_x, balloon_y, health - self.dragon_damage, balloon_type, _)
-                        if not self.ultimate:
-                            del self.fireballs_list[j]
+                        del self.fireballs_list[j]
                     else:
                         self.explosion_list.append((balloon_x, balloon_y))
                         self.score += (10 + self.balloon_health[balloon_type] // 10)
+                        del self.fireballs_list[j]
                         del self.balloon_list[i]
-                        if not self.ultimate:
-                            del self.fireballs_list[j]
 
             if balloon_x < 115:  
                 self.explosion_list.append((balloon_x, balloon_y))
@@ -257,11 +252,11 @@ class Game(Element, Dragon, Wizard, Balloon):
                                 if self.ultimate:
                                     if self.fireballs_list == []:
                                         self.ultimate_range = 300
-                                        self.ultimate_size = 6
                                         self.ultimate_charge = 0
-                                        self.ultimate_collision = 30
                                         self.ultimate_visual = False
                                         self.dragon_attack = True
+                                    else:
+                                        self.ultimate = False
                                 else:
                                         self.dragon_attack = True
                         else:
