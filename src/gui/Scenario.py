@@ -1,10 +1,11 @@
 import pygame
-from src.pygame_manager.Element import Element
+from src.gui.Game import Game
 
-class Scenario(Element):
+class Scenario(Game):
     def __init__(self): 
-        Element.__init__(self)
-        self.running = True
+        Game.__init__(self)
+
+        self.scenario_running = True
         self.inside_background = pygame.image.load(f"assets/image/scenario/background_inside_castle.jpg").convert_alpha()
         self.scroll_img = pygame.image.load(f"assets/image/scenario/scroll.png").convert_alpha()
         
@@ -40,15 +41,20 @@ class Scenario(Element):
         if self.step == 2:
             self.text_center(self.font4, 30, "Press ENTER to start the game", self.black, self.W//2, 630)
 
-    def run(self):
-        while self.running:
+    def scenario_run(self):
+        while self.scenario_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    self.scenario_running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         if self.step < 2:
                             self.step += 1
+                
+                    elif event.key == pygame.K_RETURN and self.step == 2 :
+                        self.game_run()
+                        self.scenario_running = False
+
             self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)
             self.first_scenario()
             self.update()

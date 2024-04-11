@@ -1,10 +1,12 @@
 import pygame, json
-from src.pygame_manager.Element import Element
 
-class Menu (Element): 
+from src.gui.Scenario import Scenario
+from src.gui.Option import Option
+
+class Menu (Option, Scenario): 
     def __init__(self):
-        Element.__init__(self)
-        pygame.init()
+        Scenario.__init__(self)
+        Option.__init__(self)     
 
         # Option menu
         self.selected_option = 0
@@ -33,7 +35,7 @@ class Menu (Element):
             self.images[name] = pygame.image.load(path)
 
 
-    def design(self): 
+    def design_menu(self): 
 
         # Bakground
         self.img_background(self.W//2, self.H//2, self.W, self.H, self.images["background"])
@@ -119,19 +121,26 @@ class Menu (Element):
                                     self.error_length = True      
 
                     if event.key == pygame.K_RETURN:
-                        if (self.selected_option == 1 or self.selected_option == 2):
+               
+                        if self.selected_option == 1:                           
                             if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
-
                                 self.error_no_name = True
                             else:  
                                 self.save_player_info()
-                        elif self.selected_option == 3:
+                                self.scenario_run()
+                                self.menu_running = False
+
+                        elif self.selected_option == 2:
+                            self.option_run()
                             self.menu_running = False
 
-                    if self.selected_option == 0: 
-                        self.error_no_name = False  
+                        elif self.selected_option == 3:
+                            self.menu_running = False                   
 
+                        elif self.selected_option == 0: 
+                            self.error_no_name = False  
+          
 
-            self.design()
+            self.design_menu()
             self.update()
 

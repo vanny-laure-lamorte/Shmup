@@ -1,11 +1,13 @@
 import pygame
 from src.pygame_manager.Element import Element
 
+from src.gui.Game import Game
+
 class Option(Element):
     def __init__(self): 
         Element.__init__(self)
         self.option_running = True
-        self.img_back = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
+        self.img_back_option = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
         self.img_map = pygame.image.load(f"assets/image/option/option_map.png").convert_alpha()
         self.img_parchment = pygame.image.load(f"assets/image/option/option_parchment.png").convert_alpha()
         self.img_line= pygame.image.load(f"assets/image/option/option_line.png").convert_alpha()
@@ -21,11 +23,10 @@ class Option(Element):
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
         self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
 
-
-    def design(self):
+    def design_option(self):
 
         # Background
-        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back)    
+        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back_option)    
 
         # Maps
         self.rect_full_opacity(self.grey, 290 , 250, 540, 350, 3, 100)
@@ -72,17 +73,6 @@ class Option(Element):
         self.img_txt_hover("Option son1", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
         self.img_txt_hover("Option son2", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
 
-
-
-
-
-
-
-
-
-
-
-        
         # Best player section
         self.img_not_center("parchment", 980, 90, 254, 517, self.img_parchment)
         self.text_not_center(self.font2, 20, "Best players", self.white, 1020, 140)
@@ -99,11 +89,11 @@ class Option(Element):
         # Seal
         self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
 
-    def run_option(self):
+    def option_run(self):
         while self.option_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.option_running = False
 
-            self.design()
+            self.design_option()
             self.update()
