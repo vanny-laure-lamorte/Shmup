@@ -1,11 +1,11 @@
 import pygame
 from src.pygame_manager.Element import Element
+from src.music.SoundManager import SoundManager
 
-from src.gui.Game import Game
-
-class Option(Element):
+class Option(Element, SoundManager):
     def __init__(self): 
         Element.__init__(self)
+        SoundManager.__init__(self)
         self.option_running = True
         self.img_back_option = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
         self.img_map = pygame.image.load(f"assets/image/option/option_map.png").convert_alpha()
@@ -27,6 +27,7 @@ class Option(Element):
         self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
         self.img_arrow_flip2 = pygame.transform.rotate(self.img_arrow, -90)
         self.img_arrow_flip3 = pygame.transform.rotate(self.img_arrow, 180)
+        
 
     def design_option(self):
 
@@ -38,7 +39,7 @@ class Option(Element):
         self.img_not_center("Map", 40, 90, 500, 318, self.img_map)
 
         self.rect_full_opacity(self.grey, 290 , 460, 540, 50, 3, 100)
-        self.text_not_center(self.font2, 20, "Welcome to Wyrm Empire Lucy ", self.white, 140, 445)
+        self.text_not_center(self.font2, 20, "Welcome to Wyrm Empire", self.white, 140, 445)
 
         # Rules
         self.rect_full_opacity(self.grey, 290 , 560, 540, 130, 3, 100)

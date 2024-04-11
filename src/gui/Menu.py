@@ -6,7 +6,7 @@ from src.gui.Option import Option
 class Menu (Option, Scenario): 
     def __init__(self):
         Scenario.__init__(self)
-        Option.__init__(self)     
+        Option.__init__(self)    
 
         # Option menu
         self.selected_option = 0
@@ -33,7 +33,6 @@ class Menu (Option, Scenario):
         self.images = {}
         for name, path in self.image_paths.items():
             self.images[name] = pygame.image.load(path)
-
 
     def design_menu(self): 
 
@@ -140,6 +139,14 @@ class Menu (Option, Scenario):
                         elif self.selected_option == 0: 
                             self.error_no_name = False  
           
+            self.load_sound("music","src/gui/Man-in-Black-The-Witcher-OST.wav" )
+
+            try:      
+                self.play_sound("music", loop=True)
+                self.play_sound("music")
+                pygame.time.wait(3000)
+            finally:
+                pass      
 
             self.design_menu()
             self.update()
