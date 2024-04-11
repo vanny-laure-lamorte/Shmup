@@ -16,6 +16,8 @@ class Element(Screen):
         self.green = (106, 153, 78)
         self.red = (193 , 18, 31)
         self.grey = (20, 20, 20)
+        self.color1 = (240,255,255)
+        self.color2 = (255,222,173)
 
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
@@ -25,7 +27,6 @@ class Element(Screen):
         self.font4 = "assets/font/RomanUncialModern.ttf"
         self.font5 = "assets/font/Old Wise Lord.otf"
 
-      
 # Def text
     def text_center(self, font, text_size, text_content, color, x, y):
         pygame.font.init()

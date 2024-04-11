@@ -66,7 +66,7 @@ class Menu (Option, Scenario):
         # Error message:
             # Lenght
         if self.error_length:
-            self.text_not_center(self.font, 12, "15 characters max", self.red, 850, 283)
+            self.text_not_center(self.font, 12, "12 characters max", self.red, 850, 283)
         if self.error_no_name:
             self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
 
@@ -97,7 +97,9 @@ class Menu (Option, Scenario):
                     if event.key == pygame.K_UP:
                         if self.selected_option > 0:
                             self.selected_option -= 1
+
                     elif event.key == pygame.K_DOWN:
+                        self.error_length = False
                         if self.selected_option < 3 :
                             self.selected_option += 1
 
@@ -111,12 +113,14 @@ class Menu (Option, Scenario):
                             self.error_length = False
                             self.error_no_name = False
                         else:
-                            if len(self.input_name) < 15:
+                            if len(self.input_name) < 12:
                                 self.input_name += event.unicode
                                 self.error_length = False
                             else:
                                 if self.input_name != "ENTER YOUR NAME":
                                     self.error_length = True
+                                else:
+                                    self.error_no_name = False
 
                     if event.key == pygame.K_RETURN:
 
