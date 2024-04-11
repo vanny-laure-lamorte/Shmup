@@ -72,9 +72,10 @@ class Game(Element, Dragon, Wizard, Balloon):
             pygame.draw.rect(self.Window, self.red, (805 +12 * ult_stack, 685, 11, 9))
         self.img_not_center("Life", 795, 680, 143, 18, self.life)
         if self.ultimate_visual:
-            self.rect_border(self.white, 867, 690, 124, 10, 2, 5)
-        
-
+            # self.rect_border(self.white, 867, 690, 124, 10, 2, 5)
+            self.img_center("Glowing", self.W//2+240, 657, 215 , 55 ,self.glowing_effect[int(self.glowing_frame)])
+            self.glowing_frame += 1
+            self.glowing_frame %= len(self.glowing_effect)
     
         # Fire range        
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
@@ -100,7 +101,26 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.dragon_attack_frame = 0
                 if self.ultimate_charge < 10 and not self.ultimate:
                     self.ultimate_charge +=1
-                self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
+                if self.ultimate:
+                    if self.fireballs_list == []:
+                        self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
+                else:
+                    self.ultimate_size = 1
+                    self.ultimate_range = 0
+                    self.ultimate_collision = 0
+                    self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
+
+    # def baby_dragon_visual(self):
+    #     for whelp, x, y in self.baby_dragon_list:
+    #         self.img_center("Dragon_red", x, y, 177//3 , 162//3 ,self.red_frames[int(self.dragon_frame)])
+    #         # self.dragon_frame += 0.4
+    #         # self.dragon_frame %= len(self.red_frames)
+    #     if self.dragon_attack:
+    #         if self.dragon_attack_frame < len(self.fireball):
+    #             self.img_center("Fireball", x +25, y + 5 // 3, 6 *self.dragon_attack_frame + self.dragon_attackspeed, 6 self.dragon_attack_frame + self.dragon_attackspeed, self.fireball[int(self.dragon_attack_frame)])
+    #             self.dragon_attack_frame += self.dragon_attackspeed
+    #         else:
+    #             self.whelp_fireballs_list.append((x + 25, y + 5 //3, x + 25, True))
 
     def wizard_visual(self):
         if self.wizard_attack:
@@ -154,7 +174,6 @@ class Game(Element, Dragon, Wizard, Balloon):
                     self.fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
                     if self.ultimate:
                         self.ultimate = False
-                        self.ultimate_visual = False
                     del self.fireballs_list[i]
 
 
@@ -222,21 +241,28 @@ class Game(Element, Dragon, Wizard, Balloon):
                             self.dragon_left = True
                         elif not self.entity_moving:
                             self.wizard_left = True
+
+                    if event.key == pygame.K_n:
+                        if self.entity_moving:
+                            if not self.dragon_attack:
+                                if self.ultimate_charge == 10:
+                                    self.ultimate = True
+                                    self.ultimate_visual = True
+                                    
                     if event.key == pygame.K_SPACE:
                         if self.entity_moving:
                             if not self.dragon_attack:
                                 self.dragon_attack = True
-                                if not self.ultimate:
-                                    self.ultimate_size = 1
-                                    self.ultimate_range = 0
-                                    self.ultimate_collision = 0
+                                if self.ultimate:
+                                    if self.fireballs_list == []:
+                                        self.ultimate_range = 300
+                                        self.ultimate_size = 6
+                                        self.ultimate_charge = 0
+                                        self.ultimate_collision = 30
+                                        self.ultimate_visual = False
+                                        self.dragon_attack = True
                                 else:
-                                    self.ultimate_range = 300
-                                    self.ultimate_size = 6
-                                    self.ultimate_charge = 0
-                                    self.ultimate_collision = 30
-
-                            # self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 55, self.dragon_x +70, True)) # Attaque dragon
+                                        self.dragon_attack = True
                         else:
                            if not self.wizard_attack:
                                 self.wizard_attack = True
@@ -246,12 +272,6 @@ class Game(Element, Dragon, Wizard, Balloon):
                             self.entity_moving = False
                         else:
                             self.entity_moving = True
-                    if event.key == pygame.K_n:
-                        if self.entity_moving:
-                            if not self.dragon_attack:
-                                if self.ultimate_charge == 10:
-                                    self.ultimate = True
-                                    self.ultimate_visual = True
 
                     if event.key == pygame.K_y: #Test bonus vitesse attaque
                         self.wizard_upgrade(1)
