@@ -246,8 +246,9 @@ class Game(Element, Dragon, Wizard, Balloon):
                         if self.entity_moving:
                             if not self.dragon_attack:
                                 if self.ultimate_charge == 10:
-                                    self.ultimate = True
-                                    self.ultimate_visual = True
+                                    if self.fireballs_list == []:
+                                        self.ultimate = True
+                                        self.ultimate_visual = True
                                     
                     if event.key == pygame.K_SPACE:
                         if self.entity_moving:
