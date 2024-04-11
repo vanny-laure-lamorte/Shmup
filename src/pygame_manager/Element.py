@@ -16,7 +16,8 @@ class Element(Screen):
         self.green = (106, 153, 78)
         self.red = (193 , 18, 31)
         self.grey = (20, 20, 20)
-
+        
+        self.yellow = (255, 214, 10)
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
         self.font1 = "assets/font/Ring of Kerry.otf"

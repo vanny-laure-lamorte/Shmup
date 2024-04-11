@@ -71,6 +71,10 @@ class Game(Element, Dragon, Wizard, Balloon):
         for ult_stack in range(self.ultimate_charge):
             pygame.draw.rect(self.Window, self.red, (805 +12 * ult_stack, 685, 11, 9))
         self.img_not_center("Life", 795, 680, 143, 18, self.life)
+        if self.ultimate_visual:
+            self.rect_border(self.white, 867, 690, 124, 10, 2, 5)
+        
+
     
         # Fire range        
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
@@ -150,6 +154,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                     self.fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
                     if self.ultimate:
                         self.ultimate = False
+                        self.ultimate_visual = False
                     del self.fireballs_list[i]
 
 
@@ -246,6 +251,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                             if not self.dragon_attack:
                                 if self.ultimate_charge == 10:
                                     self.ultimate = True
+                                    self.ultimate_visual = True
 
                     if event.key == pygame.K_y: #Test bonus vitesse attaque
                         self.wizard_upgrade(1)
