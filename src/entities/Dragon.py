@@ -17,6 +17,11 @@ class Dragon:
         self.bonus_range_fireball = 300
 
         self.fireballs_list = []
+        self.ultimate = False
+        self.ultimate_charge = 8
+        self.ultimate_size = 1
+        self.ultimate_range = 0
+        self.ultimate_collision = 0
 
         self.move_x, self.move_y = 0, 0
         self.moving_down, self.moving_left, self.moving_right, self.moving_up = False, False, False, False

@@ -6,8 +6,11 @@ from src.gui.Option import Option
 # m = Menu()
 # m.menu_run()
 
-o = Option()
-o.run_option()
+# o = Option()
+# o.run_option()
+
+g = Game()
+g.run()
 
 # s = Scenario()
-# s.run()
+# s.run()   

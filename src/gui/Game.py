@@ -30,8 +30,6 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.balloon_damage = 20 # Damage baloon
         self.balloon_creation(3) #Test de la méthode (Level en attribut)
 
-
-
     def background(self):
 
         # Background
@@ -45,8 +43,6 @@ class Game(Element, Dragon, Wizard, Balloon):
         pygame.draw.rect(self.Window, self.black, (1087, 20, 125, 15))
         self.img_not_center("Life", 1060, 15, 160, 26, self.hp)
         pygame.draw.rect(self.Window, hp_color, (1087, 20, self.max_hp * 125 // 100, 15))
-
-
 
         # Score
         self.img_not_center("Crown", 75, 5, 35, 35, self.crown)
@@ -72,6 +68,8 @@ class Game(Element, Dragon, Wizard, Balloon):
         # Fireball
         self.img_txt_hover("Fire","FIREBALL", self.W//2+240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2+240, 660)       
         pygame.draw.rect(self.Window, self.black, (805, 685, 120, 9))
+        for ult_stack in range(self.ultimate_charge):
+            pygame.draw.rect(self.Window, self.red, (805 +12 * ult_stack, 685, 11, 9))
         self.img_not_center("Life", 795, 680, 143, 18, self.life)
     
         # Fire range        
@@ -96,6 +94,8 @@ class Game(Element, Dragon, Wizard, Balloon):
             else:
                 self.dragon_attack = False
                 self.dragon_attack_frame = 0
+                if self.ultimate_charge < 10 and not self.ultimate:
+                    self.ultimate_charge +=1
                 self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
 
     def wizard_visual(self):
@@ -134,12 +134,11 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.balloon_list[i] = (x - 0.5, y, health, balloon_type, True)
             else: 
                 self.balloon_list[i] = (x - 0.5, y, health, balloon_type, False)
-                
 
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):
             if ball_moving:
-                self.img_center("Dragon_red", ball_x, ball_y, 60, 60, self.fireball[int(self.fireball_frame)])
+                self.img_center("Dragon_red", ball_x, ball_y, 60 * self.ultimate_size, 60 * self.ultimate_size, self.fireball[int(self.fireball_frame)])
                 self.fireball_frame += 0.5
                 self.fireball_frame %= len(self.fireball)
 
@@ -147,9 +146,12 @@ class Game(Element, Dragon, Wizard, Balloon):
 
                 self.fireballs_list[i] = (ball_x, ball_y, ball_x_orig, ball_moving)
 
-                if ball_x > ball_x_orig + 200 + self.bonus_range_fireball: 
+                if ball_x > ball_x_orig + 200 + self.ultimate_range + self.bonus_range_fireball: 
                     self.fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
+                    if self.ultimate:
+                        self.ultimate = False
                     del self.fireballs_list[i]
+
 
     def bolt_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, bolt_moving) in enumerate(self.bolt_list):
@@ -178,15 +180,17 @@ class Game(Element, Dragon, Wizard, Balloon):
         castle_rect = pygame.Rect(0, 0, 230, 630)  # Rectangle representing the castle
         for i, (balloon_x, balloon_y, health, balloon_type, _) in enumerate(self.balloon_list):
             for j, (ball_x, ball_y, ball_x_orig, status) in enumerate(self.fireballs_list):
-                if (balloon_x - 15 <= ball_x <= balloon_x + 15) and (balloon_y - 35 <= ball_y <= balloon_y + 35):
+                if (balloon_x - 15 - self.ultimate_collision <= ball_x <= balloon_x + 15 + self.ultimate_collision) and (balloon_y - 35 <= ball_y <= balloon_y + 35):
                     if health > self.dragon_damage:
                         self.balloon_list[i] = (balloon_x, balloon_y, health - self.dragon_damage, balloon_type, _)
-                        del self.fireballs_list[j]
+                        if not self.ultimate:
+                            del self.fireballs_list[j]
                     else:
                         self.explosion_list.append((balloon_x, balloon_y))
                         self.score += (10 + self.balloon_health[balloon_type] // 10)
                         del self.balloon_list[i]
-                        del self.fireballs_list[j]
+                        if not self.ultimate:
+                            del self.fireballs_list[j]
 
             if balloon_x < 115:  
                 self.explosion_list.append((balloon_x, balloon_y))
@@ -217,6 +221,16 @@ class Game(Element, Dragon, Wizard, Balloon):
                         if self.entity_moving:
                             if not self.dragon_attack:
                                 self.dragon_attack = True
+                                if not self.ultimate:
+                                    self.ultimate_size = 1
+                                    self.ultimate_range = 0
+                                    self.ultimate_collision = 0
+                                else:
+                                    self.ultimate_range = 300
+                                    self.ultimate_size = 6
+                                    self.ultimate_charge = 0
+                                    self.ultimate_collision = 30
+
                             # self.fireballs_list.append((self.dragon_x +70, self.dragon_y + 55, self.dragon_x +70, True)) # Attaque dragon
                         else:
                            if not self.wizard_attack:
@@ -227,6 +241,12 @@ class Game(Element, Dragon, Wizard, Balloon):
                             self.entity_moving = False
                         else:
                             self.entity_moving = True
+                    if event.key == pygame.K_n:
+                        if self.entity_moving:
+                            if not self.dragon_attack:
+                                if self.ultimate_charge == 10:
+                                    self.ultimate = True
+
                     if event.key == pygame.K_y: #Test bonus vitesse attaque
                         self.wizard_upgrade(1)
                     elif event.key == pygame.K_r:
