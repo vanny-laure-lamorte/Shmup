@@ -238,7 +238,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                             self.wizard_left = True
 
                     if event.key == pygame.K_n:
-                        if self.entity_moving:
+                        if self.entity_moving and not self.ultimate:
                             if not self.dragon_attack:
                                 if self.ultimate_charge == 10:
                                     if self.fireballs_list == []:
