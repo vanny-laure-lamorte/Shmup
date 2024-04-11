@@ -1,24 +1,24 @@
 import pygame
 from src.pygame_manager.Element import Element
+
 from src.entities.Dragon import Dragon
 from src.entities.Wizard import Wizard
 from src.entities.Balloon import Balloon
 
-
-class Game(Element, Dragon, Wizard, Balloon):
+class Game(Dragon, Wizard, Balloon):
     def __init__(self): 
         Element.__init__(self)
         Dragon.__init__(self)
         Wizard.__init__(self)
         Balloon.__init__(self)
-        self.running = True
+        self.game_running = True
         self.explosion_list = []
         self.score = 0
 
         self.entity_moving = True # True for Dragon / False for Wizard
         self.dragon_left, self.wizard_left = False, False
 
-        self.img_back = pygame.image.load(f"assets/image/game/background.png").convert_alpha()
+        self.img_back_game = pygame.image.load(f"assets/image/game/background.png").convert_alpha()
         self.img_castle = pygame.image.load(f"assets/image/game/game_castle.png").convert_alpha()
         self.rect_option = pygame.image.load(f"assets/image/game/game_rect.png").convert_alpha()
         self.rect_high_score = pygame.image.load(f"assets/image/game/game_high_score.png").convert_alpha()
@@ -30,10 +30,10 @@ class Game(Element, Dragon, Wizard, Balloon):
         self.balloon_damage = 20 # Damage baloon
         self.balloon_creation(3) #Test de la méthode (Level en attribut)
 
-    def background(self):
+    def background_game(self):
 
         # Background
-        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back)
+        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back_game)
 
         # Tour
         self.img_not_center("Castle", -90, 115, 375, 515, self.img_castle)
@@ -217,11 +217,11 @@ class Game(Element, Dragon, Wizard, Balloon):
                 del self.balloon_list[i]
 
 
-    def run(self):
-        while self.running:
+    def game_run(self):
+        while self.game_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    self.game_running = False
                 if event.type == pygame.KEYDOWN:
                     (self.dragon_y, self.wizard_y)
                     if event.key == pygame.K_DOWN:
@@ -294,7 +294,7 @@ class Game(Element, Dragon, Wizard, Balloon):
             else:
                 self.wizard_movement()
                 
-            self.background()
+            self.background_game()
             self.dragon_visual()
             self.explosion_visual()
             self.wizard_visual()

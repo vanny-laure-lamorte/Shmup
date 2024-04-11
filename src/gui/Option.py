@@ -1,11 +1,13 @@
 import pygame
 from src.pygame_manager.Element import Element
 
+from src.gui.Game import Game
+
 class Option(Element):
     def __init__(self): 
         Element.__init__(self)
         self.option_running = True
-        self.img_back = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
+        self.img_back_option = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
         self.img_map = pygame.image.load(f"assets/image/option/option_map.png").convert_alpha()
         self.img_parchment = pygame.image.load(f"assets/image/option/option_parchment.png").convert_alpha()
         self.img_line= pygame.image.load(f"assets/image/option/option_line.png").convert_alpha()
@@ -19,17 +21,16 @@ class Option(Element):
         self.img_key= pygame.image.load(f"assets/image/option/option_key.png").convert_alpha()
         self.img_check= pygame.image.load(f"assets/image/option/option_check1.png").convert_alpha()
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
-
         self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
         self.rotation = 0
         self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
         self.img_arrow_flip2 = pygame.transform.rotate(self.img_arrow, -90)
         self.img_arrow_flip3 = pygame.transform.rotate(self.img_arrow, 180)
 
-    def design(self):
+    def design_option(self):
 
         # Background
-        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back)    
+        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back_option)    
 
         # Maps
         self.rect_full_opacity(self.grey, 290 , 250, 540, 350, 3, 100)
@@ -50,8 +51,16 @@ class Option(Element):
         # Settings
         self.rect_full_opacity(self.grey, 765 , 350, 390, 550, 3, 100)
         self.text_not_center(self.font2, 20, "Settings", self.white, 730, 90)
+
+        # Option volume
+        self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
+        self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
         self.img_not_center("Volume", 640, 200, 30, 30, self.img_volume)
-        self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)
+        self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)             
+
+        # Option movement
+        self.img_txt_hover("Option movement", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
+        self.img_txt_hover("Option movement ", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
 
         # ZQSD
         self.img_not_center("Z", 650, 320, 30, 30, self.img_key)
@@ -66,15 +75,10 @@ class Option(Element):
         # Directional arrow
         self.img_not_center("Z", 850, 320, 30, 30, self.img_key)
         self.img_not_center("D", 855, 325, 20, 20, self.img_arrow_flip3)
-
         self.img_not_center("Q", 820, 350, 30, 30, self.img_key)
         self.img_not_center("D", 825, 355, 20, 20, self.img_arrow_flip2)
-
         self.img_not_center("S", 850, 350, 30, 30, self.img_key)
-        self.img_not_center("S", 855, 355, 20, 20, self.img_arrow)
-
-        self.img_not_center("D", 880, 350, 30, 30, self.img_key) 
-        self.img_not_center("D", 885, 355, 20, 20, self.img_arrow_flip1)  
+        self.img_not_center("D", 880, 350, 30, 30, self.img_key)   
 
         self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
         self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
@@ -98,11 +102,11 @@ class Option(Element):
         # Seal
         self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
 
-    def run_option(self):
+    def option_run(self):
         while self.option_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.option_running = False
 
-            self.design()
+            self.design_option()
             self.update()
