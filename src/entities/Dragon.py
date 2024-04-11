@@ -1,4 +1,4 @@
-import os, pygame
+import os, pygame, random
 class Dragon:
     def __init__(self):
         self.red_frames = [pygame.image.load(os.path.join(f"assets/image/game/dragon3/dragon{i}.png")).convert_alpha() for i in range(13, 25)]
@@ -33,6 +33,11 @@ class Dragon:
 
         self.glowing_frame = 0
 
+        self.baby_dragon_list = []
+        self.whelp_fireballs_list = []
+        self.whelp_pop_chance = 100
+        self.whelp_max_attack = 3
+
     def dragon_movement(self):
         self.dragon_x = self.move_x +345
         self.dragon_y = self.move_y +285
@@ -48,3 +53,8 @@ class Dragon:
         elif self.moving_down:
             if self.dragon_y < 330:
                 self.move_y += 7.5
+
+    def whelp_bonus(self):
+        self.whelp_pop = random.randint(0,100)
+        if self.whelp_pop < self.whelp_pop_chance:
+            self.baby_dragon_list.append((self.dragon_x, self.dragon_y, self.whelp_max_attack))
