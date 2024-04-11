@@ -3,14 +3,16 @@ from src.pygame_manager.Element import Element
 from src.entities.Dragon import Dragon
 from src.entities.Wizard import Wizard
 from src.entities.Balloon import Balloon
+from src.entities.Soldier import Soldier
 
 
-class Game(Element, Dragon, Wizard, Balloon):
-    def __init__(self): 
+class Game(Element, Dragon, Wizard, Balloon, Soldier):
+    def __init__(self):
         Element.__init__(self)
         Dragon.__init__(self)
         Wizard.__init__(self)
         Balloon.__init__(self)
+        Soldier.__init__(self)
         self.running = True
         self.explosion_list = []
         self.score = 0
@@ -77,8 +79,8 @@ class Game(Element, Dragon, Wizard, Balloon):
         # Fire range        
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
         pygame.draw.rect(self.Window, self.black, (325, 685, 120, 9))
-        self.img_not_center("Life", 315, 680, 143, 18, self.life)       
-    
+        self.img_not_center("Life", 315, 680, 143, 18, self.life)
+
     def dragon_visual(self):
 
         if self.dragon_left and self.entity_moving:
@@ -121,6 +123,22 @@ class Game(Element, Dragon, Wizard, Balloon):
             else:
                 self.img_center("Wizard", self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[0])
 
+    def soldier_visual(self):
+        if not self.is_dead:
+            frame_list = self.soldier_frames_run
+            if self.soldier_x > 0:
+                self.img_mirror_sol(self.soldier_x, self.soldier_y, 123, 160, frame_list[int(self.soldier_frame)])
+                self.soldier_x -= self.soldier_speed
+                self.soldier_frame = (self.soldier_frame + self.soldier_frame_speed) % len(frame_list)
+        else:
+            if self.soldier_frame < len(self.soldier_frames_dead):
+                frame = self.soldier_frames_dead[self.soldier_frame]
+                self.img_mirror_sol(self.soldier_x, self.soldier_y, 123, 160, frame)
+                self.soldier_frame += self.soldier_speed
+            else:
+                self.is_dead = False
+                self.soldier_frame = 0
+
     def balloon_visual(self):
         for i, (x, y, health, balloon_type, _) in enumerate(self.balloon_list):
             color = self.green if health * 100 // self.balloon_health[balloon_type] > 30 else self.red
@@ -132,9 +150,9 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.rect_border(self.black, x, y - 35, 60, 6, 1, 0)
             if x > 750:
                 self.balloon_list[i] = (x - 0.5, y, health, balloon_type, True)
-            else: 
+            else:
                 self.balloon_list[i] = (x - 0.5, y, health, balloon_type, False)
-                
+
 
     def fireball_visual(self):
         for i, (ball_x, ball_y, ball_x_orig, ball_moving) in enumerate(self.fireballs_list):
@@ -174,6 +192,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                 else:
                     del self.explosion_list[i]
                     del self.explosion_frames[(explo_x, explo_y)]
+
     def check_target(self):
         castle_rect = pygame.Rect(0, 0, 230, 630)  # Rectangle representing the castle
         for i, (balloon_x, balloon_y, health, balloon_type, _) in enumerate(self.balloon_list):
@@ -192,7 +211,6 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.explosion_list.append((balloon_x, balloon_y))
                 self.max_hp -= self.balloon_damage
                 del self.balloon_list[i]
-
 
     def run(self):
         while self.running:
@@ -233,7 +251,6 @@ class Game(Element, Dragon, Wizard, Balloon):
                         self.wizard_upgrade(2)
                     elif event.key == pygame.K_t:
                         self.wizard_upgrade(4)
-                
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_DOWN:
                         self.moving_down = False
@@ -251,7 +268,7 @@ class Game(Element, Dragon, Wizard, Balloon):
                 self.dragon_movement()
             else:
                 self.wizard_movement()
-                
+
             self.background()
             self.dragon_visual()
             self.explosion_visual()
@@ -260,5 +277,6 @@ class Game(Element, Dragon, Wizard, Balloon):
             self.fireball_visual()
             self.bolt_visual()
             self.check_target()
-
+            self.soldier_movement()
+            self.soldier_visual()
             self.update()

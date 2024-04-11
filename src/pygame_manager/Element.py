@@ -109,6 +109,14 @@ class Element(Screen):
         self.Window.blit(mirrored_image, (x - mirrored_image.get_width(), y - mirrored_image.get_height()//2))
         button = pygame.Rect((x - width//2), (y - height//2), width, height)
         return button
+    
+    def img_mirror_sol(self, x, y, width, height, image):
+        mirrored_image = pygame.transform.flip(image, True, False)
+        mirrored_image = pygame.transform.smoothscale(mirrored_image, (width, height))
+        self.Window.blit(mirrored_image, (x - mirrored_image.get_width(), y - mirrored_image.get_height()//2))
+        button = pygame.Rect((x - width//2), (y - height//2), width, height)
+        return button
+
 
 # Def rectangle  
 
