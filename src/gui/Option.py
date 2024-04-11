@@ -22,6 +22,10 @@ class Option(Element):
         self.img_check= pygame.image.load(f"assets/image/option/option_check1.png").convert_alpha()
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
         self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
+        self.rotation = 0
+        self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
+        self.img_arrow_flip2 = pygame.transform.rotate(self.img_arrow, -90)
+        self.img_arrow_flip3 = pygame.transform.rotate(self.img_arrow, 180)
 
     def design_option(self):
 
@@ -47,8 +51,16 @@ class Option(Element):
         # Settings
         self.rect_full_opacity(self.grey, 765 , 350, 390, 550, 3, 100)
         self.text_not_center(self.font2, 20, "Settings", self.white, 730, 90)
+
+        # Option volume
+        self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
+        self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
         self.img_not_center("Volume", 640, 200, 30, 30, self.img_volume)
-        self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)
+        self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)             
+
+        # Option movement
+        self.img_txt_hover("Option movement", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
+        self.img_txt_hover("Option movement ", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
 
         # ZQSD
         self.img_not_center("Z", 650, 320, 30, 30, self.img_key)
@@ -62,8 +74,9 @@ class Option(Element):
 
         # Directional arrow
         self.img_not_center("Z", 850, 320, 30, 30, self.img_key)
-        self.img_not_center("D", 855, 325, 20, 20, self.img_arrow)
+        self.img_not_center("D", 855, 325, 20, 20, self.img_arrow_flip3)
         self.img_not_center("Q", 820, 350, 30, 30, self.img_key)
+        self.img_not_center("D", 825, 355, 20, 20, self.img_arrow_flip2)
         self.img_not_center("S", 850, 350, 30, 30, self.img_key)
         self.img_not_center("D", 880, 350, 30, 30, self.img_key)   
 
