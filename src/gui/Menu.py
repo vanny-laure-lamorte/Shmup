@@ -68,7 +68,8 @@ class Menu (Option, Scenario):
             self.text_not_center(self.font, 12, "15 characters max", self.red, 850, 283)
         if self.error_no_name: 
             self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
-    
+
+ 
     def save_player_info(self):
             try:
                 with open('player_info.json', 'r') as file:
@@ -138,15 +139,7 @@ class Menu (Option, Scenario):
 
                         elif self.selected_option == 0: 
                             self.error_no_name = False  
-          
-            self.load_sound("music","src/gui/Man-in-Black-The-Witcher-OST.wav" )
-
-            try:      
-                self.play_sound("music", loop=True)
-                self.play_sound("music")
-                pygame.time.wait(3000)
-            finally:
-                pass      
+     
 
             self.design_menu()
             self.update()
