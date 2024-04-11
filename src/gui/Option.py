@@ -1,11 +1,13 @@
 import pygame
 from src.pygame_manager.Element import Element
 
+from src.gui.Game import Game
+
 class Option(Element):
     def __init__(self): 
         Element.__init__(self)
         self.option_running = True
-        self.img_back = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
+        self.img_back_option = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
         self.img_map = pygame.image.load(f"assets/image/option/option_map.png").convert_alpha()
         self.img_parchment = pygame.image.load(f"assets/image/option/option_parchment.png").convert_alpha()
         self.img_line= pygame.image.load(f"assets/image/option/option_line.png").convert_alpha()
@@ -25,13 +27,10 @@ class Option(Element):
         self.img_arrow_flip2 = pygame.transform.rotate(self.img_arrow, -90)
         self.img_arrow_flip3 = pygame.transform.rotate(self.img_arrow, 180)
 
-        self.img_dragon1= pygame.image.load(f"assets/image/option/option_dragon1.png").convert_alpha()
-        self.img_dragon2= pygame.image.load(f"assets/image/option/option_dragon2.png").convert_alpha()
-
-    def design(self):
+    def design_option(self):
 
         # Background
-        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back)    
+        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back_option)    
 
         # Maps
         self.rect_full_opacity(self.grey, 290 , 250, 540, 350, 3, 100)
@@ -79,15 +78,13 @@ class Option(Element):
         self.img_not_center("Q", 820, 350, 30, 30, self.img_key)
         self.img_not_center("D", 825, 355, 20, 20, self.img_arrow_flip2)
         self.img_not_center("S", 850, 350, 30, 30, self.img_key)
-        self.img_not_center("S", 855, 355, 20, 20, self.img_arrow)
-        self.img_not_center("D", 880, 350, 30, 30, self.img_key) 
-        self.img_not_center("D", 885, 355, 20, 20, self.img_arrow_flip1)    
+        self.img_not_center("D", 880, 350, 30, 30, self.img_key)   
 
-        # Option Dragon
-        self.img_txt_hover("Option dragon", "Option 1", 650, 430, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 430)
-        self.img_txt_hover("Option dragon", "Option 2", 840, 430, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 430) 
-        self.img_not_center("dragon1", 600, 470, 100, 100, self.img_dragon1)
-        self.img_not_center("dragon2", 800, 470, 100, 100, self.img_dragon2)
+        self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
+        self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
+
+        self.img_txt_hover("Option son1", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
+        self.img_txt_hover("Option son2", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
 
         # Best player section
         self.img_not_center("parchment", 980, 90, 254, 517, self.img_parchment)
@@ -105,11 +102,11 @@ class Option(Element):
         # Seal
         self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
 
-    def run_option(self):
+    def option_run(self):
         while self.option_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.option_running = False
 
-            self.design()
+            self.design_option()
             self.update()
