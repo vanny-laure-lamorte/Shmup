@@ -11,6 +11,12 @@ class Scenario(Game):
         
         self.king = pygame.image.load(f"assets/image/scenario/king.png").convert_alpha()
         self.wizard = pygame.image.load(f"assets/image/scenario/wizard.png").convert_alpha()
+
+        # Performance
+
+        self.back_p = pygame.image.load(f"assets/image/scenario/scenario_performance.png").convert_alpha()
+        self.rect_op= pygame.image.load(f"assets/image/scenario/scenario_rect.png").convert_alpha()
+        
         
         self.left_char = -100 
         self.right_char = 1450
@@ -41,6 +47,20 @@ class Scenario(Game):
         if self.step == 2:
             self.text_center(self.font4, 30, "Press ENTER to start the game", self.black, self.W//2, 630)
 
+    def performance_display(self): 
+        self.rect_full_opacity(self.grey, self.W//2, self.H//2, 730, 480, 3, 100)
+        self.img_center("Back P", self.W//2, self.H//2, 700, 450, self.back_p)
+
+        # Performance
+        self.img_not_center("performance2", self.W//2-50, self.H//2, 150, 50, self.rect_op)
+        self.text_not_center(self.font, 20,"performance2", self.white, self.W//2-50, self.H//2+10)
+
+        self.img_not_center("performance1", self.W//2 -200, self.H//2, 150, 50, self.rect_op)
+        self.text_not_center(self.font, 20,"performance1", self.white, self.W//2-200, self.H//2+10)
+
+        self.img_not_center("performance3", self.W//2 + 100, self.H//2, 150, 50, self.rect_op)
+        self.text_not_center(self.font, 20,"performance3", self.white, self.W//2+100, self.H//2+10)
+
     def scenario_run(self):
         while self.scenario_running:
             for event in pygame.event.get():
@@ -57,4 +77,5 @@ class Scenario(Game):
 
             self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)
             self.first_scenario()
+            self.performance_display()
             self.update()

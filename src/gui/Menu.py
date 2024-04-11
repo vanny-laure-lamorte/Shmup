@@ -34,6 +34,7 @@ class Menu (Option, Scenario):
         for name, path in self.image_paths.items():
             self.images[name] = pygame.image.load(path)
 
+
     def design_menu(self): 
 
         # Bakground
@@ -69,7 +70,7 @@ class Menu (Option, Scenario):
         if self.error_no_name: 
             self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
 
- 
+
     def save_player_info(self):
             try:
                 with open('player_info.json', 'r') as file:
