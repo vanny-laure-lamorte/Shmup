@@ -21,6 +21,7 @@ class Option(Element):
         self.img_key= pygame.image.load(f"assets/image/option/option_key.png").convert_alpha()
         self.img_check= pygame.image.load(f"assets/image/option/option_check1.png").convert_alpha()
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
+        self.img_back_menu= pygame.image.load(f"assets/image/option/option_back.png").convert_alpha()
         self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
         self.rotation = 0
         self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
@@ -101,6 +102,9 @@ class Option(Element):
 
         # Seal
         self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
+
+        # Back to Menu
+        self.back_menu = self.img_txt_hover('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40)
 
     def option_run(self):
         while self.option_running:
