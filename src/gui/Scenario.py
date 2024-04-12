@@ -15,7 +15,9 @@ class Scenario(Game):
         # Performance
 
         self.back_p = pygame.image.load(f"assets/image/scenario/scenario_performance.png").convert_alpha()
-        self.rect_op= pygame.image.load(f"assets/image/scenario/scenario_rect.png").convert_alpha()
+        self.rect_op= pygame.image.load(f"assets/image/scenario/scenario_card.png").convert_alpha()
+        self.bonus= pygame.image.load(f"assets/image/scenario/bonus1.png").convert_alpha()
+
         
         
         self.left_char = -100 
@@ -60,6 +62,7 @@ class Scenario(Game):
 
         self.img_not_center("performance3", self.W//2 + 100, self.H//2, 150, 50, self.rect_op)
         self.text_not_center(self.font, 20,"performance3", self.white, self.W//2+100, self.H//2+10)
+ 
 
     def scenario_run(self):
         while self.scenario_running:

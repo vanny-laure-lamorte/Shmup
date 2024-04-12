@@ -103,8 +103,9 @@ class Option(Element, SoundManager):
 
         # Seal
         self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
-
-    
+        
+        # Back to Menu
+        self.back_menu = self.img_txt_hover('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40)    
 
     def option_run(self):
         while self.option_running:

@@ -17,6 +17,11 @@ class Element(Screen):
         self.red = (193 , 18, 31)
         self.grey = (20, 20, 20)
 
+        self.yellow = (252,240,157)
+        self.blue = (168,206,187)
+        self.brown = (180,140,99)
+        self.brown1 = (215,148,68)
+
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
         self.font1 = "assets/font/Ring of Kerry.otf"
@@ -140,9 +145,9 @@ class Element(Screen):
         return button
 
 
-# # Def Circle
-#     def circle(self, color, x, y, radius):
-#         pygame.draw.circle(self.Window, color, (x,y), radius)
+# Def Circle
+    def circle(self, color, x, y, radius):
+        pygame.draw.circle(self.Window, color, (x,y), radius)
 
 #     def circle_alpha(self, alpha_color, x, y, radius):
 #         circle_surface = pygame.Surface((self.W,self.H), pygame.SRCALPHA)

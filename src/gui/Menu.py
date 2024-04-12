@@ -28,11 +28,32 @@ class Menu (Option, Scenario):
             "rect_menu": "assets/image/Menu/menu_rect.png",
             "rect_name": "assets/image/Menu/menu_name.png",
             "parchment": "assets/image/Menu/menu_parchment.png",
+            "back_p": "assets/image/scenario/scenario_performance.png",
+            "card": "assets/image/scenario/scenario_card.png",
+            "title": "assets/image/scenario/scenario_title.png",
         }
 
         self.images = {}
         for name, path in self.image_paths.items():
             self.images[name] = pygame.image.load(path)
+
+    def performance_display(self): 
+        self.rect_full_opacity(self.grey, self.W//2, self.H//2, 730, 480, 3, 100)
+        self.img_center("Back P", self.W//2, self.H//2, 700, 450, self.images["back_p"])
+        self.img_center("title", self.W//2, 200, 420, 100, self.images["title"])
+
+        self.text_not_center(self.font, 15,"Choose a permanent bonus for the game", self.brown1, self.W//2-135, self.H//2-160)    
+
+        # Performance   
+        self.circle(self.yellow, 420, 350, 80)
+        self.img_txt_hover("Bonus1", "Bonus1", 420, 390, 190, 270, self.images["card"], self.images["card"], self.font1, 12, self.white, 420, self.H//2+115)
+
+        self.circle(self.blue, 620, 350, 80)
+        self.img_txt_hover("Bonus2", "Bonus2", 620, 390, 190, 270, self.images["card"], self.images["card"], self.font1, 12, self.white, 620, self.H//2+115)
+
+        self.circle(self.brown, 820, 350, 80)
+        self.img_txt_hover("Bonus2", "Bonus2", 820, 390, 190, 270, self.images["card"], self.images["card"], self.font1, 12, self.white, 820, self.H//2+115)
+
 
 
     def design_menu(self): 
@@ -70,7 +91,9 @@ class Menu (Option, Scenario):
         if self.error_no_name: 
             self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
 
+        self.performance_display()    
 
+ 
     def save_player_info(self):
             try:
                 with open('player_info.json', 'r') as file:
