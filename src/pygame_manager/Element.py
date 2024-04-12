@@ -14,6 +14,7 @@ class Element(Screen):
         self.red = (240, 64,30)
 
         self.green = (106, 153, 78)
+        self.limegreen = (50,205,50)
         self.red = (193 , 18, 31)
         self.grey = (20, 20, 20)
         self.color1 = (240,255,255)
@@ -119,7 +120,7 @@ class Element(Screen):
         return button
 
 
-# Def rectangle  
+# Def rectangle
 
     def rect_full_opacity(self, color, x, y, width, height, radius, opacity=255):
         button_surface = pygame.Surface((width, height), pygame.SRCALPHA)

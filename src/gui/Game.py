@@ -16,6 +16,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
         Soldier.__init__(self)
         self.game_running = True
         self.explosion_list = []
+        self.soldier_death_list = []
         self.score = 0
 
         self.entity_moving = True # True for Dragon / False for Wizard
@@ -33,6 +34,9 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
         self.balloon_damage = 20 # Damage baloon
         self.balloon_creation(3) #Test de la méthode (Level en attribut)
 
+        self.soldier_damage = 10
+        self.soldier_creation(1)
+
     def background_game(self):
 
         # Background
@@ -42,7 +46,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
         self.img_not_center("Castle", -90, 115, 375, 515, self.img_castle)
 
         # Life
-        hp_color = self.green if self.max_hp > 30 else self.red 
+        hp_color = self.green if self.max_hp > 30 else self.red
         pygame.draw.rect(self.Window, self.black, (1087, 20, 125, 15))
         self.img_not_center("Life", 1060, 15, 160, 26, self.hp)
         pygame.draw.rect(self.Window, hp_color, (1087, 20, self.max_hp * 125 // 100, 15))
@@ -84,7 +88,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
             self.img_mirror(self.dragon_x,  self.dragon_y, 177,162,self.red_frames[int(self.dragon_frame)])
         else:
             self.img_center("Dragon_red", self.dragon_x, self.dragon_y, 177,162,self.red_frames[int(self.dragon_frame)])
-        # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[int(self.dragon_frame)]) 
+        # self.img_center("Dragon_black", 700,350,200,200,self.black_frames[int(self.dragon_frame)])
         self.dragon_frame += 0.4
         self.dragon_frame %= len(self.red_frames)
         if self.dragon_attack:
@@ -121,24 +125,24 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                 self.img_center("Wizard", self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[0])
 
     def soldier_visual(self):
-        if not self.is_dead:
-            frame_list = self.soldier_frames_run
-            if self.soldier_x > 0:
-                self.img_mirror_sol(self.soldier_x, self.soldier_y, 123, 160, frame_list[int(self.soldier_frame)])
-                self.soldier_x -= self.soldier_speed
-                self.soldier_frame = (self.soldier_frame + self.soldier_frame_speed) % len(frame_list)
-        else:
-            if self.soldier_frame < len(self.soldier_frames_dead):
-                frame = self.soldier_frames_dead[self.soldier_frame]
-                self.img_mirror_sol(self.soldier_x, self.soldier_y, 123, 160, frame)
-                self.soldier_frame += self.soldier_speed
+        for i, (x, y, health, soldier_type, _) in enumerate(self.soldier_list):
+            color = self.limegreen if health * 100 // self.soldier_health[soldier_type] > 30 else self.red
+            frame = self.soldier_frames_walk
+            self.img_mirror_sol(x, y, 85 , 105, frame[int(self.soldier_frame)])
+            x -= self.soldier_speed
+            self.soldier_frame = (self.soldier_frame + self.soldier_frame_speed ) % len(frame)
+
+            if health < self.soldier_health[soldier_type]:
+                self.rect_full_not_centered(color, x - 12 , y - 50, health * 60 // self.soldier_health[soldier_type], 6, 0)
+                self.rect_border(self.black, x - 40, y - 53, 60, 6, 1, 0)
+            if x > 750:
+                self.soldier_list[i] = (x - 0.2, y, health, soldier_type, True)
             else:
-                self.is_dead = False
-                self.soldier_frame = 0
+                self.soldier_list[i] = (x - 0.5, y, health, soldier_type, False)
 
     def balloon_visual(self):
         for i, (x, y, health, balloon_type, _) in enumerate(self.balloon_list):
-            color = self.green if health * 100 // self.balloon_health[balloon_type] > 30 else self.red
+            color = self.limegreen if health * 100 // self.balloon_health[balloon_type] > 30 else self.red
             balloon_color = self.balloon[balloon_type]
             self.img_center("Balloon", x , y, 40, 64, balloon_color)
             # Vie des ballons
@@ -162,7 +166,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
 
                 self.fireballs_list[i] = (ball_x, ball_y, ball_x_orig, ball_moving)
 
-                if ball_x > ball_x_orig + 200 + self.bonus_range_fireball: 
+                if ball_x > ball_x_orig + 200 + self.bonus_range_fireball:
                     self.fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
                     del self.fireballs_list[i]
 
@@ -171,11 +175,11 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
             if bolt_moving:
                 self.img_center("Thunderbolt", ball_x, ball_y, 70, 55, self.thunderbolt)
 
-                ball_x += 15 
+                ball_x += 15
 
                 self.bolt_list[i] = (ball_x, ball_y, ball_x_orig, bolt_moving)
 
-                if ball_x > ball_x_orig + 500: 
+                if ball_x > ball_x_orig + 500:
                     self.bolt_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
                     del self.bolt_list[i]
 
@@ -189,6 +193,18 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                 else:
                     del self.explosion_list[i]
                     del self.explosion_frames[(explo_x, explo_y)]
+
+    # Death animation for the soldier
+    def soldier_death_visual(self):
+        for i, (sold_x, sold_y) in enumerate(self.soldier_death_list):
+                if (sold_x, sold_y) not in self.soldier_frames:
+                    self.soldier_frames[(sold_x, sold_y)] = 0
+                if self.soldier_frames[(sold_x, sold_y)] < len(self.soldier_frames_dead) - 1:
+                    self.img_mirror_sol(sold_x, sold_y, 85, 105, self.soldier_frames_dead[int(self.soldier_frames[(sold_x, sold_y)])])
+                    self.soldier_frames[(sold_x, sold_y)] += 0.16
+                else:
+                    del self.soldier_death_list[i]
+                    del self.soldier_frames[(sold_x, sold_y)]
 
     def check_target(self):
         castle_rect = pygame.Rect(0, 0, 230, 630)  # Rectangle representing the castle
@@ -204,10 +220,29 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                         del self.balloon_list[i]
                         del self.fireballs_list[j]
 
-            if balloon_x < 115:  
+            if balloon_x < 115:
                 self.explosion_list.append((balloon_x, balloon_y))
                 self.max_hp -= self.balloon_damage
                 del self.balloon_list[i]
+
+    # Temporary Check target for the soldier
+    def check_target_soldier(self):
+        for i, (soldier_x, soldier_y, health, soldier_type, _) in enumerate(self.soldier_list):
+            for j, (ball_x, ball_y, ball_x_orig, status) in enumerate(self.bolt_list):
+                if (soldier_x - 15 <= ball_x <= soldier_x + 15) and (soldier_y - 35 <= ball_y <= soldier_y + 35):
+                    if health > self.wizard_damage:
+                        self.soldier_list[i] = (soldier_x, soldier_y, health - self.wizard_damage, soldier_type, _)
+                        del self.bolt_list[j]
+                    else:
+                        self.soldier_death_list.append((soldier_x, soldier_y))
+                        self.score += (5 + self.soldier_health[soldier_type] // 10)
+                        del self.soldier_list[i]
+                        del self.bolt_list[j]
+
+            if soldier_x < 115:
+                self.explosion_list.append((soldier_x, soldier_y))
+                self.max_hp -= self.soldier_damage
+                del self.soldier_list[i]
 
 
     def game_run(self):
@@ -266,15 +301,16 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                 self.dragon_movement()
             else:
                 self.wizard_movement()
-                
+
             self.background_game()
             self.dragon_visual()
             self.explosion_visual()
+            self.soldier_death_visual()
             self.wizard_visual()
             self.balloon_visual()
             self.fireball_visual()
+            self.soldier_visual()
             self.bolt_visual()
             self.check_target()
-            self.soldier_movement()
-            self.soldier_visual()
+            self.check_target_soldier()
             self.update()
