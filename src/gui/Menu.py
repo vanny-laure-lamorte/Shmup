@@ -1,10 +1,12 @@
 import pygame, json
-from src.pygame_manager.Element import Element
 
-class Menu (Element): 
+from src.gui.Scenario import Scenario
+from src.gui.Option import Option
+
+class Menu (Option, Scenario): 
     def __init__(self):
-        Element.__init__(self)
-        pygame.init()
+        Scenario.__init__(self)
+        Option.__init__(self)    
 
         # Option menu
         self.selected_option = 0
@@ -26,14 +28,35 @@ class Menu (Element):
             "rect_menu": "assets/image/Menu/menu_rect.png",
             "rect_name": "assets/image/Menu/menu_name.png",
             "parchment": "assets/image/Menu/menu_parchment.png",
+            "back_p": "assets/image/scenario/scenario_performance.png",
+            "card": "assets/image/scenario/scenario_card.png",
+            "title": "assets/image/scenario/scenario_title.png",
         }
 
         self.images = {}
         for name, path in self.image_paths.items():
             self.images[name] = pygame.image.load(path)
 
+    def performance_display(self): 
+        self.rect_full_opacity(self.grey, self.W//2, self.H//2, 730, 480, 3, 100)
+        self.img_center("Back P", self.W//2, self.H//2, 700, 450, self.images["back_p"])
+        self.img_center("title", self.W//2, 200, 420, 100, self.images["title"])
 
-    def design(self): 
+        self.text_not_center(self.font, 15,"Choose a permanent bonus for the game", self.brown1, self.W//2-135, self.H//2-160)    
+
+        # Performance   
+        self.circle(self.yellow, 420, 350, 80)
+        self.img_txt_hover("Bonus1", "Bonus1", 420, 390, 190, 270, self.images["card"], self.images["card"], self.font1, 12, self.white, 420, self.H//2+115)
+
+        self.circle(self.blue, 620, 350, 80)
+        self.img_txt_hover("Bonus2", "Bonus2", 620, 390, 190, 270, self.images["card"], self.images["card"], self.font1, 12, self.white, 620, self.H//2+115)
+
+        self.circle(self.brown, 820, 350, 80)
+        self.img_txt_hover("Bonus2", "Bonus2", 820, 390, 190, 270, self.images["card"], self.images["card"], self.font1, 12, self.white, 820, self.H//2+115)
+
+
+
+    def design_menu(self): 
 
         # Bakground
         self.img_background(self.W//2, self.H//2, self.W, self.H, self.images["background"])
@@ -67,7 +90,10 @@ class Menu (Element):
             self.text_not_center(self.font, 12, "15 characters max", self.red, 850, 283)
         if self.error_no_name: 
             self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
-    
+
+        self.performance_display()    
+
+ 
     def save_player_info(self):
             try:
                 with open('player_info.json', 'r') as file:
@@ -119,19 +145,26 @@ class Menu (Element):
                                     self.error_length = True      
 
                     if event.key == pygame.K_RETURN:
-                        if (self.selected_option == 1 or self.selected_option == 2):
+               
+                        if self.selected_option == 1:                           
                             if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
-
                                 self.error_no_name = True
                             else:  
                                 self.save_player_info()
-                        elif self.selected_option == 3:
+                                self.scenario_run()
+                                self.menu_running = False
+
+                        elif self.selected_option == 2:
+                            self.option_run()
                             self.menu_running = False
 
-                    if self.selected_option == 0: 
-                        self.error_no_name = False  
+                        elif self.selected_option == 3:
+                            self.menu_running = False                   
 
+                        elif self.selected_option == 0: 
+                            self.error_no_name = False  
+     
 
-            self.design()
+            self.design_menu()
             self.update()
 

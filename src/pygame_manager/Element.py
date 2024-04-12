@@ -13,6 +13,15 @@ class Element(Screen):
         self.white = (255, 255, 255)
         self.red = (240, 64,30)
 
+        self.green = (106, 153, 78)
+        self.red = (193 , 18, 31)
+        self.grey = (20, 20, 20)
+
+        self.yellow = (252,240,157)
+        self.blue = (168,206,187)
+        self.brown = (180,140,99)
+        self.brown1 = (215,148,68)
+
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
         self.font1 = "assets/font/Ring of Kerry.otf"
@@ -91,15 +100,29 @@ class Element(Screen):
         self.text_center(font, txt_size, txt, color, x_t, y_t)
 
         return name_rect
+        
+    def img_mirror(self, x, y, width, height, image):
+        mirrored_image = pygame.transform.flip(image, True, False)
+        mirrored_image = pygame.transform.smoothscale(mirrored_image, (width, height))
+        self.Window.blit(mirrored_image, (x - mirrored_image.get_width()//2, y - mirrored_image.get_height()//2))
+        button = pygame.Rect((x - width//2), (y - height//2), width, height)
+        return button
     
-    def img_mir(self, name, x, y, width, height, image):
-        name = pygame.transform.smoothscale(image, (width, height))
-        name = pygame.transform.flip(image, True, False)
-        self.Window.blit(name, (x - name.get_width()//2, y - name.get_height()//2))
+    def img_mirror_wiz(self, x, y, width, height, image):
+        mirrored_image = pygame.transform.flip(image, True, False)
+        mirrored_image = pygame.transform.smoothscale(mirrored_image, (width, height))
+        self.Window.blit(mirrored_image, (x - mirrored_image.get_width(), y - mirrored_image.get_height()//2))
         button = pygame.Rect((x - width//2), (y - height//2), width, height)
         return button
 
 # Def rectangle  
+
+    def rect_full_opacity(self, color, x, y, width, height, radius, opacity=255):
+        button_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+        pygame.draw.rect(button_surface, (color[0], color[1], color[2], opacity), pygame.Rect(0, 0, width, height), 0, radius)       
+        self.Window.blit(button_surface, (x - width//2, y - height//2))
+        return pygame.Rect(x - width//2, y - height//2, width, height)
+    
     def rect_full(self, color, x, y, width, height, radius):
         button = pygame.draw.rect(self.Window, color, pygame.Rect(x - width//2, y - height//2, width, height),0, radius)
         return button    
@@ -112,15 +135,19 @@ class Element(Screen):
         button = pygame.draw.rect(self.Window, color, pygame.Rect(x - width //2, y - height //2, width, height),  thickness, radius)
         return button
     
+    def rect_border_not_centered(self, color, x, y, width, height, thickness, radius):
+        button = pygame.draw.rect(self.Window, color, pygame.Rect(x - width, y - height, width, height),  thickness, radius)
+        return button
+    
     # Rect border only on top  
     def rect_radius_top(self, color, x, y, width, height, radius):
         button = pygame.draw.rect(self.Window, color, pygame.Rect(x - width //2, y - height //2, width, height),False,0, radius, radius)
         return button
 
 
-# # Def Circle
-#     def circle(self, color, x, y, radius):
-#         pygame.draw.circle(self.Window, color, (x,y), radius)
+# Def Circle
+    def circle(self, color, x, y, radius):
+        pygame.draw.circle(self.Window, color, (x,y), radius)
 
 #     def circle_alpha(self, alpha_color, x, y, radius):
 #         circle_surface = pygame.Surface((self.W,self.H), pygame.SRCALPHA)
