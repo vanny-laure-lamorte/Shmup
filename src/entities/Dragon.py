@@ -6,6 +6,8 @@ class Dragon:
 
         self.fireball = [pygame.image.load(os.path.join(f"assets/image/game/fireball/fireball{i}.png")).convert_alpha() for i in range(1, 11)]
 
+        self.glowing_effect = [pygame.image.load(os.path.join(f"assets/image/game/glowing/glowing_ult{i}.png")).convert_alpha() for i in range(1, 17)]
+
         self.dragon_frame = 0
         self.fireball_frame = 0
         self.dragon_attackspeed = 0.15
@@ -17,10 +19,19 @@ class Dragon:
         self.bonus_range_fireball = 300
 
         self.fireballs_list = []
+        self.ultimate = False
+        self.ultimate_charge = 8
+        self.ultimate_size = 1
+        self.ultimate_position = [(50, 0), (25, -25) , (25, 25), (0,0), (0, -50), (0, 50) , (-25,-25), (-25, 25), (-50,0) ]
+        self.ultimate_range = 0
+        self.ultimate_collision = 0
+        self.ultimate_visual = False
 
         self.move_x, self.move_y = 0, 0
         self.moving_down, self.moving_left, self.moving_right, self.moving_up = False, False, False, False
         self.ball_x, self.ball_y = 0, 0
+
+        self.glowing_frame = 0
 
     def dragon_movement(self):
         self.dragon_x = self.move_x +345
