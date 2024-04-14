@@ -99,19 +99,27 @@ class Game(Dragon, Wizard, Balloon):
             else:
                 self.dragon_attack = False
                 self.dragon_attack_frame = 0
-                if self.ultimate_charge < 10 and not self.ultimate:
-                    self.ultimate_charge +=1
-                if self.ultimate:
+                if self.ultimate_charge == 10:
+                    self.ultimate_ready = True 
+                else: 
+                    self.ultimate_charge += 1
+                    
+                if not self.ultimate:
+                    self.ultimate_range = 0
+                    self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
+                else:
                     if self.fireballs_list == []:
                         for i in range(9):
                             self.fireballs_list.append((self.dragon_x +75 + self.ultimate_position[i][0], self.dragon_y + 5+ self.ultimate_position[i][1], self.dragon_x +70 + self.ultimate_position[i][0], True))
-                else:
-                    self.ultimate_range = 0
-                    self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
+                    self.ultimate_ready = False
+                    self.ultimate = False
+
+
     def baby_dragon_visual(self):
         for whelp, (x, y, attack) in enumerate(self.baby_dragon_list):
             self.img_center("Dragon_red", x, y, 177//3 , 162//3 ,self.red_frames[int(self.dragon_frame)])
-            
+            self.text_not_center(self.font2, 12, str(attack), self.black, x, y - 20)
+
             if self.dragon_attack:
                 if self.dragon_attack_frame < len(self.fireball):
                     self.img_center("Fireball", x + 25, y + 5 // 3, 4 * self.dragon_attack_frame + self.dragon_attackspeed, 4 * self.dragon_attack_frame + self.dragon_attackspeed, self.fireball[int(self.dragon_attack_frame)])
@@ -182,7 +190,7 @@ class Game(Dragon, Wizard, Balloon):
 
                 self.whelp_fireballs_list[i] = (ball_x, ball_y, ball_x_orig, ball_moving)
 
-                if ball_x > ball_x_orig + 200: 
+                if ball_x > ball_x_orig + 400: 
                     self.whelp_fireballs_list[i] = (ball_x_orig, ball_y, ball_x_orig, False)
                     del self.whelp_fireballs_list[i]
                     for whelp, (x, y, attack) in enumerate(self.baby_dragon_list):
@@ -284,7 +292,7 @@ class Game(Dragon, Wizard, Balloon):
                     if event.key == pygame.K_n:
                         if self.entity_moving and not self.ultimate:
                             if not self.dragon_attack:
-                                if self.ultimate_charge == 10:
+                                if self.ultimate_ready == True:
                                     if self.fireballs_list == []:
                                         self.ultimate = True
                                         self.ultimate_visual = True
@@ -299,8 +307,6 @@ class Game(Dragon, Wizard, Balloon):
                                         self.ultimate_charge = 0
                                         self.ultimate_visual = False
                                         self.dragon_attack = True
-                                    else:
-                                        self.ultimate = False
                                 else:
                                         self.dragon_attack = True
                         else:
