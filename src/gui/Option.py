@@ -80,7 +80,9 @@ class Option(Element, SoundManager):
         self.img_not_center("Q", 820, 350, 30, 30, self.img_key)
         self.img_not_center("D", 825, 355, 20, 20, self.img_arrow_flip2)
         self.img_not_center("S", 850, 350, 30, 30, self.img_key)
-        self.img_not_center("D", 880, 350, 30, 30, self.img_key)   
+        self.img_not_center("S", 855, 355, 20, 20, self.img_arrow)
+        self.img_not_center("D", 880, 350, 30, 30, self.img_key) 
+        self.img_not_center("D", 885, 355, 20, 20, self.img_arrow_flip1)   
 
         self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
         self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)

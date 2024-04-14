@@ -17,9 +17,10 @@ class Scenario(Game):
         self.back_p = pygame.image.load(f"assets/image/scenario/scenario_performance.png").convert_alpha()
         self.rect_op= pygame.image.load(f"assets/image/scenario/scenario_card.png").convert_alpha()
         self.bonus= pygame.image.load(f"assets/image/scenario/bonus1.png").convert_alpha()
-
-        
-        
+        self.back_p = pygame.image.load(f"assets/image/scenario/scenario_performance.png").convert_alpha()
+        self.card = pygame.image.load(f"assets/image/scenario/scenario_card.png").convert_alpha()
+        self.title = pygame.image.load(f"assets/image/scenario/scenario_title.png").convert_alpha()
+      
         self.left_char = -100 
         self.right_char = 1450
         self.step = 0
@@ -52,17 +53,20 @@ class Scenario(Game):
     def performance_display(self): 
         self.rect_full_opacity(self.grey, self.W//2, self.H//2, 730, 480, 3, 100)
         self.img_center("Back P", self.W//2, self.H//2, 700, 450, self.back_p)
+        self.img_center("title", self.W//2, 200, 420, 100, self.title)
 
-        # Performance
-        self.img_not_center("performance2", self.W//2-50, self.H//2, 150, 50, self.rect_op)
-        self.text_not_center(self.font, 20,"performance2", self.white, self.W//2-50, self.H//2+10)
+        self.text_not_center(self.font, 15,"Choose a permanent bonus for the game", self.brown1, self.W//2-135, self.H//2-160)    
 
-        self.img_not_center("performance1", self.W//2 -200, self.H//2, 150, 50, self.rect_op)
-        self.text_not_center(self.font, 20,"performance1", self.white, self.W//2-200, self.H//2+10)
+        # Performance   
+        self.circle(self.yellow, 420, 350, 80)
+        self.img_txt_hover("Bonus1", "Bonus1", 420, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 420, self.H//2+115)
 
-        self.img_not_center("performance3", self.W//2 + 100, self.H//2, 150, 50, self.rect_op)
-        self.text_not_center(self.font, 20,"performance3", self.white, self.W//2+100, self.H//2+10)
- 
+        self.circle(self.blue, 620, 350, 80)
+        self.img_txt_hover("Bonus2", "Bonus2", 620, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 620, self.H//2+115)
+
+        self.circle(self.brown, 820, 350, 80)
+        self.img_txt_hover("Bonus2", "Bonus2", 820, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 820, self.H//2+115)
+
 
     def scenario_run(self):
         while self.scenario_running:
