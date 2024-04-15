@@ -150,12 +150,13 @@ class Game(Element, Dragon, Wizard, Enemy):
                 self.img_center("Wizard", self.wizard_x, self.wizard_y, 123,160,self.wizard_frames[0])
 
     def soldier_visual(self):
+        self.soldier_frame = (self.soldier_frame + self.soldier_frame_speed) % len(self.soldier_frames_walk)
+
         for i, (x, y, health, soldier_type, _) in enumerate(self.soldier_list):
             color = self.limegreen if health * 100 // self.soldier_health[soldier_type] > 30 else self.red
             frame = self.soldier_frames_walk
-            self.img_mirror_sol(x, y, 85 , 105, frame[int(self.soldier_frame)])
+            self.img_mirror_sol(x, y, 85 , 105, self.soldier_frames_walk[int(self.soldier_frame)])
             x -= self.soldier_speed
-            self.soldier_frame = (self.soldier_frame + self.soldier_frame_speed ) % len(frame)
 
             if health < self.soldier_health[soldier_type]:
                 self.rect_full_not_centered(color, x - 12 , y - 50, health * 60 // self.soldier_health[soldier_type], 6, 0)
@@ -166,7 +167,7 @@ class Game(Element, Dragon, Wizard, Enemy):
                 self.soldier_list[i] = (x - 0.5, y, health, soldier_type, False)
 
     def balloon_visual(self):
-        for i, (x, y, health, balloon_type, _) in enumerate(self.balloon_list):
+        for i, (x, y, health, balloon_type, drop_soldier) in enumerate(self.balloon_list):
             color = self.limegreen if health * 100 // self.balloon_health[balloon_type] > 30 else self.red
             balloon_color = self.balloon[balloon_type]
             self.img_center("Balloon", x , y, 40, 64, balloon_color)
@@ -177,6 +178,8 @@ class Game(Element, Dragon, Wizard, Enemy):
             if x > 750:
                 self.balloon_list[i] = (x - 0.5, y, health, balloon_type, True)
             else:
+                if drop_soldier:
+                    self.soldier_creation(self.level)
                 self.balloon_list[i] = (x - 0.5, y, health, balloon_type, False)
 
 
@@ -272,7 +275,7 @@ class Game(Element, Dragon, Wizard, Enemy):
 
     # Stop the generation of the enemies
     def set_wave(self):
-        if self.ballon_generated > 0 and self.soldier_generated > 0:
+        if self.ballon_generated > 0:
             self.bol = False
         return self.bol
 
@@ -281,6 +284,7 @@ class Game(Element, Dragon, Wizard, Enemy):
         if not self.balloon_list and not self.soldier_list:
             self.bol = True
             self.level += 1
+            print(self.level)
         return self.bol, self.level
 
     def handle_events(self):
