@@ -11,6 +11,7 @@ class Soldier:
         self.soldier_frame = 0
         self.soldier_speed = 0.52
         self.soldier_frame_speed = 0.14
+        self.soldier_generated = 0
         self.soldier_list = []
         self.soldier_health = [150, 125, 100, 75]
 
@@ -31,10 +32,11 @@ class Soldier:
         # self.balloon_creation(1) #Test de la méthode
 
     def soldier_creation(self, level):
-        nb_soldier = random.randint(level, level + 1)
+        self.nb_soldier = random.randint(level, level + 1)
+        self.soldier_generated = self.nb_soldier
         if level > 9:
             level = 9
-        for i in range(nb_soldier):
+        for i in range(self.nb_soldier):
             rand_val = random.random()
 
             if rand_val <= self.soldier_type_value[level][0]:
@@ -49,3 +51,4 @@ class Soldier:
             pos_x_soldier = random.randint(1350, 1500)
             pos_y_soldier = 590
             self.soldier_list.append((pos_x_soldier, pos_y_soldier, self.soldier_health[soldier_type], soldier_type, False))
+        return self.soldier_generated
