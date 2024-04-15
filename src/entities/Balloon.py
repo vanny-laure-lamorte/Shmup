@@ -8,6 +8,7 @@ class Balloon:
         self.explosion_frames = {}
 
         self.balloon_list = []
+        self.ballon_generated = 0
         self.balloon_health = [400, 300, 200, 100]
 
         self.balloon_type_value = [
@@ -27,10 +28,11 @@ class Balloon:
         # self.balloon_creation(1) #Test de la méthode
 
     def balloon_creation(self, level):
-        nb_balloons = random.randint(level + 2, level + 3)
+        self.nb_balloons = random.randint(level, level + 1)
+        self.ballon_generated = self.nb_balloons
         if level > 9:
             level = 9
-        for i in range(nb_balloons):
+        for i in range(self.nb_balloons):
             rand_val = random.random()
 
             if rand_val <= self.balloon_type_value[level][0]:
@@ -45,6 +47,7 @@ class Balloon:
             pos_x_balloon = random.randint(1350, 1500)
             pos_y_balloon = random.randint(55, 300)
             self.balloon_list.append((pos_x_balloon, pos_y_balloon, self.balloon_health[balloon_type], balloon_type, False))
+        return self.ballon_generated
 
 
 

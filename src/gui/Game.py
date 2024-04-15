@@ -1,23 +1,24 @@
-import pygame
+import pygame, random
 from src.pygame_manager.Element import Element
 
 from src.entities.Dragon import Dragon
 from src.entities.Wizard import Wizard
-from src.entities.Balloon import Balloon
-from src.entities.Soldier import Soldier
+from src.gui.Enemy import Enemy
 
-
-class Game(Element, Dragon, Wizard, Balloon, Soldier):
+class Game(Element, Dragon, Wizard, Enemy):
     def __init__(self):
         Element.__init__(self)
         Dragon.__init__(self)
         Wizard.__init__(self)
-        Balloon.__init__(self)
-        Soldier.__init__(self)
+        Enemy.__init__(self)
+
         self.game_running = True
+
         self.explosion_list = []
         self.soldier_death_list = []
         self.score = 0
+        self.bol = True
+        self.level = 1
 
         self.entity_moving = True # True for Dragon / False for Wizard
         self.dragon_left, self.wizard_left = False, False
@@ -32,10 +33,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
         self.max_hp = 100
 
         self.balloon_damage = 20 # Damage baloon
-        self.balloon_creation(3) #Test de la méthode (Level en attribut)
-
-        self.soldier_damage = 10
-        self.soldier_creation(1)
+        self.soldier_damage = 15
 
     def background_game(self):
 
@@ -46,7 +44,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
         self.img_not_center("Castle", -90, 115, 375, 515, self.img_castle)
 
         # Life
-        hp_color = self.green if self.max_hp > 30 else self.red
+        hp_color = self.limegreen if self.max_hp > 30 else self.red
         pygame.draw.rect(self.Window, self.black, (1087, 20, 125, 15))
         self.img_not_center("Life", 1060, 15, 160, 26, self.hp)
         pygame.draw.rect(self.Window, hp_color, (1087, 20, self.max_hp * 125 // 100, 15))
@@ -83,8 +81,8 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
             self.img_center("Glowing", self.W//2+240, 657, 215 , 55 ,self.glowing_effect[int(self.glowing_frame)])
             self.glowing_frame += 1
             self.glowing_frame %= len(self.glowing_effect)
-    
-        # Fire range        
+
+        # Fire range
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
         pygame.draw.rect(self.Window, self.black, (325, 685, 120, 9))
         self.img_not_center("Life", 315, 680, 143, 18, self.life)
@@ -272,10 +270,21 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                 self.max_hp -= self.soldier_damage
                 del self.soldier_list[i]
 
+    # Stop the generation of the enemies
+    def set_wave(self):
+        if self.ballon_generated > 0 and self.soldier_generated > 0:
+            self.bol = False
+        return self.bol
 
-    def game_run(self):
-        while self.game_running:
-            for event in pygame.event.get():
+    # Check if all enemies died and setting the next wave
+    def set_next_wave(self):
+        if not self.balloon_list and not self.soldier_list:
+            self.bol = True
+            self.level += 1
+        return self.bol, self.level
+
+    def handle_events(self):
+        for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.game_running = False
                 if event.type == pygame.KEYDOWN:
@@ -300,7 +309,7 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                                     if self.fireballs_list == []:
                                         self.ultimate = True
                                         self.ultimate_visual = True
-                                    
+
                     if event.key == pygame.K_SPACE:
                         if self.entity_moving:
                             if not self.dragon_attack:
@@ -344,20 +353,32 @@ class Game(Element, Dragon, Wizard, Balloon, Soldier):
                             self.dragon_left = False
                         elif not self.entity_moving:
                             self.wizard_left = False
-            if self.entity_moving:
-                self.dragon_movement()
-            else:
-                self.wizard_movement()
 
-            self.background_game()
-            self.dragon_visual()
-            self.explosion_visual()
-            self.soldier_death_visual()
-            self.wizard_visual()
-            self.balloon_visual()
-            self.fireball_visual()
-            self.soldier_visual()
-            self.bolt_visual()
+    def update_character_movement(self):
+        if self.entity_moving:
+            self.dragon_movement()
+        else:
+            self.wizard_movement()
+
+    def render_game(self):
+        self.background_game()
+        self.dragon_visual()
+        self.fireball_visual()
+        self.wizard_visual()
+        self.bolt_visual()
+        self.explosion_visual()
+        self.balloon_visual()
+        self.soldier_visual()
+        self.soldier_death_visual()
+
+    def game_run(self):
+        while self.game_running:
+            self.handle_events()
+            self.update_character_movement()
+            self.render_game()
+            self.wave(self.bol, self.level)
+            self.set_wave()
+            self.set_next_wave()
             self.check_target()
             self.check_target_soldier()
             self.update()
