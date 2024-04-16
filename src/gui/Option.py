@@ -23,15 +23,14 @@ class Option(Element, SoundManager):
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
         self.img_back_menu= pygame.image.load(f"assets/image/option/option_back.png").convert_alpha()
         self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
-        self.rotation = 0
         self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
         self.img_arrow_flip2 = pygame.transform.rotate(self.img_arrow, -90)
         self.img_arrow_flip3 = pygame.transform.rotate(self.img_arrow, 180)
 
+        self.rotation = 0
         self.selected_op = 0
-        self.selected_nb_op = 0        
+        self.selected_nb_op = 0       
         
-
     def design_option(self):
 
         # Background
@@ -58,8 +57,8 @@ class Option(Element, SoundManager):
         self.text_not_center(self.font2, 20, "Settings", self.white, 730, 90)
 
         # Option volume
-        self.volume1 = self.img_txt_hover_op("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170, 2)
-        self.volume2 = self.img_txt_hover_op("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170, 3)
+        self.volume1 = self.img_txt_hover_op("Option volume1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170, 2)
+        self.volume2 = self.img_txt_hover_op("Option volume2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170, 3)
         self.img_not_center("Volume", 640, 200, 30, 30, self.img_volume)
         self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)             
 

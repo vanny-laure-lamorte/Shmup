@@ -5,8 +5,7 @@ class Element(Screen):
         Screen.__init__(self)
 
         self.big_pic = False
-        self.directional_keys_pressed = False
-       
+        self.directional_keys_pressed = False       
 
         # Color
         self.black = (0, 0, 0)
@@ -85,6 +84,19 @@ class Element(Screen):
             self.img_center(txt, x, y, width, height, image_name)
         self.text_center(font, txt_size, txt, color, x_t, y_t)
 
+
+        return name_rect
+    
+    def img_txt_hover_perf(self, name_rect, txt, x, y, width, height, image_name, image_name_hover, font, txt_size, color, x_t, y_t, selected_perf): 
+        name_rect = pygame.Rect(x - width//2, y - height//2, width + len(txt)*txt_size, height)
+        
+        # Vérifiez si cette option est sélectionnée
+        if self.selected_perf == selected_perf:
+            self.img_center(txt, x, y, width+5, height+5, image_name_hover)
+        else:
+            self.img_center(txt, x, y, width, height, image_name)
+            
+        self.text_center(font, txt_size, txt, color, x_t, y_t)
 
         return name_rect
     
