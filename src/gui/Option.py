@@ -27,6 +27,9 @@ class Option(Element, SoundManager):
         self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
         self.img_arrow_flip2 = pygame.transform.rotate(self.img_arrow, -90)
         self.img_arrow_flip3 = pygame.transform.rotate(self.img_arrow, 180)
+
+        self.selected_op = 0
+        self.selected_nb_op = 0        
         
 
     def design_option(self):
@@ -55,14 +58,14 @@ class Option(Element, SoundManager):
         self.text_not_center(self.font2, 20, "Settings", self.white, 730, 90)
 
         # Option volume
-        self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
-        self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
+        self.volume1 = self.img_txt_hover_op("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170, 2)
+        self.volume2 = self.img_txt_hover_op("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170, 3)
         self.img_not_center("Volume", 640, 200, 30, 30, self.img_volume)
         self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)             
 
         # Option movement
-        self.img_txt_hover("Option movement", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
-        self.img_txt_hover("Option movement ", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
+        self.img_txt_hover_op("Option movement", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270, 4)
+        self.img_txt_hover_op("Option movement ", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270, 5)
 
         # ZQSD
         self.img_not_center("Z", 650, 320, 30, 30, self.img_key)
@@ -84,12 +87,6 @@ class Option(Element, SoundManager):
         self.img_not_center("D", 880, 350, 30, 30, self.img_key) 
         self.img_not_center("D", 885, 355, 20, 20, self.img_arrow_flip1)   
 
-        self.img_txt_hover("Option son1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170)
-        self.img_txt_hover("Option son2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170)
-
-        self.img_txt_hover("Option son1", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
-        self.img_txt_hover("Option son2", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
-
         # Best player section
         self.img_not_center("parchment", 980, 90, 254, 517, self.img_parchment)
         self.text_not_center(self.font2, 20, "Best players", self.white, 1020, 140)
@@ -107,7 +104,7 @@ class Option(Element, SoundManager):
         self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
         
         # Back to Menu
-        self.back_menu = self.img_txt_hover('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40)    
+        self.img_txt_hover_op('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40, 1)    
 
     def option_run(self):
         while self.option_running:
@@ -116,9 +113,20 @@ class Option(Element, SoundManager):
                     self.option_running = False
 
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        self.option_running = False
 
+                    if event.key == pygame.K_UP: 
+                        if self.selected_op > 1:
+                            self.selected_op -= 1
+                    elif event.key == pygame.K_DOWN:
+                        if self.selected_op < 5 :
+                            self.selected_op += 1
+                
+                    # if event.key == pygame.K_RETURN:
+                    #     if self.selected_op == 2:  
+                    #         self.load_sound("music", "assets/music/music.wav")
+                    #         self.play_sound("music")             
+                    #     if self.selected_op == 3: 
+                    #         self.stop_sound("music")  
 
             self.design_option()
             self.update()

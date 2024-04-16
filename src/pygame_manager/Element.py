@@ -88,6 +88,19 @@ class Element(Screen):
 
         return name_rect
     
+    def img_txt_hover_op(self, name_rect, txt, x, y, width, height, image_name, image_name_hover, font, txt_size, color, x_t, y_t, selected_op): 
+        name_rect = pygame.Rect(x - width//2, y - height//2, width + len(txt)*txt_size, height)
+        
+        # Vérifiez si cette option est sélectionnée
+        if self.selected_op == selected_op:
+            self.img_center(txt, x, y, width+5, height+5, image_name_hover)
+        else:
+            self.img_center(txt, x, y, width, height, image_name)
+            
+        self.text_center(font, txt_size, txt, color, x_t, y_t)
+
+        return name_rect
+    
     def img_txt_hover_k(self, name_rect, txt, x, y, width, height, image_name, image_name_hover, font, txt_size, color, x_t, y_t, selected_nb): 
         name_rect = pygame.Rect(x - width//2, y - height//2, width + len(txt)*txt_size, height)
         
