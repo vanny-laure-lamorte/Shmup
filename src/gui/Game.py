@@ -112,10 +112,9 @@ class Game(Element, Dragon, Wizard, Enemy):
                 self.dragon_attack = False
                 self.dragon_attack_frame = 0
                 if self.ultimate_charge == 10:
-                    self.ultimate_ready = True 
-                else: 
+                    self.ultimate_ready = True
+                else:
                     self.ultimate_charge += 1
-                    
                 if not self.ultimate:
                     self.ultimate_range = 0
                     self.fireballs_list.append((self.dragon_x +75, self.dragon_y + 5, self.dragon_x +70, True))
@@ -309,10 +308,11 @@ class Game(Element, Dragon, Wizard, Enemy):
                         else:
                             del self.baby_dragon_list[whelp]
 
-            if balloon_x < 115:  
+            if balloon_x < 115:
                 self.explosion_list.append((balloon_x, balloon_y))
                 self.max_hp -= self.balloon_damage
                 del self.balloon_list[i]
+
     # Temporary Check target for the soldier
     def check_target_soldier(self):
         for i, (soldier_x, soldier_y, health, soldier_type, _) in enumerate(self.soldier_list):
@@ -331,6 +331,18 @@ class Game(Element, Dragon, Wizard, Enemy):
                 self.explosion_list.append((soldier_x, soldier_y))
                 self.max_hp -= self.soldier_damage
                 del self.soldier_list[i]
+
+    def upgrade_attack(self):
+        self.dragon_damage += 5
+        self.wizard_damage += 2
+
+    def upgrade_attack_speed(self):
+        self.dragon_attackspeed += 0.05
+        self.wizard_attack_speed += 0.02
+
+    def upgrade_range(self):
+        pass
+
 
     # Stop the generation of the enemies
     def set_wave(self):
