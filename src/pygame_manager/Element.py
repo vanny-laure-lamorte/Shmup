@@ -13,6 +13,7 @@ class Element(Screen):
         self.red = (240, 64,30)
 
         self.green = (106, 153, 78)
+        self.limegreen = (50,205,50)
         self.red = (193 , 18, 31)
         self.grey = (20, 20, 20)
 
@@ -20,7 +21,11 @@ class Element(Screen):
         self.blue = (168,206,187)
         self.brown = (180,140,99)
         self.brown1 = (215,148,68)
+        self.yellow = (255, 214, 10)
 
+        self.color1 = (240,255,255)
+        self.color2 = (255,222,173)
+                
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
         self.font1 = "assets/font/Ring of Kerry.otf"
@@ -29,7 +34,6 @@ class Element(Screen):
         self.font4 = "assets/font/RomanUncialModern.ttf"
         self.font5 = "assets/font/Old Wise Lord.otf"
 
-      
 # Def text
     def text_center(self, font, text_size, text_content, color, x, y):
         pygame.font.init()
@@ -139,8 +143,16 @@ class Element(Screen):
         self.Window.blit(mirrored_image, (x - mirrored_image.get_width(), y - mirrored_image.get_height()//2))
         button = pygame.Rect((x - width//2), (y - height//2), width, height)
         return button
+    
+    def img_mirror_sol(self, x, y, width, height, image):
+        mirrored_image = pygame.transform.flip(image, True, False)
+        mirrored_image = pygame.transform.smoothscale(mirrored_image, (width, height))
+        self.Window.blit(mirrored_image, (x - mirrored_image.get_width(), y - mirrored_image.get_height()//2))
+        button = pygame.Rect((x - width//2), (y - height//2), width, height)
+        return button
 
-# Def rectangle  
+
+# Def rectangle
 
     def rect_full_opacity(self, color, x, y, width, height, radius, opacity=255):
         button_surface = pygame.Surface((width, height), pygame.SRCALPHA)

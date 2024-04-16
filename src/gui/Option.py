@@ -7,6 +7,7 @@ class Option(Element, SoundManager):
         Element.__init__(self)
         SoundManager.__init__(self)
         self.option_running = True
+
         self.img_back_option = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
         self.img_map = pygame.image.load(f"assets/image/option/option_map.png").convert_alpha()
         self.img_parchment = pygame.image.load(f"assets/image/option/option_parchment.png").convert_alpha()
@@ -31,18 +32,23 @@ class Option(Element, SoundManager):
         self.selected_op = 0
         self.selected_nb_op = 0       
         
-    def design_option(self):
+    def design_option(self, input_name):
 
         # Background
-        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back_option)    
+        self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.img_back_option)
 
         # Maps
         self.rect_full_opacity(self.grey, 290 , 250, 540, 350, 3, 100)
         self.img_not_center("Map", 40, 90, 500, 318, self.img_map)
 
         self.rect_full_opacity(self.grey, 290 , 460, 540, 50, 3, 100)
-        self.text_not_center(self.font2, 20, "Welcome to Wyrm Empire", self.white, 140, 445)
-
+        self.text_not_center(self.font2, 20, "Welcome to Wyrm Empire", self.white, 60, 445)
+        if len(input_name) <= 5:
+            self.text_not_center(self.font2, 26, input_name, self.color2, 380, 440)
+        elif len(input_name) >= 6 and len(input_name) <= 12:
+            self.text_not_center(self.font2, 26, input_name, self.color2, 375, 440)
+        else:
+            self.text_not_center(self.font2, 26, input_name, self.color2, 345, 440)
         # Rules
         self.rect_full_opacity(self.grey, 290 , 560, 540, 130, 3, 100)
         self.text_not_center(self.font2, 13, "Your goal is to protect the castle by strategically positioning the dragon and", self.white, 35, 510)
@@ -62,7 +68,7 @@ class Option(Element, SoundManager):
         self.volume1 = self.img_txt_hover_op("Option volume1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170, 2)
         self.volume2 = self.img_txt_hover_op("Option volume2", "Option 2", 840, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 170, 3)
         self.img_not_center("Volume", 640, 200, 30, 30, self.img_volume)
-        self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)             
+        self.img_not_center("Mute", 830, 200, 30, 30, self.img_mute)
 
         # Option movement
         self.img_txt_hover_op("Option movement", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270, 4)
@@ -104,7 +110,7 @@ class Option(Element, SoundManager):
         # Back to Menu
         self.img_txt_hover_op('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40, 1)    
 
-    def option_run(self):
+    def option_run(self, input_name):
         while self.option_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -126,5 +132,5 @@ class Option(Element, SoundManager):
                     #     if self.selected_op == 3: 
                     #         self.stop_sound("music")  
 
-            self.design_option()
+            self.design_option(input_name)
             self.update()
