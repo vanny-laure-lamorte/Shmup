@@ -15,12 +15,12 @@ class Option(Element, SoundManager):
         self.img_helmet2 = pygame.image.load(f"assets/image/option/option_helmet2.png").convert_alpha()
         self.img_helmet3 = pygame.image.load(f"assets/image/option/option_helmet3.png").convert_alpha()
         self.img_helmet4 = pygame.image.load(f"assets/image/option/option_helmet4.png").convert_alpha()
-        self.img_seal= pygame.image.load(f"assets/image/option/option_seal.png").convert_alpha()
         self.img_volume= pygame.image.load(f"assets/image/option/option_volume.png").convert_alpha()
         self.img_mute= pygame.image.load(f"assets/image/option/option_mute.png").convert_alpha()
         self.img_key= pygame.image.load(f"assets/image/option/option_key.png").convert_alpha()
         self.img_check= pygame.image.load(f"assets/image/option/option_check1.png").convert_alpha()
         self.img_check1= pygame.image.load(f"assets/image/option/option_check2.png").convert_alpha()
+        self.coat_of_arms = pygame.image.load(f"assets/image/game/game_coat_of_arms.png").convert_alpha()
         self.img_back_menu= pygame.image.load(f"assets/image/option/option_back.png").convert_alpha()
         self.img_arrow= pygame.image.load(f"assets/image/option/option_arrow.png").convert_alpha()
         self.img_arrow_flip1 = pygame.transform.rotate(self.img_arrow, 90)
@@ -55,6 +55,8 @@ class Option(Element, SoundManager):
         # Settings
         self.rect_full_opacity(self.grey, 765 , 350, 390, 550, 3, 100)
         self.text_not_center(self.font2, 20, "Settings", self.white, 730, 90)
+
+        self.img_not_center("coat of arms", 670, 380, 200, 200, self.coat_of_arms)  
 
         # Option volume
         self.volume1 = self.img_txt_hover_op("Option volume1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170, 2)
@@ -99,9 +101,6 @@ class Option(Element, SoundManager):
         self.img_not_center("parchment", 1000, 410, 60, 60, self.img_helmet1)
         self.text_not_center(self.font2, 15, "Vanny Lamorte", self.white, 1060, 430)
 
-        # Seal
-        self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)
-        
         # Back to Menu
         self.img_txt_hover_op('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40, 1)    
 

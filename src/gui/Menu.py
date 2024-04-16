@@ -33,8 +33,7 @@ class Menu (Option, Scenario):
         self.images = {}
         for name, path in self.image_paths.items():
             self.images[name] = pygame.image.load(path)
-
-
+            
     def design_menu(self): 
 
         # Bakground
@@ -42,7 +41,7 @@ class Menu (Option, Scenario):
 
         # Parchment
         self.img_center("parchment", 900, 400, 450, 550, self.images["parchment"])
-
+          
         # Title
         self.text_not_center(self.font5, 60,"Elemental Guardians", self.white, 670, 35)
         self.text_not_center(self.font5, 45,"Mage & Wyrm", self.white, 780, 85)

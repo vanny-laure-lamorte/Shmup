@@ -140,8 +140,8 @@ class Scenario(Game):
 
             self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)
 
-            # self.first_scenario()
+            self.first_scenario()
             # self.win_scenario()
             # self.loose_scenario()
-            self.performance_display()
+            # self.performance_display()
             self.update()

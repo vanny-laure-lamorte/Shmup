@@ -1,3 +1,4 @@
+
 import pygame
 from src.pygame_manager.Element import Element
 
@@ -18,13 +19,15 @@ class Game(Dragon, Wizard, Balloon):
         self.entity_moving = True # True for Dragon / False for Wizard
         self.dragon_left, self.wizard_left = False, False
 
-        self.img_back_game = pygame.image.load(f"assets/image/game/background.png").convert_alpha()
-        self.img_castle = pygame.image.load(f"assets/image/game/game_castle.png").convert_alpha()
+        self.img_back_game = pygame.image.load(f"assets/image/game/background1.png").convert_alpha()
+        self.img_castle = pygame.image.load(f"assets/image/game/game_castle1.png").convert_alpha()
         self.rect_option = pygame.image.load(f"assets/image/game/game_rect.png").convert_alpha()
         self.rect_high_score = pygame.image.load(f"assets/image/game/game_high_score.png").convert_alpha()
         self.crown = pygame.image.load(f"assets/image/game/game_crown.png").convert_alpha()
         self.life = pygame.image.load(f"assets/image/game/game_life.png").convert_alpha()
         self.hp = pygame.image.load(f"assets/image/game/game_hp.png").convert_alpha()
+        self.warning = pygame.image.load(f"assets/image/game/game_warning.png").convert_alpha()
+       
         self.max_hp = 100
 
         self.balloon_damage = 20 # Damage baloon
@@ -77,6 +80,9 @@ class Game(Dragon, Wizard, Balloon):
 
         # Back to Menu
         self.back_menu = self.img_txt_hover('"back to menu', "MENU", 60, 670, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 670)
+
+    def warning_enemy(self):
+        self.img_not_center("warning", 75, 15, 443, 208, self.warning)  
 
     def dragon_visual(self):
 
