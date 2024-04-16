@@ -70,20 +70,6 @@ class Menu (Option, Scenario):
         if self.error_no_name:
             self.text_not_center(self.font, 12, "Please enter your username", self.red, 825, 283)
 
-    def save_player_info(self):
-            try:
-                with open('player_info.json', 'r') as file:
-                    data = json.load(file)
-            except (FileNotFoundError, json.decoder.JSONDecodeError):
-                data = []
-            data.append((self.input_name))
-
-            if self.input_name not in data:
-                data.append(self.input_name)
-
-            with open('player_info.json', 'w') as file:
-                json.dump(data, file)
-
     def menu_run (self):
         self.menu_running = True
         while self.menu_running:
@@ -128,8 +114,7 @@ class Menu (Option, Scenario):
                             if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
                                 self.error_no_name = True
                             else:
-                                self.save_player_info()
-                                self.scenario_run()
+                                self.scenario_run(self.input_name)
                                 self.menu_running = False
 
                         elif self.selected_option == 2:

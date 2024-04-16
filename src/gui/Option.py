@@ -1,4 +1,4 @@
-import pygame
+import pygame, json
 from src.pygame_manager.Element import Element
 
 from src.gui.Game import Game
@@ -92,18 +92,28 @@ class Option(Element):
         self.img_txt_hover("Option son1", "Option 1", 650, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 270)
         self.img_txt_hover("Option son2", "Option 2", 840, 270, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 885, 270)
 
+        with open("player_info.json", "r") as file:
+            data = json.load(file)
+
+        sorted_players = sorted(data, key=lambda x: x[1], reverse=True)
+
+        top_players = [player[0] for player in sorted_players[:4]]
+
+        for i, player_name in enumerate(top_players, start=1):
+            setattr(self, f"best_player_{i}", player_name)
+
         # Best player section
         self.img_not_center("parchment", 980, 90, 254, 517, self.img_parchment)
         self.text_not_center(self.font2, 20, "Best players", self.white, 1020, 140)
         self.img_not_center("Seal", 1000, 95, 160, 160, self.img_line)
         self.img_not_center("parchment", 1000, 200, 60, 60, self.img_helmet4)
-        self.text_not_center(self.font2, 15, "Lucy Madec", self.white, 1060, 220)
+        self.text_not_center(self.font2, 15, self.best_player_1, self.white, 1060, 220)
         self.img_not_center("parchment", 1000, 270, 60, 60, self.img_helmet3)
-        self.text_not_center(self.font2, 15, "Lucas Martinie", self.white, 1060, 290)
+        self.text_not_center(self.font2, 15, self.best_player_2, self.white, 1060, 290)
         self.img_not_center("parchment", 1000, 340, 60, 60, self.img_helmet2)
-        self.text_not_center(self.font2, 15, "Hamza Naya", self.white, 1060, 360)
+        self.text_not_center(self.font2, 15, self.best_player_3, self.white, 1060, 360)
         self.img_not_center("parchment", 1000, 410, 60, 60, self.img_helmet1)
-        self.text_not_center(self.font2, 15, "Vanny Lamorte", self.white, 1060, 430)
+        self.text_not_center(self.font2, 15, self.best_player_4, self.white, 1060, 430)
 
         # Seal
         self.img_not_center("Seal", 1150, 510, 60, 60, self.img_seal)

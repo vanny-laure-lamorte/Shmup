@@ -41,7 +41,7 @@ class Scenario(Game):
         if self.step == 2:
             self.text_center(self.font4, 30, "Press ENTER to start the game", self.black, self.W//2, 630)
 
-    def scenario_run(self):
+    def scenario_run(self, input_name):
         while self.scenario_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -50,9 +50,9 @@ class Scenario(Game):
                     if event.key == pygame.K_SPACE:
                         if self.step < 2:
                             self.step += 1
-                
+
                     elif event.key == pygame.K_RETURN and self.step == 2 :
-                        self.game_run()
+                        self.game_run(input_name)
                         self.scenario_running = False
 
             self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)

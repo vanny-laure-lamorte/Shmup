@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, json
 from src.pygame_manager.Element import Element
 
 from src.entities.Dragon import Dragon
@@ -49,10 +49,17 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.img_not_center("Life", 1060, 15, 160, 26, self.hp)
         pygame.draw.rect(self.Window, hp_color, (1087, 20, self.max_hp * 125 // 100, 15))
 
+        with open("player_info.json", "r") as file:
+            data = json.load(file)
+
+        sorted_players = sorted(data, key=lambda x: x[1], reverse=True)
+
+        top_score = [score[1] for score in sorted_players[:1]]
+
         # Score
         self.img_not_center("Crown", 75, 5, 35, 35, self.crown)
         self.img_not_center("High Score", 15, 25, 153, 57, self.rect_option)
-        self.text_not_center(self.font2, 13, "High Score : 24121993", self.white, 30, 45)
+        self.text_not_center(self.font2, 13, "High Score : " + str(top_score[0]), self.white, 30, 45)
 
         self.img_not_center("High Score", 15, 75, 153, 57, self.rect_option)
         self.text_not_center(self.font2, 13, f"Your Score : {self.score}", self.white, 30, 95)
@@ -283,6 +290,19 @@ class Game(Element, Dragon, Wizard, Enemy):
             self.level += 1
         return self.bol, self.level
 
+    def save_player_info(self, input_name, score):
+        if self.level == 2:
+            try:
+                with open('player_info.json', 'r') as file:
+                    data = json.load(file)
+            except (FileNotFoundError, json.decoder.JSONDecodeError):
+                data = []
+            data.append((input_name, score))
+
+            with open('player_info.json', 'w') as file:
+                json.dump(data, file)
+            self.game_running = False
+
     def handle_events(self):
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -371,7 +391,7 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.soldier_visual()
         self.soldier_death_visual()
 
-    def game_run(self):
+    def game_run(self, input_name):
         while self.game_running:
             self.handle_events()
             self.update_character_movement()
@@ -381,4 +401,5 @@ class Game(Element, Dragon, Wizard, Enemy):
             self.set_next_wave()
             self.check_target()
             self.check_target_soldier()
+            self.save_player_info(input_name, self.score)
             self.update()
