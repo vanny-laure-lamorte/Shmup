@@ -357,7 +357,7 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.bonus_range_fireball += 25
 
     def game_lose(self, input_name):
-        if self.max_hp == 0:
+        if self.max_hp <= 0:
             self.save_player_info(input_name, self.score)
             self.game_running = False
         return self.game_lost
@@ -463,6 +463,7 @@ class Game(Element, Dragon, Wizard, Enemy):
                         elif not self.entity_moving:
                             self.wizard_left = False
 
+
     def update_character_movement(self):
         if self.entity_moving:
             self.dragon_movement()
@@ -484,7 +485,7 @@ class Game(Element, Dragon, Wizard, Enemy):
 
 
     def game_run(self, input_name):
-        while self.game_running:
+        if self.game_running:
             self.handle_events()
             self.update_character_movement()
             self.render_game()
@@ -496,4 +497,4 @@ class Game(Element, Dragon, Wizard, Enemy):
             self.check_target_soldier()
             self.game_lose(input_name)
             self.game_winner(input_name)
-            self.update()
+            print(self.max_hp)

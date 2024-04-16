@@ -125,30 +125,34 @@ class Scenario(Game):
 
     def scenario_run(self, input_name):
         while self.scenario_running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.scenario_running = False
-                if event.type == pygame.KEYDOWN:
-
-                    if event.key == pygame.K_SPACE:
-                        if self.step < 2:
-                            self.step += 1
-
-                    elif event.key == pygame.K_RETURN and self.step == 2 :
-                        self.game_run(input_name)
+            if not self.game_running:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
                         self.scenario_running = False
+                    if event.type == pygame.KEYDOWN:
 
-                    # Bonus
-                    elif event.key == pygame.K_LEFT:
-                        if self.selected_perf > 1:
-                            self.selected_perf -= 1
-                    elif event.key == pygame.K_RIGHT:
-                        if self.selected_perf < 3 :
-                            self.selected_perf += 1
+                        if event.key == pygame.K_SPACE:
+                            if self.step < 2:
+                                self.step += 1
 
-            self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)
+                        elif event.key == pygame.K_RETURN and self.step == 2 :
+                            self.scenario_running = False
 
-            self.first_scenario()
-            # self.win_scenario()
-            # self.loose_scenario()
+                        # Bonus
+                        elif event.key == pygame.K_LEFT:
+                            if self.selected_perf > 1:
+                                self.selected_perf -= 1
+                        elif event.key == pygame.K_RIGHT:
+                            if self.selected_perf < 3 :
+                                self.selected_perf += 1
+
+                self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)
+                if not self.game_lost:
+                    self.first_scenario()
+                elif self.game_lost:
+                    self.loose_scenario()
+                elif self.game_win:
+                    self.win_scenario()
+            else:
+                self.game_run(input_name)
             self.update()
