@@ -1,4 +1,3 @@
-
 from src.gui.Menu import Menu
 
 m = Menu()

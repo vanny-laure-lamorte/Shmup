@@ -9,6 +9,6 @@ class Enemy(Balloon, Soldier):
 
     def wave(self, bol, niveau):
         if bol:
-            self.soldier_creation(niveau)
+            # self.soldier_creation(niveau)
             self.balloon_creation(niveau)
         return self.ballon_generated, self.soldier_generated
