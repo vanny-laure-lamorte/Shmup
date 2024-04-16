@@ -19,8 +19,8 @@ class Game(Dragon, Wizard, Balloon):
         self.entity_moving = True # True for Dragon / False for Wizard
         self.dragon_left, self.wizard_left = False, False
 
-        self.img_back_game = pygame.image.load(f"assets/image/game/background1.png").convert_alpha()
-        self.img_castle = pygame.image.load(f"assets/image/game/game_castle1.png").convert_alpha()
+        self.img_back_game = pygame.image.load(f"assets/image/game/background.png").convert_alpha()
+        self.img_castle = pygame.image.load(f"assets/image/game/game_castle.png").convert_alpha()
         self.rect_option = pygame.image.load(f"assets/image/game/game_rect.png").convert_alpha()
         self.rect_high_score = pygame.image.load(f"assets/image/game/game_high_score.png").convert_alpha()
         self.crown = pygame.image.load(f"assets/image/game/game_crown.png").convert_alpha()
