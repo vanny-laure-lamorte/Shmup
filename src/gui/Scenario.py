@@ -97,18 +97,18 @@ class Scenario(Game):
 
         # Bonus 1
         self.circle(self.yellow, 420, 355, 80)
-        self.img_txt_hover_perf("Bonus1", "Bonus1", 420, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 420, self.H//2+115, 1)
-        self.img_not_center("Bonus1", 380, 305, 80, 80, self.bonus1)
+        self.img_txt_hover_perf("Speed", "Speed", 420, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 420, self.H//2+115, 1)
+        self.img_not_center("Speed", 380, 305, 80, 80, self.bonus1)
 
         # Bonus 2
         self.circle(self.blue, 620, 355, 80)
-        self.img_txt_hover_perf("Bonus2", "Bonus2", 620, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 620, self.H//2+115, 2)
-        self.img_not_center("Bonus1", 580, 305, 80, 80, self.bonus2)
+        self.img_txt_hover_perf("Attack", "Attack", 620, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 620, self.H//2+115, 2)
+        self.img_not_center("Attack", 580, 305, 80, 80, self.bonus2)
 
         # Bonus 3
         self.circle(self.brown, 820, 355, 80)
-        self.img_txt_hover_perf("Bonus2", "Bonus2", 820, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 820, self.H//2+115, 3)
-        self.img_not_center("Bonus1", 780, 305, 80, 80, self.bonus3)
+        self.img_txt_hover_perf("Distance", "Distance", 820, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 820, self.H//2+115, 3)
+        self.img_not_center("Distance", 780, 305, 80, 80, self.bonus3)
 
     def scenario_run(self):
         while self.scenario_running:
@@ -143,5 +143,5 @@ class Scenario(Game):
             self.first_scenario()
             # self.win_scenario()
             # self.loose_scenario()
-            # self.performance_display()
+            self.performance_display()
             self.update()

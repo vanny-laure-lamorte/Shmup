@@ -81,14 +81,10 @@ class Game(Dragon, Wizard, Balloon):
         # Back to Menu
         self.back_menu = self.img_txt_hover('"back to menu', "MENU", 60, 670, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 670)
 
-        self.warning_enemy()
-
     def warning_enemy(self):
         self.img_not_center("warning", 170, 25, 243, 108, self.warning)  
         self.text_not_center(self.font1, 13, "Careful ! ", self.black, 250, 60)
         self.text_not_center(self.font1, 10, "Enemy approaching ", self.black, 220, 85)
-
-
 
     def dragon_visual(self):
 
