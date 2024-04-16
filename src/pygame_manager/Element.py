@@ -5,8 +5,7 @@ class Element(Screen):
         Screen.__init__(self)
 
         self.big_pic = False
-        self.directional_keys_pressed = False
-       
+        self.directional_keys_pressed = False       
 
         # Color
         self.black = (0, 0, 0)
@@ -17,10 +16,16 @@ class Element(Screen):
         self.limegreen = (50,205,50)
         self.red = (193 , 18, 31)
         self.grey = (20, 20, 20)
+
+        self.yellow = (252,240,157)
+        self.blue = (168,206,187)
+        self.brown = (180,140,99)
+        self.brown1 = (215,148,68)
+        self.yellow = (255, 214, 10)
+
         self.color1 = (240,255,255)
         self.color2 = (255,222,173)
-        
-        self.yellow = (255, 214, 10)
+                
         # Font
         self.font = "assets/font/Roboto-Black.ttf"
         self.font1 = "assets/font/Ring of Kerry.otf"
@@ -83,6 +88,32 @@ class Element(Screen):
             self.img_center(txt, x, y, width, height, image_name)
         self.text_center(font, txt_size, txt, color, x_t, y_t)
 
+
+        return name_rect
+    
+    def img_txt_hover_perf(self, name_rect, txt, x, y, width, height, image_name, image_name_hover, font, txt_size, color, x_t, y_t, selected_perf): 
+        name_rect = pygame.Rect(x - width//2, y - height//2, width + len(txt)*txt_size, height)
+        
+        # Vérifiez si cette option est sélectionnée
+        if self.selected_perf == selected_perf:
+            self.img_center(txt, x, y, width+5, height+5, image_name_hover)
+        else:
+            self.img_center(txt, x, y, width, height, image_name)
+            
+        self.text_center(font, txt_size, txt, color, x_t, y_t)
+
+        return name_rect
+    
+    def img_txt_hover_op(self, name_rect, txt, x, y, width, height, image_name, image_name_hover, font, txt_size, color, x_t, y_t, selected_op): 
+        name_rect = pygame.Rect(x - width//2, y - height//2, width + len(txt)*txt_size, height)
+        
+        # Vérifiez si cette option est sélectionnée
+        if self.selected_op == selected_op:
+            self.img_center(txt, x, y, width+5, height+5, image_name_hover)
+        else:
+            self.img_center(txt, x, y, width, height, image_name)
+            
+        self.text_center(font, txt_size, txt, color, x_t, y_t)
 
         return name_rect
     
@@ -151,9 +182,9 @@ class Element(Screen):
         return button
 
 
-# # Def Circle
-#     def circle(self, color, x, y, radius):
-#         pygame.draw.circle(self.Window, color, (x,y), radius)
+# Def Circle
+    def circle(self, color, x, y, radius):
+        pygame.draw.circle(self.Window, color, (x,y), radius)
 
 #     def circle_alpha(self, alpha_color, x, y, radius):
 #         circle_surface = pygame.Surface((self.W,self.H), pygame.SRCALPHA)

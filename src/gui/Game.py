@@ -30,6 +30,8 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.crown = pygame.image.load(f"assets/image/game/game_crown.png").convert_alpha()
         self.life = pygame.image.load(f"assets/image/game/game_life.png").convert_alpha()
         self.hp = pygame.image.load(f"assets/image/game/game_hp.png").convert_alpha()
+        self.warning = pygame.image.load(f"assets/image/game/game_warning.png").convert_alpha()
+       
         self.max_hp = 100
 
         self.balloon_damage = 20 # Damage baloon
@@ -92,7 +94,15 @@ class Game(Element, Dragon, Wizard, Enemy):
         # Fire range
         self.img_txt_hover("Fire range","FIRE RANGE", self.W//2-240, 660, 153, 57, self.rect_option, self.rect_option, self.font2, 13, self.white, self.W//2-240, 660)
         pygame.draw.rect(self.Window, self.black, (325, 685, 120, 9))
-        self.img_not_center("Life", 315, 680, 143, 18, self.life)
+        self.img_not_center("Life", 315, 680, 143, 18, self.life)  
+
+        # Back to Menu
+        self.back_menu = self.img_txt_hover('"back to menu', "MENU", 60, 670, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 670)
+
+    def warning_enemy(self):
+        self.img_not_center("warning", 170, 25, 243, 108, self.warning)  
+        self.text_not_center(self.font1, 13, "Careful ! ", self.black, 250, 60)
+        self.text_not_center(self.font1, 10, "Enemy approaching ", self.black, 220, 85)
 
     def dragon_visual(self):
 
