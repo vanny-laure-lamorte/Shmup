@@ -6,7 +6,7 @@ class Option(Element, SoundManager):
     def __init__(self): 
         Element.__init__(self)
         SoundManager.__init__(self)
-        self.option_running = True
+        self.option_running = False
 
         self.img_back_option = pygame.image.load(f"assets/image/option/option_back.jpg").convert_alpha()
         self.img_map = pygame.image.load(f"assets/image/option/option_map.png").convert_alpha()
@@ -121,7 +121,7 @@ class Option(Element, SoundManager):
         self.img_txt_hover_op('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40, 1)
 
     def option_run(self, input_name):
-        while self.option_running:
+        if self.option_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.option_running = False
@@ -135,12 +135,14 @@ class Option(Element, SoundManager):
                         if self.selected_op < 5 :
                             self.selected_op += 1
 
-                    # if event.key == pygame.K_RETURN:
-                    #     if self.selected_op == 2:
-                    #         self.load_sound("music", "assets/music/music.wav")
-                    #         self.play_sound("music")
-                    #     if self.selected_op == 3:
-                    #         self.stop_sound("music")
+                    if event.key == pygame.K_RETURN:
+                        if self.selected_op == 1:
+                            self.option_running = False
+                        if self.selected_op == 2:
+                            self.load_sound("music", "assets/music/music.wav")
+                            self.play_sound("music")
+                        if self.selected_op == 3:
+                            self.stop_sound("music")
 
             self.design_option(input_name)
-            self.update()
+            # self.update()

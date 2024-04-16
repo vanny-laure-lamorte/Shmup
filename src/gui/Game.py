@@ -12,7 +12,7 @@ class Game(Element, Dragon, Wizard, Enemy):
         Wizard.__init__(self)
         Enemy.__init__(self)
 
-        self.game_running = True
+        self.game_running = False
 
         self.explosion_list = []
         self.soldier_death_list = []
@@ -37,8 +37,8 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.balloon_damage = 20 # Damage baloon
         self.soldier_damage = 15
 
-        self.game_lost = True
-        self.game_win = True
+        self.game_lost = False
+        self.game_win = False
 
     def background_game(self):
 
@@ -360,12 +360,14 @@ class Game(Element, Dragon, Wizard, Enemy):
         if self.max_hp <= 0:
             self.save_player_info(input_name, self.score)
             self.game_running = False
+            self.game_lost = True
         return self.game_lost
 
     def game_winner(self, input_name):
         if self.level == 5:
             self.save_player_info(input_name, self.score)
             self.game_running = False
+            self.game_win = True
         return self.game_win
 
     # Stop the generation of the enemies

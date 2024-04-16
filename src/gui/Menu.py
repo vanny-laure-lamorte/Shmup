@@ -72,64 +72,68 @@ class Menu (Option, Scenario):
     def menu_run (self):
         self.menu_running = True
         while self.menu_running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.menu_running = False
+            if not self.option_running:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.menu_running = False
 
-                elif event.type == pygame.KEYDOWN:
+                    elif event.type == pygame.KEYDOWN:
 
-                    # Chose option menu
-                    if event.key == pygame.K_UP:
-                        if self.selected_option > 0:
-                            self.selected_option -= 1
+                        # Chose option menu
+                        if event.key == pygame.K_UP:
+                            if self.selected_option > 0:
+                                self.selected_option -= 1
 
-                    elif event.key == pygame.K_DOWN:
-                        self.error_length = False
-                        if self.selected_option < 3 :
-                            self.selected_option += 1
-
-                    # Write player name
-                    if self.selected_option == 0:
-                        if self.input_name == "ENTER YOUR NAME" and event.unicode :
-                            self.input_name = ""
-
-                        if event.key == pygame.K_BACKSPACE :
-                            self.input_name = self.input_name[:-1]
+                        elif event.key == pygame.K_DOWN:
                             self.error_length = False
-                            self.error_no_name = False
-                        else:
-                            if len(self.input_name) < 12:
-                                self.input_name += event.unicode
+                            if self.selected_option < 3 :
+                                self.selected_option += 1
+
+                        # Write player name
+                        if self.selected_option == 0:
+                            if self.input_name == "ENTER YOUR NAME" and event.unicode :
+                                self.input_name = ""
+
+                            if event.key == pygame.K_BACKSPACE :
+                                self.input_name = self.input_name[:-1]
                                 self.error_length = False
+                                self.error_no_name = False
                             else:
-                                if self.input_name != "ENTER YOUR NAME":
-                                    self.error_length = True
+                                if len(self.input_name) < 12:
+                                    self.input_name += event.unicode
+                                    self.error_length = False
                                 else:
-                                    self.error_no_name = False
+                                    if self.input_name != "ENTER YOUR NAME":
+                                        self.error_length = True
+                                    else:
+                                        self.error_no_name = False
 
-                    if event.key == pygame.K_RETURN:
+                        if event.key == pygame.K_RETURN:
 
-                        if self.selected_option == 1:
-                            if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
-                                self.error_no_name = True
-                            else:
-                                self.scenario_run(self.input_name)
+                            if self.selected_option == 1:
+                                if self.input_name == "" or self.input_name == "ENTER YOUR NAME":
+                                    self.error_no_name = True
+                                else:
+                                    self.scenario_run(self.input_name)
+                                    self.menu_running = False
+
+                            elif self.selected_option == 2:
+                                # if self.input_name == "ENTER YOUR NAME":
+                                #     self.input_name = ""
+                                #     self.option_run(self.input_name)
+                                # else:
+                                #     self.option_run(self.input_name)
+                                # self.menu_running = False
+                                self.option_running = True
+                            elif self.selected_option == 3:
                                 self.menu_running = False
 
-                        elif self.selected_option == 2:
-                            if self.input_name == "ENTER YOUR NAME":
-                                self.input_name = ""
-                                self.option_run(self.input_name)
-                            else:
-                                self.option_run(self.input_name)
-                            self.menu_running = False
+                            elif self.selected_option == 0: 
+                                self.error_no_name = False  
+        
 
-                        elif self.selected_option == 3:
-                            self.menu_running = False
+                self.design_menu()
+            elif self.option_running:
+                self.option_run(self.input_name)
 
-                        elif self.selected_option == 0: 
-                            self.error_no_name = False  
-     
-
-            self.design_menu()
             self.update()

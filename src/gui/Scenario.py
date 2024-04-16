@@ -136,7 +136,7 @@ class Scenario(Game):
                                 self.step += 1
 
                         elif event.key == pygame.K_RETURN and self.step == 2 :
-                            self.scenario_running = False
+                            self.game_running = True
 
                         # Bonus
                         elif event.key == pygame.K_LEFT:
@@ -147,12 +147,12 @@ class Scenario(Game):
                                 self.selected_perf += 1
 
                 self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)
-                if not self.game_lost:
-                    self.first_scenario()
-                elif self.game_lost:
+                if self.game_lost:
                     self.loose_scenario()
                 elif self.game_win:
                     self.win_scenario()
+                else:
+                    self.first_scenario()
             else:
                 self.game_run(input_name)
             self.update()
