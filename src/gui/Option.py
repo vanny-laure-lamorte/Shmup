@@ -30,8 +30,8 @@ class Option(Element, SoundManager):
 
         self.rotation = 0
         self.selected_op = 0
-        self.selected_nb_op = 0       
-        
+        self.selected_nb_op = 0
+
     def design_option(self, input_name):
 
         # Background
@@ -62,7 +62,7 @@ class Option(Element, SoundManager):
         self.rect_full_opacity(self.grey, 765 , 350, 390, 550, 3, 100)
         self.text_not_center(self.font2, 20, "Settings", self.white, 730, 90)
 
-        self.img_not_center("coat of arms", 670, 380, 200, 200, self.coat_of_arms)  
+        self.img_not_center("coat of arms", 670, 380, 200, 200, self.coat_of_arms)
 
         # Option volume
         self.volume1 = self.img_txt_hover_op("Option volume1", "Option 1", 650, 170, 30, 30, self.img_check, self.img_check1, self.font, 12, self.white, 695, 170, 2)
@@ -91,8 +91,8 @@ class Option(Element, SoundManager):
         self.img_not_center("D", 825, 355, 20, 20, self.img_arrow_flip2)
         self.img_not_center("S", 850, 350, 30, 30, self.img_key)
         self.img_not_center("S", 855, 355, 20, 20, self.img_arrow)
-        self.img_not_center("D", 880, 350, 30, 30, self.img_key) 
-        self.img_not_center("D", 885, 355, 20, 20, self.img_arrow_flip1)   
+        self.img_not_center("D", 880, 350, 30, 30, self.img_key)
+        self.img_not_center("D", 885, 355, 20, 20, self.img_arrow_flip1)
 
         with open("player_info.json", "r") as file:
             data = json.load(file)
@@ -118,7 +118,7 @@ class Option(Element, SoundManager):
         self.text_not_center(self.font2, 15, self.best_player_4, self.white, 1060, 430)
 
         # Back to Menu
-        self.img_txt_hover_op('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40, 1)    
+        self.img_txt_hover_op('"back to menu', "MENU", 60, 40, 80, 40 , self.img_back_menu,self.img_back_menu, self.font, 12, self.white, 60, 40, 1)
 
     def option_run(self, input_name):
         while self.option_running:
@@ -128,19 +128,19 @@ class Option(Element, SoundManager):
 
                 elif event.type == pygame.KEYDOWN:
 
-                    if event.key == pygame.K_UP: 
+                    if event.key == pygame.K_UP:
                         if self.selected_op > 1:
                             self.selected_op -= 1
                     elif event.key == pygame.K_DOWN:
                         if self.selected_op < 5 :
                             self.selected_op += 1
-                
+
                     # if event.key == pygame.K_RETURN:
-                    #     if self.selected_op == 2:  
+                    #     if self.selected_op == 2:
                     #         self.load_sound("music", "assets/music/music.wav")
-                    #         self.play_sound("music")             
-                    #     if self.selected_op == 3: 
-                    #         self.stop_sound("music")  
+                    #         self.play_sound("music")
+                    #     if self.selected_op == 3:
+                    #         self.stop_sound("music")
 
             self.design_option(input_name)
             self.update()

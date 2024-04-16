@@ -18,7 +18,7 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.soldier_death_list = []
         self.score = 0
         self.bol = True
-        self.level = 6
+        self.level = 1
 
         self.entity_moving = True # True for Dragon / False for Wizard
         self.dragon_left, self.wizard_left = False, False
@@ -31,11 +31,14 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.life = pygame.image.load(f"assets/image/game/game_life.png").convert_alpha()
         self.hp = pygame.image.load(f"assets/image/game/game_hp.png").convert_alpha()
         self.warning = pygame.image.load(f"assets/image/game/game_warning.png").convert_alpha()
-       
+
         self.max_hp = 100
 
         self.balloon_damage = 20 # Damage baloon
         self.soldier_damage = 15
+
+        self.game_lost = True
+        self.game_win = True
 
     def background_game(self):
 
@@ -351,8 +354,19 @@ class Game(Element, Dragon, Wizard, Enemy):
         self.wizard_attack_speed += 0.02
 
     def upgrade_range(self):
-        pass
+        self.bonus_range_fireball += 25
 
+    def game_lose(self, input_name):
+        if self.max_hp == 0:
+            self.save_player_info(input_name, self.score)
+            self.game_running = False
+        return self.game_lost
+
+    def game_winner(self, input_name):
+        if self.level == 5:
+            self.save_player_info(input_name, self.score)
+            self.game_running = False
+        return self.game_win
 
     # Stop the generation of the enemies
     def set_wave(self):
@@ -369,17 +383,16 @@ class Game(Element, Dragon, Wizard, Enemy):
         return self.bol, self.level
 
     def save_player_info(self, input_name, score):
-        if self.level == 2:
-            try:
-                with open('player_info.json', 'r') as file:
-                    data = json.load(file)
-            except (FileNotFoundError, json.decoder.JSONDecodeError):
-                data = []
-            data.append((input_name, score))
+        try:
+            with open('player_info.json', 'r') as file:
+                data = json.load(file)
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            data = []
+        data.append((input_name, score))
 
-            with open('player_info.json', 'w') as file:
-                json.dump(data, file)
-            self.game_running = False
+        with open('player_info.json', 'w') as file:
+            json.dump(data, file)
+        self.game_running = False
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -481,5 +494,6 @@ class Game(Element, Dragon, Wizard, Enemy):
             self.check_target()
             self.check_target_whelp()
             self.check_target_soldier()
-            self.save_player_info(input_name, self.score)
+            self.game_lose(input_name)
+            self.game_winner(input_name)
             self.update()

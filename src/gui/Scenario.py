@@ -2,19 +2,19 @@ import pygame
 from src.gui.Game import Game
 
 class Scenario(Game):
-    def __init__(self): 
+    def __init__(self):
         Game.__init__(self)
 
         # Scenario
         self.scenario_running = True
         self.inside_background = pygame.image.load(f"assets/image/scenario/background_inside_castle.jpg").convert_alpha()
-        self.scroll_img = pygame.image.load(f"assets/image/scenario/scroll.png").convert_alpha()        
+        self.scroll_img = pygame.image.load(f"assets/image/scenario/scroll.png").convert_alpha()
         self.king = pygame.image.load(f"assets/image/scenario/king.png").convert_alpha()
         self.wizard = pygame.image.load(f"assets/image/scenario/wizard.png").convert_alpha()
-        self.king_family = pygame.image.load(f"assets/image/scenario/scenario_king_queen.png").convert_alpha() 
-        self.knight = pygame.image.load(f"assets/image/scenario/scenario_knight.png").convert_alpha() 
+        self.king_family = pygame.image.load(f"assets/image/scenario/scenario_king_queen.png").convert_alpha()
+        self.knight = pygame.image.load(f"assets/image/scenario/scenario_knight.png").convert_alpha()
 
-        self.left_char = -100 
+        self.left_char = -100
         self.right_char = 1450
         self.step = 0
 
@@ -47,7 +47,7 @@ class Scenario(Game):
 
     def first_scenario(self):
         self.right_character(self.king)
-        if self.step >= 1: 
+        if self.step >= 1:
             self.left_character(self.wizard)
         self.img_center("scroll", self.W//2, 630, 1100, 180, self.scroll_img)
 
@@ -62,7 +62,7 @@ class Scenario(Game):
 
     def win_scenario(self):
         self.right_character(self.king_family)
-        if self.step >= 1: 
+        if self.step >= 1:
             self.left_character(self.wizard)
         self.img_center("scroll", self.W//2, 630, 1100, 180, self.scroll_img)
 
@@ -75,25 +75,25 @@ class Scenario(Game):
 
     def loose_scenario(self):
         self.right_character_loose(self.knight)
-        if self.step >= 1: 
+        if self.step >= 1:
             self.left_character(self.wizard)
         self.img_center("scroll", self.W//2, 630, 1100, 180, self.scroll_img)
 
         if self.right_char == 1030 and self.step == 0:
             self.text_center(self.font4, 30, "The enemy has won.", self.white, self.W//2, 610)
-            self.text_center(self.font4, 30, "You failed to protect the princess...", self.white, self.W//2, 650)       
+            self.text_center(self.font4, 30, "You failed to protect the princess...", self.white, self.W//2, 650)
 
         if self.step == 1:
             self.text_center(self.font4, 30, "Press ENTER to go back to the menu", self.black, self.W//2, 630)
 
 
-    def performance_display(self): 
+    def performance_display(self):
 
         # Background bonus
         self.rect_full_opacity(self.grey, self.W//2, self.H//2, 730, 480, 3, 100)
         self.img_center("Back P", self.W//2, self.H//2, 700, 450, self.back_p)
         self.img_center("title", self.W//2, 200, 420, 100, self.title)
-        self.text_not_center(self.font, 15,"Choose a permanent bonus for the game", self.brown1, self.W//2-135, self.H//2-160)    
+        self.text_not_center(self.font, 15,"Choose a permanent bonus for the game", self.brown1, self.W//2-135, self.H//2-160)
 
         # Bonus 1
         self.circle(self.yellow, 420, 355, 80)
@@ -109,6 +109,19 @@ class Scenario(Game):
         self.circle(self.brown, 820, 355, 80)
         self.img_txt_hover_perf("Distance", "Distance", 820, 390, 190, 270, self.card, self.card, self.font1, 12, self.white, 820, self.H//2+115, 3)
         self.img_not_center("Distance", 780, 305, 80, 80, self.bonus3)
+
+    def upgrades(self):
+        while self.game_running:
+            for event in pygame.event.get():
+                if event.key == pygame.K_RETURN:
+                    if self.selected_perf == 1:
+                        self.upgrade_attack_speed()
+                    if self.selected_perf == 2:
+                        self.upgrade_attack()
+                    if self.selected_perf == 3:
+                        self.upgrade_range()
+
+            self.performance_display()
 
     def scenario_run(self, input_name):
         while self.scenario_running:
@@ -126,22 +139,16 @@ class Scenario(Game):
                         self.scenario_running = False
 
                     # Bonus
-                    elif event.key == pygame.K_LEFT: 
+                    elif event.key == pygame.K_LEFT:
                         if self.selected_perf > 1:
                             self.selected_perf -= 1
                     elif event.key == pygame.K_RIGHT:
                         if self.selected_perf < 3 :
                             self.selected_perf += 1
 
-                    # elif event.key == pygame.K_RETURN:
-                    # #     if self.selected_perf == 1: 
-                    # #     if self.selected_perf == 2:
-                    # #     if self.selected_perf == 3:     
-
             self.img_background(self.W // 2, self.H // 2, self.W, self.H, self.inside_background)
 
             self.first_scenario()
             # self.win_scenario()
             # self.loose_scenario()
-            self.performance_display()
             self.update()
