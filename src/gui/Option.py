@@ -139,7 +139,7 @@ class Option(Element, SoundManager):
                         if self.selected_op == 1:
                             self.option_running = False
                         if self.selected_op == 2:
-                            self.load_sound("music", "assets/music/music.wav")
+                            self.load_sound("music", "assets/music/music.mp3")
                             self.play_sound("music")
                         if self.selected_op == 3:
                             self.stop_sound("music")
